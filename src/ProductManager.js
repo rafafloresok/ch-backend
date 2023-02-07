@@ -30,7 +30,8 @@ class ProductManager {
 
   //Debe tener un método getProducts, el cual debe leer el archivo de productos y devolver todos los productos en formato de arreglo.
   async getProducts() {
-    if (fs.existsSync(this.path)) {
+    let fileExists = fs.existsSync(this.path);
+    if (fileExists) {
       let data = await fs.promises.readFile(this.path, "utf-8");
       return JSON.parse(data);
     } else {
@@ -57,10 +58,9 @@ class ProductManager {
   //Debe tener un método getProductById, el cual debe recibir un id, y tras leer el archivo, debe buscar el producto con el id especificado y devolverlo en formato objeto
   async getProductById(id) {
     let products = await this.getProducts();
-    let productIndex = products.findIndex((product) => product.id === id);
-    let productExists = productIndex !== -1;
-    if (productExists) {
-      return products[productIndex];
+    let product = products.find((product) => product.id === id);
+    if (product) {
+      return product;
     } else {
       console.log("Product not found.");
     }
@@ -106,7 +106,7 @@ console.clear();
 
 //Se creará una instancia de la clase “ProductManager”
 //ACLARACIÓN: debe estar creada la carpeta files
-let pm = new ProductManager("./files/products.json");
+let pm = new ProductManager("../files/products.json");
 
 //Se llamará “getProducts” recién creada la instancia, debe devolver un arreglo vacío []
 //pm.getProducts().then(products => console.log(products));
@@ -125,4 +125,4 @@ let pm = new ProductManager("./files/products.json");
 //pm.updateProduct(1, "producto prueba modificado", "Este es un producto prueba modificado", 300, "Sin imagen modificado", "abc123 modificado", 36);
 
 //Se llamará al método “deleteProduct”, se evaluará que realmente se elimine el producto o que arroje un error en caso de no existir.
-//pm.deleteProduct(1);
+//pm.deleteProduct(2);
