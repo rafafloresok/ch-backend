@@ -1,13 +1,14 @@
 //Desarrollar un servidor express que, en su archivo app.js importe al archivo de ProductManager que actualmente tenemos.
-const express = require("express");
-const productManager = require("./ProductManager");
+import express from "express";
+import ProductManager from "./ProductManager.js";
+
 const app = express();
 const port = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let pm = productManager.ProductManager("../files/products.json");
+const pm = new ProductManager("../files/products.json");
 
 //El servidor debe contar con los siguientes endpoints:
 //ruta ‘/products’, la cual debe leer el archivo de productos y devolverlos dentro de un objeto. Agregar el soporte para recibir por query param el valor ?limit= el cual recibirá un límite de resultados.

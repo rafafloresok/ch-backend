@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 /*Debe guardar objetos con el siguiente formato:
   id (se debe incrementar automáticamente, no enviarse desde el cuerpo)
@@ -22,7 +22,7 @@ class Product {
 
 //Realizar una clase de nombre “ProductManager”, el cual permitirá trabajar con múltiples productos.
 //Éste debe poder agregar, consultar, modificar y eliminar un producto y manejarlo en persistencia de archivos (basado en entregable 1).
-class ProductManager {
+export default class ProductManager {
   constructor(path) {
     //La clase debe contar con una variable this.path, el cual se inicializará desde el constructor y debe recibir la ruta a trabajar desde el momento de generar su instancia.
     this.path = path;
@@ -101,14 +101,14 @@ class ProductManager {
   }
 }
 
-exports.ProductManager = (path) => new ProductManager(path);
+//exports.ProductManager = (path) => new ProductManager(path);
 
 //PROCESO DE TESTING
-console.clear();
+//console.clear();
 
 //Se creará una instancia de la clase “ProductManager”
 //ACLARACIÓN: debe estar creada la carpeta files
-let pm = new ProductManager("../files/products.json");
+//let pm = new ProductManager("../files/products.json");
 
 //Se llamará “getProducts” recién creada la instancia, debe devolver un arreglo vacío []
 //pm.getProducts().then(products => console.log(products));
