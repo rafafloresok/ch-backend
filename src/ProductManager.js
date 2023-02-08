@@ -101,6 +101,8 @@ class ProductManager {
   }
 }
 
+exports.ProductManager = (path) => new ProductManager(path);
+
 //PROCESO DE TESTING
 console.clear();
 
@@ -125,4 +127,4 @@ let pm = new ProductManager("../files/products.json");
 //pm.updateProduct(1, "producto prueba modificado", "Este es un producto prueba modificado", 300, "Sin imagen modificado", "abc123 modificado", 36);
 
 //Se llamará al método “deleteProduct”, se evaluará que realmente se elimine el producto o que arroje un error en caso de no existir.
-//pm.deleteProduct(2);
+//pm.deleteProduct(1);
