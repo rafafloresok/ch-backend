@@ -50,7 +50,7 @@ export default class ProductManager {
       let id = products.length + 1;
       let newProduct = new Product(id, title, description, price, thumbnail, code, stock);
       products.push(newProduct);
-      await fs.promises.writeFile(this.path, JSON.stringify(products,null,2));
+      await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
       console.log(`Product ${title} added with ID ${id}`);
     }
   }
@@ -78,13 +78,13 @@ export default class ProductManager {
       products[productIndex].thumbnail = thumbnail;
       products[productIndex].code = code;
       products[productIndex].stock = stock;
-      await fs.promises.writeFile(this.path, JSON.stringify(products,null,2));
+      await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
       console.log(`Product ${title} with ID ${id} updated successfully`);
     } else {
       console.log("Product not found.");
     }
   }
-  
+
   //Debe tener un método deleteProduct, el cual debe recibir un id y debe eliminar el producto que tenga ese id en el archivo.
   async deleteProduct(id) {
     let products = await this.getProducts();
@@ -93,15 +93,13 @@ export default class ProductManager {
     if (productExists) {
       products[productIndex] = {};
       //ACLARACIÓN: se deja el objeto vacío en vez de eliminarse ya que el id autoincremental se genera según products.length. De otro modo se generaría un conflicto al generar nuevos productos con ids repetidos
-      await fs.promises.writeFile(this.path, JSON.stringify(products,null,2));
+      await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
       console.log(`Product with ID ${id} deleted successfully`);
     } else {
       console.log("Product not found.");
     }
   }
 }
-
-//exports.ProductManager = (path) => new ProductManager(path);
 
 //PROCESO DE TESTING
 //console.clear();

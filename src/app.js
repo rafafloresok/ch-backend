@@ -27,10 +27,10 @@ app.get("/products/:pid", async (req, res) => {
   if (product) {
     res.send(product);
   } else {
-    res.send({error: 'el producto no existe'});
+    res.send({ error: "el producto no existe" });
   }
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
