@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "d504251e-d8a2-46f5-a37f-86d637ba2154",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -9,7 +9,7 @@
     "stock": 25
   },
   {
-    "id": 2,
+    "id": "f9d9f43f-13eb-463c-af54-388e374d9960",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -18,7 +18,7 @@
     "stock": 25
   },
   {
-    "id": 3,
+    "id": "6f653e5a-3083-46ed-8cbe-0c4ecedd921e",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -27,7 +27,7 @@
     "stock": 25
   },
   {
-    "id": 4,
+    "id": "8686d7ea-f18f-410d-a2fa-0f2d158225c7",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -36,7 +36,7 @@
     "stock": 25
   },
   {
-    "id": 5,
+    "id": "459eb3a4-fd9c-4938-a91e-a1268e465c8f",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -45,7 +45,7 @@
     "stock": 25
   },
   {
-    "id": 6,
+    "id": "021c9ed2-d16f-4816-be87-1953431a90a4",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -54,7 +54,7 @@
     "stock": 25
   },
   {
-    "id": 7,
+    "id": "bc98a982-3952-44a8-a5eb-bb32707c6a5d",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -63,7 +63,7 @@
     "stock": 25
   },
   {
-    "id": 8,
+    "id": "dda69917-60fe-413a-857f-8e176e9192b6",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
@@ -72,16 +72,16 @@
     "stock": 25
   },
   {
-    "id": 9,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
+    "id": "78a1a5cf-9cde-4dff-bb9e-0db7953fb1b1",
+    "title": "producto prueba modificado",
+    "description": "Este es un producto prueba modificado",
+    "price": 300,
+    "thumbnail": "Sin imagen modificado",
     "code": "abc131",
-    "stock": 25
+    "stock": 36
   },
   {
-    "id": 10,
+    "id": "c617f76a-03d2-4ced-98d1-0a827fdf253a",
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
