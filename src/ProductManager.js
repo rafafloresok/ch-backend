@@ -2,14 +2,16 @@ import fs from "fs";
 import { v4 as createID } from "uuid";
 
 class Product {
-  constructor(id, title, description, price, thumbnail, code, stock) {
+  constructor(id, title, description, code, price, status = true, stock, category, thumbnails) {
     this.id = id;
     this.title = title;
     this.description = description;
-    this.price = price;
-    this.thumbnail = thumbnail;
     this.code = code;
+    this.price = price;
+    this.status = status;
     this.stock = stock;
+    this.category = category;
+    this.thumbnails = thumbnails;
   }
 }
 
@@ -18,76 +20,92 @@ export default class ProductManager {
     this.path = path;
   }
 
-  async getProducts() {
+  async getProducts(limit) {
     let fileExists = fs.existsSync(this.path);
     if (fileExists) {
       let data = await fs.promises.readFile(this.path, "utf-8");
-      return JSON.parse(data);
+      let products = JSON.parse(data);
+      return products.slice(0, limit);
     } else {
       return [];
     }
   }
 
-  async addProduct(title, description, price, thumbnail, code, stock) {
+  async getProductById(req, res) {
+    let products = await this.getProducts();
+    let product = products.find((product) => product.id === req.params.pid);
+    res.setHeader("Content-Type", "application/json");
+    if (product) {
+      res.status(200).json({ product });
+    } else {
+      res.status(400).json({ error: "Product not found." });
+    }
+  }
+
+  async addProduct(req, res) {
+    let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let products = await this.getProducts();
     let productExists = products.findIndex((product) => product.code === code) !== -1;
-    let aFieldIsEmpty = !(title && description && price && thumbnail && code && stock);
+    let aFieldIsEmpty = !(title && description && code && price && stock && category);
+    res.setHeader("Content-Type", "application/json");
     if (productExists || aFieldIsEmpty) {
-      console.log(`Product not added.\nErrors:${productExists ? "\nProduct already exists." : ""} ${aFieldIsEmpty ? "\nMust complete all fields." : ""}`);
+      res.status(400).json({ error: `Product not added. Errors:${productExists ? " Product already exists." : ""}${aFieldIsEmpty ? " Must complete all required fields." : ""}` });
     } else {
+      price = Number(price);
+      stock = Number(stock);
+      status === "false" && (status = false);
+      status === "true" && (status = true);
       let id = createID();
-      let newProduct = new Product(id, title, description, price, thumbnail, code, stock);
+      let newProduct = new Product(id, title, description, code, price, status, stock, category, thumbnails);
       products.push(newProduct);
       await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
-      console.log(`Product ${title} added with ID ${id}`);
+      res.status(201).json({ message: `Product added successfully` });
     }
   }
 
-  async getProductById(id) {
+  async updateProduct(req, res) {
+    let id = req.params.pid;
+    let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let products = await this.getProducts();
-    let product = products.find((product) => product.id === id);
-    if (product) {
-      return product;
+    let index = products.findIndex((product) => product.id === id);
+    let productExists = index !== -1;
+    res.setHeader("Content-Type", "application/json");
+    if (productExists) {
+      price = Number(price);
+      stock = Number(stock);
+      if (status === "false") {
+        products[index].status = false;
+      }
+      if (status === "true") {
+        products[index].status = true;
+      }
+      title && (products[index].title = title);
+      description && (products[index].description = description);
+      code && (products[index].code = code);
+      price && (products[index].price = price);
+      stock && (products[index].stock = stock);
+      category && (products[index].category = category);
+      thumbnails && (products[index].thumbnails = thumbnails);
+      await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
+      res.status(201).json({ message: `Product updated successfully` });
     } else {
-      console.log("Product not found.");
+      res.status(400).json({ error: "Product not found." });
     }
+
   }
 
-  async updateProduct(id, title, description, price, thumbnail, code, stock) {
+  async deleteProduct(req, res) {
+    let id = await req.params.pid;
     let products = await this.getProducts();
     let productIndex = products.findIndex((product) => product.id === id);
     let productExists = productIndex !== -1;
+    res.setHeader("Content-Type", "application/json");
     if (productExists) {
-      products[productIndex].title = title;
-      products[productIndex].description = description;
-      products[productIndex].price = price;
-      products[productIndex].thumbnail = thumbnail;
-      products[productIndex].code = code;
-      products[productIndex].stock = stock;
+      products.splice(productIndex, 1);
       await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
-      console.log(`Product ${title} with ID ${id} updated successfully`);
+      res.status(201).json({ message: `Product deleted successfully` });
     } else {
-      console.log("Product not found.");
-    }
-  }
-
-  async deleteProduct(id) {
-    let products = await this.getProducts();
-    let productIndex = products.findIndex((product) => product.id === id);
-    let productExists = productIndex !== -1;
-    if (productExists) {
-      products.splice(productIndex,1);
-      await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
-      console.log(`Product with ID ${id} deleted successfully`);
-    } else {
-      console.log("Product not found.");
+      res.status(400).json({ error: "Product not found." });
     }
   }
 }
-
-//let pm = new ProductManager("./files/products.json");
-//pm.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc132", 25);
-//pm.getProducts().then(products => console.log(products));
-//pm.getProductById("78a1a5cf-9cde-4dff-bb9e-0db7953fb1b1").then((product) => console.log(product));
-//pm.updateProduct("78a1a5cf-9cde-4dff-bb9e-0db7953fb1b1", "producto prueba modificado", "Este es un producto prueba modificado", 300, "Sin imagen modificado", "abc131", 36);
-//pm.deleteProduct("52832796-30a9-45ca-a333-a28c0793b01e");
