@@ -1,293 +1,9 @@
 [
   {
-    "id": "d504251e-d8a2-46f5-a37f-86d637ba2154",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc123",
-    "stock": 25
-  },
-  {
-    "id": "f9d9f43f-13eb-463c-af54-388e374d9960",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc124",
-    "stock": 25
-  },
-  {
-    "id": "6f653e5a-3083-46ed-8cbe-0c4ecedd921e",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc125",
-    "stock": 25
-  },
-  {
-    "id": "8686d7ea-f18f-410d-a2fa-0f2d158225c7",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc126",
-    "stock": 25
-  },
-  {
-    "id": "459eb3a4-fd9c-4938-a91e-a1268e465c8f",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc127",
-    "stock": 25
-  },
-  {
-    "id": "021c9ed2-d16f-4816-be87-1953431a90a4",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc128",
-    "stock": 25
-  },
-  {
-    "id": "bc98a982-3952-44a8-a5eb-bb32707c6a5d",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc129",
-    "stock": 25
-  },
-  {
-    "id": "dda69917-60fe-413a-857f-8e176e9192b6",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc130",
-    "stock": 25
-  },
-  {
-    "id": "78a1a5cf-9cde-4dff-bb9e-0db7953fb1b1",
-    "title": "producto prueba modificado",
-    "description": "Este es un producto prueba modificado",
-    "price": 300,
-    "thumbnail": "Sin imagen modificado",
-    "code": "abc131",
-    "stock": 36
-  },
-  {
-    "id": "c617f76a-03d2-4ced-98d1-0a827fdf253a",
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc132",
-    "stock": 25
-  },
-  {
-    "id": "d446939e-99fd-484c-a7f0-2a22ca583b92",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok",
-    "price": 1234,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "1cd9618a-d1b6-4a2d-9b2a-68caef1d6ee4",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok01",
-    "price": 1234,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "b3d2a556-ed69-48ee-9ea6-ee78388cd92b",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok02",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "1b4ede7f-69e8-4638-92f3-5bf46c500988",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok03",
-    "price": 1234,
-    "status": "false",
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "b9714764-58b2-48f7-88e1-2d6c712d94de",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok05",
-    "price": 1234,
-    "status": false,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "94f47b64-add0-4d2c-9a3a-3277fa6ddde7",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok06",
-    "price": 1234,
-    "status": false,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "7dd731c8-d393-4d9d-9808-fb0eb40fa09e",
-    "title": "tit_mod",
-    "description": "desc_ok",
-    "code": "code_ok08",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "4ed72e87-8560-4490-b6b7-64afa9f7e632",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok09",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "3ddb71f2-da1c-431a-95d4-8d8666e42f8d",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok10",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "e789e583-480c-47ca-a1be-243587d094f9",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok11",
-    "price": 1234,
-    "status": false,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "4117bea5-f48f-4191-bd2d-d4f5136b7db6",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok12",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "7fe874ff-81e7-46be-8c37-f2b900436028",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok13",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "38758942-ca84-4aac-82b6-01b7113fc810",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok14",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "c279a3ee-15f5-496c-bd93-20f0f78084ec",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok15",
-    "price": 1234,
-    "status": true,
-    "stock": 100,
-    "category": "cat_ok",
-    "thumbnails": [
-      "thum_1",
-      "thumb_2"
-    ]
-  },
-  {
-    "id": "88264e6d-30da-4474-8958-10cbda56be51",
-    "title": "tit_mod",
-    "description": "desc_mod",
-    "code": "code_mod",
+    "id": "b68162ff-d5d6-4656-a229-01c83fd3fbd4",
+    "title": "title_mod",
+    "description": "description_mod",
+    "code": "code_01_mod",
     "price": 5678,
     "status": true,
     "stock": 1000,
@@ -298,12 +14,124 @@
     ]
   },
   {
-    "id": "64ffd889-0016-4ace-b53b-24b38d8513f0",
-    "title": "tit_ok",
-    "description": "desc_ok",
-    "code": "code_ok16",
-    "price": 1234,
+    "id": "54bb75bd-c42b-4ab2-8d6e-f2f1b03dffab",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_02",
+    "price": 10,
+    "status": true,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "157018d5-f699-4e71-8a9f-35ff9b57b6d2",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_03",
+    "price": 10,
+    "status": true,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "f5d551e2-1606-428d-b76c-716aa322834a",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_04",
+    "price": 10,
+    "status": true,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "f7592b1c-c229-477c-b303-98286991ab86",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_05",
+    "price": 10,
     "status": false,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "417564f5-f1f4-4a16-9f0b-0732fda5be59",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_06",
+    "price": 10,
+    "status": true,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "5491006e-e886-417f-8f39-a611654633c8",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_07",
+    "price": 10,
+    "status": true,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "caeab56a-5640-4be6-b671-0e547247a0d3",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_08",
+    "price": 10,
+    "status": true,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "ca34321c-05fc-4950-84ce-21185ed64010",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_09",
+    "price": 10,
+    "status": false,
+    "stock": 100,
+    "category": "cat_ok",
+    "thumbnails": [
+      "thum_1",
+      "thumb_2"
+    ]
+  },
+  {
+    "id": "7a34265e-1b54-4a28-b0a9-5a7cf24c3a31",
+    "title": "title_ok",
+    "description": "description_ok",
+    "code": "code_10",
+    "price": 10,
+    "status": true,
     "stock": 100,
     "category": "cat_ok",
     "thumbnails": [

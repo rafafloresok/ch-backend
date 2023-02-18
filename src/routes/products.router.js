@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { __dirname } from "../utils.js";
-import ProductManager from "../ProductManager.js";
+import { __dirname } from "../helpers/utils.js";
+import ProductManager from "../managers/ProductManager.js";
 
 const router = Router();
 const pm = new ProductManager(`${__dirname}/files/products.json`);
