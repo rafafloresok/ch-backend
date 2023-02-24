@@ -38,7 +38,7 @@ export default class CartManager {
     let newCart = new Cart(createID(), req.query.alias);
     carts.push(newCart);
     await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2));
-    res.status(201).json({ message: `Cart created successfully` });
+    return res.status(201).json({ message: "Cart created successfully" });
   }
 
   async getCart(req, res) {
@@ -46,9 +46,9 @@ export default class CartManager {
     let carts = await this.getCarts();
     let cart = carts.find((cart) => cart.id === req.params.cid);
     if (cart) {
-      res.status(200).json({ cart });
+      return res.status(200).json({ cart });
     } else {
-      res.status(400).json({ error: "Cart not found." });
+      return res.status(400).json({ error: "Cart not found." });
     }
   }
 
@@ -67,9 +67,9 @@ export default class CartManager {
         carts[cartIndex].products.push(cartItem);
       }
       await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2));
-      res.status(201).json({ message: `Product added successfully` });
+      return res.status(201).json({ message: "Product added successfully" });
     } else {
-      res.status(400).json({ error: "Cart not found." });
+      return res.status(400).json({ error: "Cart not found." });
     }
   }
 }
