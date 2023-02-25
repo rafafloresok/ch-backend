@@ -120,6 +120,9 @@ export default class ProductManager {
     if (productExists) {
       products.splice(productIndex, 1);
       await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
+      return "Message: Product deleted successfully";
+    } else {
+      return "Error: Product not found";
     }
   }
 
@@ -140,7 +143,7 @@ export default class ProductManager {
       let newProduct = new Product(id, title, description, code, price, status, stock, category, thumbnails);
       products.push(newProduct);
       await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
-      return `Message: Product added successfully`;
+      return 'Message: Product added successfully';
     }
   }
 }

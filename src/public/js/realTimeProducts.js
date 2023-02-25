@@ -1,14 +1,14 @@
 const socket = io();
 
-let deleteProductInput = document.getElementById("deleteProductInput");
 let productsList = document.getElementById("productsList");
 let addProductForm = document.getElementById("addProductForm");
+let deleteProductForm = document.getElementById("deleteProductForm");
 
-deleteProductInput.addEventListener("keypress", (e) => {
-  let id = e.target.value.trim();
-  if (e.key === "Enter") {
-    socket.emit("deleteProduct", id);
-  }
+deleteProductForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let id = e.target[0].value.trim();
+  socket.emit("deleteProduct", id);
+  e.target.reset();
 });
 
 addProductForm.addEventListener("submit", (e) => {
@@ -33,5 +33,9 @@ socket.on("products", (products) => {
 });
 
 socket.on("addProductRes", (response) => {
+  alert(response);
+});
+
+socket.on("deleteProductRes", (response) => {
   alert(response);
 });

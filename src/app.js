@@ -36,8 +36,9 @@ io.on("connection", async (socket) => {
   let products = await pm.getProducts();
   socket.emit("products", products);
 
-  socket.on("deleteProduct", (id) => {
-    pm.deleteProductSocket(id);
+  socket.on("deleteProduct", async (id) => {
+    let response = await pm.deleteProductSocket(id);
+    socket.emit("deleteProductRes", response);
   });
 
   socket.on("addProduct", async (product) => {
