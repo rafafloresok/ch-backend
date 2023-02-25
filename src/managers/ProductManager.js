@@ -47,17 +47,9 @@ export default class ProductManager {
     let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let products = await this.getProducts();
     let productExists = products.findIndex((product) => product.code === code) !== -1;
-    let aFieldIsEmpty = !(title && description && code && price && stock && category);
-    if (productExists || aFieldIsEmpty) {
-      return res.status(400).json({
-        error: `Product not added. Errors:${productExists ? " Product already exists." : ""}${
-          aFieldIsEmpty ? " Must complete all required fields." : ""
-        }`,
-      });
+    if (productExists ) {
+      return res.status(400).json({ error: 'Product not added. Error: Code already exists.' });
     } else {
-      price = Number(price);
-      stock = Number(stock);
-      status === "false" ? (status = false) : (status = true);
       let id = createID();
       let newProduct = new Product(id, title, description, code, price, status, stock, category, thumbnails);
       products.push(newProduct);

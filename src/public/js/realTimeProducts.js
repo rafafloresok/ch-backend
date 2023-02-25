@@ -14,14 +14,14 @@ deleteProductForm.addEventListener("submit", (e) => {
 addProductForm.addEventListener("submit", (e) => {
   e.preventDefault();
   let product = {
-    title: e.target[0].value,
-    description: e.target[1].value,
-    code: e.target[2].value,
-    price: e.target[3].value,
-    status: e.target[4].value,
-    stock: e.target[5].value,
-    category: e.target[6].value,
-    thumbnails: [e.target[7].value, e.target[8].value],
+    title: e.target[0].value.trim(),
+    description: e.target[1].value.trim(),
+    code: e.target[2].value.trim(),
+    price: e.target[3].value.trim(),
+    status: e.target[4].value.trim(),
+    stock: e.target[5].value.trim(),
+    category: e.target[6].value.trim(),
+    thumbnails: [e.target[7].value.trim(), e.target[8].value.trim()],
   };
   socket.emit("addProduct", product);
   e.target.reset();
