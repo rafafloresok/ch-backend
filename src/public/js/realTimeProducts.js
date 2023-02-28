@@ -1,8 +1,8 @@
 const socket = io();
 
-let productsList = document.getElementById("productsList");
 let addProductForm = document.getElementById("addProductForm");
 let deleteProductForm = document.getElementById("deleteProductForm");
+let toast = document.getElementById("toast");
 
 deleteProductForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -27,15 +27,34 @@ addProductForm.addEventListener("submit", (e) => {
   e.target.reset();
 });
 
-socket.on("products", (products) => {
-  let divContent = products.map((el) => `<h2>${el.title}</h2>`).join("");
-  productsList.innerHTML = divContent;
+const showToast = (message) => {
+  toast.innerHTML = message;
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 2000);
+}
+
+window.addEventListener('load', () => showToast('Lista actualizada!'))
+
+socket.on("productListUpdated", () => {
+  location.reload();
 });
 
 socket.on("addProductRes", (response) => {
-  alert(response);
+  showToast(response.message);
+  if (response.success) {
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+  }
 });
 
 socket.on("deleteProductRes", (response) => {
-  alert(response);
+  showToast(response.message);
+  if (response.success) {
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+  }
 });

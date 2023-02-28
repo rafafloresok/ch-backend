@@ -47,8 +47,8 @@ export default class ProductManager {
     let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let products = await this.getProducts();
     let productExists = products.findIndex((product) => product.code === code) !== -1;
-    if (productExists ) {
-      return res.status(400).json({ error: 'Product not added. Error: Code already exists.' });
+    if (productExists) {
+      return res.status(400).json({ error: "Product not added. Error: Code already exists." });
     } else {
       let id = createID();
       let newProduct = new Product(id, title, description, code, price, status, stock, category, thumbnails);
@@ -112,9 +112,15 @@ export default class ProductManager {
     if (productExists) {
       products.splice(productIndex, 1);
       await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
-      return "Message: Product deleted successfully";
+      return {
+        success: true,
+        message: "Product deleted successfully",
+      };
     } else {
-      return "Error: Product not found";
+      return {
+        success: false,
+        message: "Product not found",
+      };
     }
   }
 
@@ -124,9 +130,12 @@ export default class ProductManager {
     let productExists = products.findIndex((product) => product.code === code) !== -1;
     let aFieldIsEmpty = !(title && description && code && price && stock && category);
     if (productExists || aFieldIsEmpty) {
-      return `Error: Product not added. Errors:${productExists ? " Product already exists." : ""}${
-        aFieldIsEmpty ? " Must complete all required fields." : ""
-      }`;
+      return {
+        success: false,
+        message: `Product not added. Errors:${productExists ? " Product already exists." : ""}${
+          aFieldIsEmpty ? " Must complete all required fields." : ""
+        }`,
+      };
     } else {
       price = Number(price);
       stock = Number(stock);
@@ -135,7 +144,10 @@ export default class ProductManager {
       let newProduct = new Product(id, title, description, code, price, status, stock, category, thumbnails);
       products.push(newProduct);
       await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
-      return 'Message: Product added successfully';
+      return {
+        success: true,
+        message: "Product added successfully",
+      };
     }
   }
 }

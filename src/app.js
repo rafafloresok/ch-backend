@@ -33,16 +33,19 @@ const io = new Server(httpServer);
 io.on("connection", async (socket) => {
   console.log("New client connected");
 
-  let products = await pm.getProducts();
-  socket.emit("products", products);
-
   socket.on("deleteProduct", async (id) => {
     let response = await pm.deleteProductSocket(id);
     socket.emit("deleteProductRes", response);
+    if (response.success) {
+      socket.broadcast.emit("productListUpdated");
+    }
   });
-
+  
   socket.on("addProduct", async (product) => {
     let response = await pm.addProductSocket(product);
     socket.emit("addProductRes", response);
+    if (response.success) {
+      socket.broadcast.emit("productListUpdated");
+    }
   });
 });
