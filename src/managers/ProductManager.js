@@ -43,7 +43,6 @@ export default class ProductManager {
   }
 
   async addProduct(req, res) {
-    res.setHeader("Content-Type", "application/json");
     let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let products = await this.getProducts();
     let productExists = products.findIndex((product) => product.code === code) !== -1;
@@ -59,7 +58,6 @@ export default class ProductManager {
   }
 
   async updateProduct(req, res) {
-    res.setHeader("Content-Type", "application/json");
     let id = req.params.pid;
     let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let products = await this.getProducts();
@@ -71,10 +69,8 @@ export default class ProductManager {
       if (codeExists) {
         return res.status(400).json({ error: "Invalid code, already exists" });
       } else {
-        price = Number(price);
-        stock = Number(stock);
-        status === "false" && (products[indexByID].status = false);
-        status === "true" && (products[indexByID].status = true);
+        status === false && (products[indexByID].status = false);
+        status === true && (products[indexByID].status = true);
         title && (products[indexByID].title = title);
         description && (products[indexByID].description = description);
         code && (products[indexByID].code = code);
