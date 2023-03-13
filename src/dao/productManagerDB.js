@@ -8,7 +8,8 @@ export default class productManagerDB {
 
   async getProductById(req, res) {
     res.setHeader("Content-Type", "application/json");
-    let product = await productsModel.find({_id: req.params.pid});
+    let product = await productsModel.find({ _id: req.params.pid });
+    console.log(product.length);
     if (product) {
       return res.status(200).json({ product });
     } else {
@@ -20,7 +21,7 @@ export default class productManagerDB {
     res.setHeader("Content-Type", "application/json");
     let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let product = await productsModel.find({ code: code });
-    if (product) {
+    if (product.length) {
       return res.status(400).json({ error: "Product not added. Error: Code already exists." });
     } else {
       await productsModel.create({
@@ -41,7 +42,7 @@ export default class productManagerDB {
     res.setHeader("Content-Type", "application/json");
     let { title, description, code, price, status, stock, category, thumbnails } = req.body;
     let product = await productsModel.find({_id: req.params.pid});
-    if (product) {
+    if (product.length) {
       status === false && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { status: false } }));
       status === true && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { status: true } }));
       title && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { title: title } }));
@@ -60,7 +61,7 @@ export default class productManagerDB {
   async deleteProduct(req, res) {
     res.setHeader("Content-Type", "application/json");
     let product = await productsModel.find({ _id: req.params.pid });
-    if (product) {
+    if (product.length) {
       await productsModel.deleteOne({ _id: req.params.pid });
       return res.status(201).json({ message: `Product deleted successfully` });
     } else {
