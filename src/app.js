@@ -7,6 +7,7 @@ import path from "path";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import cartsDBRouter from "./routes/cartsDB.router.js";
+import productsDBRouter from "./routes/productsDB.router.js";
 import viewsRouter from "./routes/views.router.js";
 import ProductManager from "./managers/ProductManager.js";
 import { __dirname } from "./helpers/utils.js";
@@ -28,6 +29,7 @@ app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/cartsDB", cartsDBRouter);
+app.use("/api/productsDB", productsDBRouter);
 
 const httpServer = app.listen(port, () => {
   console.log(`App listening on port ${port}`);
