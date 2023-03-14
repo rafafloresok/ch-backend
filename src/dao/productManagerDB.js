@@ -9,8 +9,7 @@ export default class productManagerDB {
   async getProductById(req, res) {
     res.setHeader("Content-Type", "application/json");
     let product = await productsModel.find({ _id: req.params.pid });
-    console.log(product.length);
-    if (product) {
+    if (product.length) {
       return res.status(200).json({ product });
     } else {
       return res.status(400).json({ error: "Product not found." });

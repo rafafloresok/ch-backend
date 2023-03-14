@@ -16,7 +16,7 @@ class CartItem {
   }
 }
 
-export default class CartManager {
+export default class CartManagerFS {
   constructor(path) {
     this.path = path;
   }
