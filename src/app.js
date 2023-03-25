@@ -4,18 +4,16 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import path from "path";
 
-import productsFSRouter from "./routes/products.router.js";
-import cartsFSRouter from "./routes/carts.router.js";
-import cartsDBRouter from "./routes/cartsDB.router.js";
 import productsDBRouter from "./routes/productsDB.router.js";
+import cartsDBRouter from "./routes/cartsDB.router.js";
 import viewsRouter from "./routes/views.router.js";
-import ProductManagerFS from "./dao/productManagerFS.js";
+import productManagerDB from "./dao/productManagerDB.js";
 import { __dirname } from "./helpers/utils.js";
 import { messagesModel } from "./dao/models/messages.model.js";
 
 const app = express();
 const port = 8080;
-const pm = new ProductManagerFS(path.join(__dirname, "../files/products.json"));
+const pm = new productManagerDB;
 
 app.engine("handlebars", engine({
   runtimeOptions: {
@@ -31,8 +29,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);
-app.use("/api/productsFS", productsFSRouter);
-app.use("/api/cartsFS", cartsFSRouter);
 app.use("/api/cartsDB", cartsDBRouter);
 app.use("/api/productsDB", productsDBRouter);
 

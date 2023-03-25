@@ -11,7 +11,7 @@ deleteProductForm.addEventListener("submit", (e) => {
   e.target.reset();
 });
 
-sendMessageForm.addEventListener("submit", (e) => {
+addProductForm.addEventListener("submit", (e) => {
   e.preventDefault();
   let product = {
     title: e.target[0].value.trim(),
