@@ -19,4 +19,6 @@ const cartsSchema = new Schema({
   products: [cartItemSchema],
 });
 
+//AGREGAR PRE PARA POPULATION (SLIDE 9 46)
+
 export const cartsModel = model(cartsCollection, cartsSchema);
