@@ -4,6 +4,8 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import path from "path";
 import cookieParser from "cookie-parser";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 import productsDBRouter from "./routes/productsDB.router.js";
 import cartsDBRouter from "./routes/cartsDB.router.js";
@@ -14,21 +16,37 @@ import { messagesModel } from "./dao/models/messages.model.js";
 
 const app = express();
 const port = 8080;
-const pm = new productManagerDB;
+const pm = new productManagerDB();
+const dbUrl = "mongodb+srv://admin01:Rafa1234@cluster0.pfcfkjg.mongodb.net/?retryWrites=true&w=majority&dbName=ecommerce";
 
-app.engine("handlebars", engine({
-  runtimeOptions: {
-    allowProtoPropertiesByDefault: true,
-    allowProtoMethodsByDefault: true,
-  }
-}));
+app.engine(
+  "handlebars",
+  engine({
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+      allowProtoMethodsByDefault: true,
+    },
+  })
+);
 app.set("view engine", "handlebars");
-app.set("views", path.join(__dirname,"../views"));
+app.set("views", path.join(__dirname, "../views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser())
+app.use(cookieParser());
+
+app.use(
+  session({
+    secret: "mySecretKey",
+    resave: true,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: dbUrl,
+      ttl: 60,
+    }),
+  })
+);
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);
@@ -38,7 +56,6 @@ app.use("/api/productsDB", productsDBRouter);
 const httpServer = app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
-
 
 const io = new Server(httpServer);
 
@@ -52,7 +69,7 @@ io.on("connection", async (socket) => {
       socket.broadcast.emit("productListUpdated");
     }
   });
-  
+
   socket.on("addProduct", async (product) => {
     let response = await pm.addProductSocket(product);
     socket.emit("addProductRes", response);
@@ -64,17 +81,17 @@ io.on("connection", async (socket) => {
   socket.on("newMessage", async ({ user, message }) => {
     await messagesModel.create({ user: user, message: message });
     io.emit("messagesListUpdated");
-  })
+  });
 });
 
 const connect = async () => {
   try {
-    await mongoose.connect("mongodb+srv://admin01:Rafa1234@cluster0.pfcfkjg.mongodb.net/?retryWrites=true&w=majority&dbName=ecommerce");
+    await mongoose.connect(dbUrl);
     console.log("DB connection success");
   } catch (error) {
     console.log(`DB connection fail. Error: ${error}`);
   }
-}
+};
 
 connect();
 

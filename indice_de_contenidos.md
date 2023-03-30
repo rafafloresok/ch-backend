@@ -92,7 +92,7 @@
 
 [Slide](https://docs.google.com/presentation/d/1Pdeo4kg0rFVxLPZoqFuHfOlx9dHnFNwibSryugphnCg/edit#slide=id.g132b82de45c_1_15): clase **6 - 28**
 
-[Grabación](https://coderhouse.zoom.us/rec/play/zznu4dOrR2GwJ2ghgeHy5fHWzv60kg2vDvGju83JgQ4DJVKlI8rK3nqb_WIoRBT0qKG7wFztbMmQDgf4.NNK-U1x5AJ23Fxvk?_x_zm_rhtaid=622&_x_zm_rtaid=GihXeSonTI6dGAzBNo_4-Q.1679947495864.3c1d1c87153d862671e16453abc7f5f1&autoplay=true&continueMode=true&startTime=1676736736000): clase **6 - 2 00:10**
+[Grabación](https://coderhouse.zoom.us/rec/play/zznu4dOrR2GwJ2ghgeHy5fHWzv60kg2vDvGju83JgQ4DJVKlI8rK3nqb_WIoRBT0qKG7wFztbMmQDgf4.NNK-U1x5AJ23Fxvk?_x_zm_rhtaid=622&_x_zm_rtaid=GihXeSonTI6dGAzBNo_4-Q.1679947495864.3c1d1c87153d862671e16453abc7f5f1&autoplay=true&continueMode=true&startTime=1676736736000): clase **6 - 2 - 00:10**
 
 ---
 
@@ -183,3 +183,31 @@
 [Grabación](https://coderhouse.zoom.us/rec/play/7WzLdQ6JFTRGJdUsIFfluIU6DbASoBwqrkCle6E_u3WngKF7IjRao3ufa5s4gMZv-YXI6gWj5Of-CYr2.Kt6SxP4zaDMAUQ9D?continueMode=true&_x_zm_rtaid=7glt5UdqTXqlOxpX3hpC9A.1679856721666.67021631921a033b98b4050f0f77bd97&_x_zm_rhtaid=869): clase **10 - 1 - 00:59**
 
 ---
+
+## _STORAGE_
+
+[Slide](https://docs.google.com/presentation/d/1tQ_HCynJ_jaQ6PB9VtcfsOasrWu-fNEpBCEfGwtIcrA/edit#slide=id.g14d658292c1_0_103): clase **10 - 58**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/7WzLdQ6JFTRGJdUsIFfluIU6DbASoBwqrkCle6E_u3WngKF7IjRao3ufa5s4gMZv-YXI6gWj5Of-CYr2.Kt6SxP4zaDMAUQ9D?continueMode=true&_x_zm_rtaid=7glt5UdqTXqlOxpX3hpC9A.1679856721666.67021631921a033b98b4050f0f77bd97&_x_zm_rhtaid=869): clase **10 - 1 - 01:50**
+
+---
+
+## _SESSION STORAGE CON MONGO ATLAS_
+
+[Slide](https://docs.google.com/presentation/d/1tQ_HCynJ_jaQ6PB9VtcfsOasrWu-fNEpBCEfGwtIcrA/edit#slide=id.g14d658292c1_0_239): clase **10 - 68**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/7WzLdQ6JFTRGJdUsIFfluIU6DbASoBwqrkCle6E_u3WngKF7IjRao3ufa5s4gMZv-YXI6gWj5Of-CYr2.Kt6SxP4zaDMAUQ9D?_x_zm_rhtaid=869&_x_zm_rtaid=7glt5UdqTXqlOxpX3hpC9A.1679856721666.67021631921a033b98b4050f0f77bd97&autoplay=true&continueMode=true&startTime=1679155295000): clase **10 - 2 - 00:01**
+
+---
+
+## _PRIMER LOGIN_
+
+[Slide](https://docs.google.com/presentation/d/1tQ_HCynJ_jaQ6PB9VtcfsOasrWu-fNEpBCEfGwtIcrA/edit#slide=id.g14d658292c1_0_366): clase **10 - 78**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/7WzLdQ6JFTRGJdUsIFfluIU6DbASoBwqrkCle6E_u3WngKF7IjRao3ufa5s4gMZv-YXI6gWj5Of-CYr2.Kt6SxP4zaDMAUQ9D?_x_zm_rhtaid=869&_x_zm_rtaid=7glt5UdqTXqlOxpX3hpC9A.1679856721666.67021631921a033b98b4050f0f77bd97&autoplay=true&continueMode=true&startTime=1679155295000): clase **10 - 2 - 00:20**
+
+---
+
+<!--
+slide 10-80. clase 10-2-00:22:30
+-->
