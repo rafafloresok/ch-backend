@@ -2,16 +2,18 @@ import express from "express";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
+import { __dirname } from "./helpers/utils.js";
 import path from "path";
-import cookieParser from "cookie-parser";
+//import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 
 import productsDBRouter from "./routes/productsDB.router.js";
 import cartsDBRouter from "./routes/cartsDB.router.js";
 import viewsRouter from "./routes/views.router.js";
+import sessionsRouter from "./routes/sessions.router.js";
+
 import productManagerDB from "./dao/productManagerDB.js";
-import { __dirname } from "./helpers/utils.js";
 import { messagesModel } from "./dao/models/messages.model.js";
 
 const app = express();
@@ -34,7 +36,7 @@ app.set("views", path.join(__dirname, "../views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser());
+//app.use(cookieParser());
 
 app.use(
   session({
@@ -50,6 +52,7 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);
+app.use("/api/sessions", sessionsRouter);
 app.use("/api/cartsDB", cartsDBRouter);
 app.use("/api/productsDB", productsDBRouter);
 
@@ -84,7 +87,7 @@ io.on("connection", async (socket) => {
   });
 });
 
-const connect = async () => {
+const connectDB = async () => {
   try {
     await mongoose.connect(dbUrl);
     console.log("DB connection success");
@@ -93,6 +96,6 @@ const connect = async () => {
   }
 };
 
-connect();
+connectDB();
 
 io.on("error", (error) => console.error(error));

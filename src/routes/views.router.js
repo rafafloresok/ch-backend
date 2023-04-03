@@ -2,12 +2,24 @@ import { Router } from "express";
 import productManagerDB from "../dao/productManagerDB.js";
 import CartManagerDB from "../dao/cartManagerDB.js";
 import { messagesModel } from "../dao/models/messages.model.js";
+import { authHomeMid } from "../middlewares/session.middlewares.js";
+import { authLoginMid } from "../middlewares/session.middlewares.js";
 
 const router = Router();
 const pm = new productManagerDB;
 const cm = new CartManagerDB;
 
-router.get("/products", async (req, res) => {
+router.get("/logup", async (req, res) => {
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("logup")
+})
+
+router.get("/login", authLoginMid, async (req, res) => {
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("login")
+})
+
+router.get("/products", authHomeMid, async (req, res) => {
   let products = await pm.getProducts(req);
   let carts = await cm.getCarts();
   res.render("products", { products, carts, styles: "products.css" });
