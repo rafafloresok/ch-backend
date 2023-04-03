@@ -11,6 +11,7 @@ const usersSchema = new Schema({
   },
   password: String,
   age: Number,
+  role: String,
 });
 
 export const usersModel = model(usersCollection, usersSchema);

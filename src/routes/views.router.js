@@ -22,7 +22,9 @@ router.get("/login", authLoginMid, async (req, res) => {
 router.get("/products", authHomeMid, async (req, res) => {
   let products = await pm.getProducts(req);
   let carts = await cm.getCarts();
-  res.render("products", { products, carts, styles: "products.css" });
+  let user = req.session.user;
+  console.log(user);
+  res.render("products", { products, carts, user, styles: "products.css" });
 });
 
 router.get("/carts/:cid", async (req, res) => {

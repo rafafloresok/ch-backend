@@ -7,6 +7,7 @@ export default router;
 
 router.post("/logup", async (req, res) => {
   let { firstName, lastName, email, password, age } = req.body;
+  let role;
 
   if (!email || !password) return res.sendStatus(400);
 
@@ -14,12 +15,19 @@ router.post("/logup", async (req, res) => {
 
   if (currentUser) return res.sendStatus(400);
 
+  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+    role = "admin";
+  } else {
+    role = "user";
+  }
+
   await usersModel.create({
     firstName,
     lastName,
     email,
     password: crypto.createHash("sha256", "secretKey").update(password).digest("base64"),
     age,
+    role,
   });
 
   res.redirect("/login");
@@ -42,6 +50,7 @@ router.post("/login", async (req, res) => {
     lastName: user.lastName,
     email: user.email,
     age: user.age,
+    role: user.role,
   };
 
   res.redirect("/products");
