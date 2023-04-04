@@ -2,8 +2,8 @@ import { Router } from "express";
 import productManagerDB from "../dao/productManagerDB.js";
 import CartManagerDB from "../dao/cartManagerDB.js";
 import { messagesModel } from "../dao/models/messages.model.js";
-import { authHomeMid } from "../middlewares/session.middlewares.js";
-import { authLoginMid } from "../middlewares/session.middlewares.js";
+import { authLoggedIn } from "../middlewares/session.middlewares.js";
+import { authLoggedOut } from "../middlewares/session.middlewares.js";
 
 const router = Router();
 const pm = new productManagerDB;
@@ -14,30 +14,29 @@ router.get("/logup", async (req, res) => {
   res.status(200).render("logup")
 })
 
-router.get("/login", authLoginMid, async (req, res) => {
+router.get("/login", authLoggedOut, async (req, res) => {
   res.setHeader("Content-Type", "text/html");
   res.status(200).render("login")
 })
 
-router.get("/products", authHomeMid, async (req, res) => {
+router.get("/products", authLoggedIn, async (req, res) => {
   let products = await pm.getProducts(req);
   let carts = await cm.getCarts();
   let user = req.session.user;
-  console.log(user);
   res.render("products", { products, carts, user, styles: "products.css" });
 });
 
-router.get("/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", authLoggedIn, async (req, res) => {
   let cart = await cm.getCartView(req, res);
   res.render("cart", { cart, styles: "cart.css" });
 });
 
-router.get("/realtimeproducts", async (req, res) => {
+router.get("/realtimeproducts", authLoggedIn, async (req, res) => {
   let products = await pm.getProducts(req);
   res.render("realTimeProducts", { products, styles: "realTimeProducts.css" });
 });
 
-router.get("/chat", async (req, res) => {
+router.get("/chat", authLoggedIn, async (req, res) => {
   let messages = await messagesModel.find();
   res.render("chat", { messages, styles: "chat.css" });
 });

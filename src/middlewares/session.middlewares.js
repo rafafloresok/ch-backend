@@ -1,9 +1,9 @@
-export const authHomeMid = (req, res, next) => {
+export const authLoggedIn = (req, res, next) => {
   if (!req.session.user) return res.redirect("/login");
   next();
 };
 
-export const authLoginMid = (req, res, next) => {
+export const authLoggedOut = (req, res, next) => {
   if (req.session.user) return res.redirect("/products");
   next();
 };
