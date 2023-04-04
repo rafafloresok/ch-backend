@@ -9,10 +9,10 @@ const router = Router();
 const pm = new productManagerDB;
 const cm = new CartManagerDB;
 
-router.get("/logup", async (req, res) => {
+router.get("/logup", authLoggedOut, async (req, res) => {
   res.setHeader("Content-Type", "text/html");
-  res.status(200).render("logup")
-})
+  res.status(200).render("logup");
+});
 
 router.get("/login", authLoggedOut, async (req, res) => {
   res.setHeader("Content-Type", "text/html");
