@@ -7,6 +7,8 @@ import path from "path";
 //import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import { initializePassport } from "./config/passport.config.js";
 
 import productsDBRouter from "./routes/productsDB.router.js";
 import cartsDBRouter from "./routes/cartsDB.router.js";
@@ -49,6 +51,9 @@ app.use(
     }),
   })
 );
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);

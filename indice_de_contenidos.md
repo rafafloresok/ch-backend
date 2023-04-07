@@ -208,6 +208,38 @@
 
 ---
 
+## _AUTENTICACIÓN Y AUTORIZACIÓN_
+
+[Slide](https://docs.google.com/presentation/d/1IPj910Ki5jbhYJQlpdBi_12sQpO0w7B5fxCiToBQOBk/edit#slide=id.gff0eeccc8e_1_1): clase **11 - 07**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/lwZFTyldEoby31fndv337qvq_y6QM-BqEwSnXQmvbFtr6Mf6IPMf7DYDXvkr8gyora4qs5B1is165HH0.4KbNsfTaa_ZYdSTT?continueMode=true&_x_zm_rtaid=UHq6vZ7aSra54f5pnGTPPg.1680637097060.cc7113aaaf392c99291d2eb1397e3005&_x_zm_rhtaid=846): clase **11 - 1 - 00:03**
+
+---
+
+## _BCRYPT_
+
+[Slide](https://docs.google.com/presentation/d/1IPj910Ki5jbhYJQlpdBi_12sQpO0w7B5fxCiToBQOBk/edit#slide=id.g14457bed446_0_121): clase **11 - 15**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/lwZFTyldEoby31fndv337qvq_y6QM-BqEwSnXQmvbFtr6Mf6IPMf7DYDXvkr8gyora4qs5B1is165HH0.4KbNsfTaa_ZYdSTT?continueMode=true&_x_zm_rtaid=UHq6vZ7aSra54f5pnGTPPg.1680637097060.cc7113aaaf392c99291d2eb1397e3005&_x_zm_rhtaid=846): clase **11 - 1 - 00:12**
+
+---
+
+## _PASSPORT_
+
+[Slide](https://docs.google.com/presentation/d/1IPj910Ki5jbhYJQlpdBi_12sQpO0w7B5fxCiToBQOBk/edit#slide=id.g14457bed446_0_392): clase **11 - 29**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/lwZFTyldEoby31fndv337qvq_y6QM-BqEwSnXQmvbFtr6Mf6IPMf7DYDXvkr8gyora4qs5B1is165HH0.4KbNsfTaa_ZYdSTT?continueMode=true&_x_zm_rtaid=UHq6vZ7aSra54f5pnGTPPg.1680637097060.cc7113aaaf392c99291d2eb1397e3005&_x_zm_rhtaid=846): clase **11 - 1 - 00:30**
+
+---
+
+## _AUTENTICACIÓN POR TERCEROS_
+
+[Slide](https://docs.google.com/presentation/d/1IPj910Ki5jbhYJQlpdBi_12sQpO0w7B5fxCiToBQOBk/edit#slide=id.g14d9049ca42_0_107): clase **11 - 55**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/lwZFTyldEoby31fndv337qvq_y6QM-BqEwSnXQmvbFtr6Mf6IPMf7DYDXvkr8gyora4qs5B1is165HH0.4KbNsfTaa_ZYdSTT?_x_zm_rhtaid=846&_x_zm_rtaid=UHq6vZ7aSra54f5pnGTPPg.1680637097060.cc7113aaaf392c99291d2eb1397e3005&autoplay=true&continueMode=true&startTime=1679757605000): clase **11 - 2 - 00:00**
+
+---
+
 <!--
-slide 10-80. clase 11-1-00:00
+slide 11-55. clase 11-2-00:00:00
 -->
