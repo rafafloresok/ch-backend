@@ -240,6 +240,30 @@
 
 ---
 
+## _AUTENTICACIÓN POR GITHUB_
+
+[Slide](https://docs.google.com/presentation/d/1IPj910Ki5jbhYJQlpdBi_12sQpO0w7B5fxCiToBQOBk/edit#slide=id.g14d9049ca42_0_150): clase **11 - 55**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/lwZFTyldEoby31fndv337qvq_y6QM-BqEwSnXQmvbFtr6Mf6IPMf7DYDXvkr8gyora4qs5B1is165HH0.4KbNsfTaa_ZYdSTT?_x_zm_rhtaid=846&_x_zm_rtaid=UHq6vZ7aSra54f5pnGTPPg.1680637097060.cc7113aaaf392c99291d2eb1397e3005&autoplay=true&continueMode=true&startTime=1679757605000): clase **11 - 2 - 00:07**
+
+---
+
+## _JWT_
+
+[Slide](https://docs.google.com/presentation/d/1IPj910Ki5jbhYJQlpdBi_12sQpO0w7B5fxCiToBQOBk/edit#slide=id.g14d9049ca42_0_294): clase **11 - 80**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/lwZFTyldEoby31fndv337qvq_y6QM-BqEwSnXQmvbFtr6Mf6IPMf7DYDXvkr8gyora4qs5B1is165HH0.4KbNsfTaa_ZYdSTT?_x_zm_rhtaid=846&_x_zm_rtaid=UHq6vZ7aSra54f5pnGTPPg.1680637097060.cc7113aaaf392c99291d2eb1397e3005&autoplay=true&continueMode=true&startTime=1679757605000): clase **11 - 2 - 01:21**
+
+---
+
+## _PROCESS - ARGUMENTOS - COMMANDER_
+
+[Slide](https://docs.google.com/presentation/d/111XXDWXphHH5AA_GXinIvUJNTSVKXDv1QAjkDoYQcUU/edit#slide=id.g1798da781ed_0_92): clase **11 - 55**
+
+[Grabación](): clase **13 - 1 - 00:01**
+
+---
+
 <!--
-slide 11-55. clase 11-2-00:00:00
+slide 11-80. clase 11-2-01:21:00
 -->
