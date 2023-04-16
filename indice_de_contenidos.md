@@ -256,14 +256,22 @@
 
 ---
 
+## _JWT CON PASSPORT_
+
+[Slide](https://docs.google.com/presentation/d/1001Itwol7Dadfbw-llNDp0zWBC7P7BM8lARb88D9k4A/edit#slide=id.gfe278e0977_0_134): clase **12 - 20**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/FIPAMiaPY-k-cWBzdqeSZvArrbOUyQoM1pV-E6QYawiItJ3KtwhMjBYvS6L8sPVDGeGlITHsA2tbNHZN.tP4sfrM3aQGkPQuy?canPlayFromShare=true&from=share_recording_detail&continueMode=true&componentName=rec-play&originRequestUrl=https%3A%2F%2Fcoderhouse.zoom.us%2Frec%2Fshare%2FG3cliamNTdtfd6dEwhYo2nvh0eKoJAp6zXx54lb4TRWGqBMfr_FcfoATjR5NRNRm.hh-ogpA20U0ekX4A): clase **12 - 1 - 00:37**
+
+---
+
 ## _PROCESS - ARGUMENTOS - COMMANDER_
 
 [Slide](https://docs.google.com/presentation/d/111XXDWXphHH5AA_GXinIvUJNTSVKXDv1QAjkDoYQcUU/edit#slide=id.g1798da781ed_0_92): clase **13 - 28**
 
-[Grabación](): clase **13 - 1 - 00:01**
+[Grabación](): clase m 77777kmkkk**13 - 1 - 00:01**
 
 ---
 
 <!--
-slide 11-80. clase 11-2-01:21:00
+slide 12-39. clase 12-1-01:46
 -->
