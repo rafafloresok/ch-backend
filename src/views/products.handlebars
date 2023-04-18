@@ -40,14 +40,6 @@
 {{#if products.hasNextPage}}
   <a href="{{products.nextLink}}">Página siguiente</a>
 {{/if}}
-<br>
-<br>
-<label for="cartSelect">Carrito en uso:</label>
-<select name="cart" id="cartSelect">
-{{#each carts}}
-  <option value="{{this._id}}">{{this.alias}}</option>
-{{/each}}
-</select>
 <hr>
 {{#each products.payload}}
   <div>

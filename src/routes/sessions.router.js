@@ -14,18 +14,7 @@ router.get("/github", passport.authenticate("github", { session: false }), (req,
 
 router.get("/githubcallback", passport.authenticate("github", { session: false, failureRedirect: "/login" }), (req, res) => {
   let { firstName, lastName, email, age, role } = req.user;
-
-  /* req.session.user = {
-    firstName,
-    lastName,
-    email,
-    age,
-    role,
-  };
-
-  res.redirect("/products");  */
   let user = { firstName, lastName, email, age, role };
-
   let token = createToken(user);
 
   res.cookie("idToken", token, { maxAge: 1000 * 60 * 60, httpOnly: true }).redirect("/products");

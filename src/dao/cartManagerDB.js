@@ -23,11 +23,6 @@ export default class CartManagerDB {
     }
   }
 
-  async getCartView(req, res) {
-    let cart = await cartsModel.findById(req.params.cid).populate("products.productId");
-    return cart;
-  }
-
   async addProduct(req, res) {
     res.setHeader("Content-Type", "application/json");
     let { cid, pid } = req.params;
