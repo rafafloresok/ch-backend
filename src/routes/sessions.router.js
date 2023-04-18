@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
   if (!currentUser) return res.sendStatus(401);
   if (!isValidPassword(password, currentUser)) return res.sendStatus(401);
 
-  let { firstName, lastName, age } = currentUser;
+  let { firstName, lastName, age, cart } = currentUser;
   let role = email === "adminCoder@coder.com" && password === "adminCod3r123" ? "admin" : "user";
   let user = {
     firstName,
@@ -49,6 +49,7 @@ router.post("/login", async (req, res) => {
     email,
     age,
     role,
+    cart,
   };
   let token = createToken(user);
 

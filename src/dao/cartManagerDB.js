@@ -8,7 +8,8 @@ export default class CartManagerDB {
 
   async addCart(req, res) {
     res.setHeader("Content-Type", "application/json");
-    await cartsModel.create({ alias: req.query.alias });
+    let cart = await cartsModel.create({ alias: req.query.alias });
+    console.log(cart);
     return res.status(201).json({ message: "Cart created successfully" });
   }
 

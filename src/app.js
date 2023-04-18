@@ -5,8 +5,6 @@ import mongoose from "mongoose";
 import { __dirname, createToken, authToken } from "./helpers/utils.js";
 import path from "path";
 import cookieParser from "cookie-parser";
-//import session from "express-session";
-//import MongoStore from "connect-mongo";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
 
@@ -40,21 +38,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-/* app.use(
-  session({
-    secret: "mySecretKey",
-    resave: true,
-    saveUninitialized: true,
-    store: MongoStore.create({
-      mongoUrl: dbUrl,
-      ttl: 60,
-    }),
-  })
-); */
-
 initializePassport();
 app.use(passport.initialize());
-//app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);

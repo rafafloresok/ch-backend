@@ -21,9 +21,8 @@ router.get("/login"/* , authLoggedOut */, async (req, res) => {
 //router.get("/products"/* , authLoggedIn */, authToken, async (req, res) => {
 router.get("/products", passport.authenticate("jwt",{session: false}), async (req, res) => {
   let products = await pm.getProducts(req);
-  let carts = await cm.getCarts();
   let user = req.user;
-  res.render("products", { products, carts, user, styles: "products.css" });
+  res.render("products", { products, user, styles: "products.css" });
 });
 
 //router.get("/carts/:cid" /* , authLoggedIn */, authToken, async (req, res) => {
