@@ -39,16 +39,16 @@ export const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           let { name, email } = profile._json;
-          let user = await usersModel.findOne({ email: email });
+          let currentUser = await usersModel.findOne({ email: email });
 
-          if (!user) {
+          if (!currentUser) {
             let newUser = {
               name,
               email,
               github: true,
               githubProfile: profile._json,
             };
-            user = await usersModel.create(newUser);
+            currentUser = await usersModel.create(newUser);
           } else {
             let updateUser = {
               github: true,
@@ -56,6 +56,16 @@ export const initializePassport = () => {
             };
             await usersModel.updateOne({ email: email }, updateUser);
           }
+
+          let { firstName, lastName, age, role, cart } = currentUser;
+          let user = {
+            firstName,
+            lastName,
+            email,
+            age,
+            role,
+            cart,
+          };
 
           return done(null, user);
         } catch (error) {
@@ -110,11 +120,20 @@ export const initializePassport = () => {
         try {
           if (!username || !password) return done(null, false);
 
-          let user = await usersModel.findOne({
+          let currentUser = await usersModel.findOne({
             email: username,
           });
+          if (!currentUser || !isValidPassword(password, currentUser)) return done(null, false);
 
-          if (!user || !isValidPassword(password, user)) return done(null, false);
+          let { firstName, lastName, email, age, role, cart } = currentUser;
+          let user = {
+            firstName,
+            lastName,
+            email,
+            age,
+            role,
+            cart,
+          };
 
           return done(null, user);
         } catch (error) {

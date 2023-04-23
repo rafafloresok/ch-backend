@@ -264,14 +264,30 @@
 
 ---
 
+## _ESTRATEGIAS AVANZADAS DE ROUTER_
+
+[Slide](https://docs.google.com/presentation/d/1001Itwol7Dadfbw-llNDp0zWBC7P7BM8lARb88D9k4A/edit#slide=id.g1799367c312_0_111): clase **12 - 53**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/FIPAMiaPY-k-cWBzdqeSZvArrbOUyQoM1pV-E6QYawiItJ3KtwhMjBYvS6L8sPVDGeGlITHsA2tbNHZN.tP4sfrM3aQGkPQuy?autoplay=true&canPlayFromShare=true&componentName=rec-play&continueMode=true&from=share_recording_detail&originRequestUrl=https%3A%2F%2Fcoderhouse.zoom.us%2Frec%2Fshare%2FG3cliamNTdtfd6dEwhYo2nvh0eKoJAp6zXx54lb4TRWGqBMfr_FcfoATjR5NRNRm.hh-ogpA20U0ekX4A&startTime=1680354056000): clase **12 - 1 - 02:02**
+
+---
+
+## _CUSTOM ROUTER_
+
+[Slide](https://docs.google.com/presentation/d/1001Itwol7Dadfbw-llNDp0zWBC7P7BM8lARb88D9k4A/edit#slide=id.g1799367c312_0_204): clase **12 - 68**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/FIPAMiaPY-k-cWBzdqeSZvArrbOUyQoM1pV-E6QYawiItJ3KtwhMjBYvS6L8sPVDGeGlITHsA2tbNHZN.tP4sfrM3aQGkPQuy?autoplay=true&canPlayFromShare=true&componentName=rec-play&continueMode=true&from=share_recording_detail&originRequestUrl=https%3A%2F%2Fcoderhouse.zoom.us%2Frec%2Fshare%2FG3cliamNTdtfd6dEwhYo2nvh0eKoJAp6zXx54lb4TRWGqBMfr_FcfoATjR5NRNRm.hh-ogpA20U0ekX4A&startTime=1680364310000): clase **12 - 2 - 00:03**
+
+---
+
 ## _PROCESS - ARGUMENTOS - COMMANDER_
 
 [Slide](https://docs.google.com/presentation/d/111XXDWXphHH5AA_GXinIvUJNTSVKXDv1QAjkDoYQcUU/edit#slide=id.g1798da781ed_0_92): clase **13 - 28**
 
-[Grabación](): clase m 77777kmkkk**13 - 1 - 00:01**
+[Grabación](https://coderhouse.zoom.us/rec/play/XlJvvphteF50IzkYxwOiJIVGX8SEbUmME7xcfKny-hvZ6X67wwqChzY2dvQpq1DMKWwpVJD-9xgfAbE1.Awdy4DbATAQkXRRz?canPlayFromShare=true&from=share_recording_detail&continueMode=true&componentName=rec-play&originRequestUrl=https%3A%2F%2Fcoderhouse.zoom.us%2Frec%2Fshare%2F0FIB6z2LRtC_AUiRk2REnmpx8fEWZgFNvhjuS72JRUS48dAOUyJCyQD7KNlVmCeW.koXkApjVOU-EHUZo): clase **13 - 1 - 00:01**
 
 ---
 
 <!--
-slide 12-53. clase 12-1-02:02
+slide 13-36. clase 13-1-00:40
 -->

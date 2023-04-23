@@ -26,7 +26,7 @@ const authToken = (req, res, next) => {
 
 const passportCall = (strategy) => {
   return async (req, res, next) => {
-    passport.authenticate(strategy, (err, user, info) => {
+    passport.authenticate(strategy, { session: false }, (err, user, info) => {
       if (err) return next(err);
       if (!user) {
         if (!info) {

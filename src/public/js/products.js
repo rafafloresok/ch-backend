@@ -5,7 +5,6 @@ let sortSelect = document.getElementById("sortSelect");
 let limitInput = document.getElementById("limitInput");
 let pageInput = document.getElementById("pageInput");
 let addToCartForms = document.getElementsByClassName("addToCartForm");
-let logOut = document.getElementById("logOut");
 
 categorySelect.value = JSON.parse(sessionStorage.getItem("categorySelect"));
 statusSelect.value = JSON.parse(sessionStorage.getItem("statusSelect"));
@@ -64,12 +63,5 @@ for (let i = 0; i < addToCartForms.length; i++) {
     e.target.reset();
   });
 }
-
-logOut.addEventListener("click", () => {
-  fetch("/api/sessions/logout")
-    .then(() => {
-      document.location.href = "/login";
-    });
-});
 
 goAnchorHrefUpdate();
