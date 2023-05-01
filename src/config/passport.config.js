@@ -3,8 +3,9 @@ import local from "passport-local";
 import github from "passport-github2";
 import jwt from "passport-jwt";
 import { usersModel } from "../dao/models/users.model.js";
-import { createHash, isValidPassword } from "../helpers/utils.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
 import { cartsModel } from "../dao/models/carts.model.js";
+import { config } from "./config.js";
 
 const extractToken = (req) => {
   return req.cookies.idToken || null;
@@ -16,7 +17,7 @@ export const initializePassport = () => {
     new jwt.Strategy(
       {
         jwtFromRequest: jwt.ExtractJwt.fromExtractors([extractToken]),
-        secretOrKey: "mySecretKey",
+        secretOrKey: config.secretKey,
       },
       (token, done) => {
         try {
@@ -32,9 +33,9 @@ export const initializePassport = () => {
     "github",
     new github.Strategy(
       {
-        clientID: "Iv1.882f2236b23fac24",
-        clientSecret: "1b4bfb39b5480ecddcca5b643048bfbb124765be",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        clientID: config.githubClientId,
+        clientSecret: config.githubClientSecret,
+        callbackURL: config.githubCallbackUrl,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -90,7 +91,8 @@ export const initializePassport = () => {
           let currentUser = await usersModel.findOne({ email: username });
           if (currentUser) return done(null, false);
 
-          let role = username === "adminCoder@coder.com" && password === "adminCod3r123" ? "admin" : "user";
+          let isAdmin = username === config.adminMail && password === config.adminPassword;
+          let role = isAdmin ? "admin" : "user";
           let cart = await cartsModel.create({ alias: "" });
           let user = await usersModel.create({
             firstName,

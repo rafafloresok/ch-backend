@@ -288,6 +288,41 @@
 
 ---
 
+## _PRACTICA INTEGRADORA_
+
+[Slide](https://docs.google.com/presentation/d/111XXDWXphHH5AA_GXinIvUJNTSVKXDv1QAjkDoYQcUU/edit#slide=id.g13b34bddd43_0_0): clase **13 - 07**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/XlJvvphteF50IzkYxwOiJIVGX8SEbUmME7xcfKny-hvZ6X67wwqChzY2dvQpq1DMKWwpVJD-9xgfAbE1.Awdy4DbATAQkXRRz?autoplay=true&canPlayFromShare=true&componentName=rec-play&continueMode=true&from=share_recording_detail&originRequestUrl=https%3A%2F%2Fcoderhouse.zoom.us%2Frec%2Fshare%2F0FIB6z2LRtC_AUiRk2REnmpx8fEWZgFNvhjuS72JRUS48dAOUyJCyQD7KNlVmCeW.koXkApjVOU-EHUZo&startTime=1680969511000): clase **13 - 2 - 00:01**
+
+---
+
+## _ARQUITECTURA DEL SERVIDOR: CAPAS_
+
+[Slide](https://docs.google.com/presentation/d/1f0n3WGdLDHsoKA8Uv61GVwv9TGqj3yId_Ia1FGNGZCk/edit#slide=id.g120b44b0dae_0_48): clase **14 - 03**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/7PS_KotR8Rd9kIMan44bILZxGuJJbIrX_74tcCJTCdOel4d4aDVs7L6xJ9EOJJSFL4a5-vFRDyIPcHQU.UTm8IFh6kouTzU8r?canPlayFromShare=true&from=share_recording_detail&continueMode=true&componentName=rec-play&originRequestUrl=https%3A%2F%2Fcoderhouse.zoom.us%2Frec%2Fshare%2F96HlcHs3FXm_CO4rDXOAAIkbN4ogMV-8KU8_x5iKNx5znPbV58OY3p47FnbJBlQU.nwsad_dbU3zWvBjO): clase **14 - 1 - 00:01**
+
+---
+
+## _ARQUITECTURA DEL SERVIDOR: DISEÑO_
+
+[Slide](https://docs.google.com/presentation/d/1f0n3WGdLDHsoKA8Uv61GVwv9TGqj3yId_Ia1FGNGZCk/edit#slide=id.g17993648c45_0_50): clase **14 - 39**
+
+[Grabación](https://coderhouse.zoom.us/rec/play/OGO_R4v_7-xtbHGRKgzRU3MkearnRPmjASAVBDhgEr4gyS2QMy3AbWcWu3hfo4P6sMQ1Oe48zv6SDtth.cAxR0B_HFu-Dg4Ag?canPlayFromShare=true&from=share_recording_detail&continueMode=true&componentName=rec-play&originRequestUrl=https%3A%2F%2Fcoderhouse.zoom.us%2Frec%2Fshare%2F96HlcHs3FXm_CO4rDXOAAIkbN4ogMV-8KU8_x5iKNx5znPbV58OY3p47FnbJBlQU.nwsad_dbU3zWvBjO): clase **14 - 1 - 01:53**
+
+---
+
 <!--
-slide 13-36. clase 13-1-00:40
+
+slide 15-01. clase 15-1-00:00
+
+- custom router
+
+- capas:
+  - view (renderizado)
+  - controller (negocio)
+  - model (persistencia)
+  - routing
+  - service (intermedia entre controlador y persistencia)
+
 -->

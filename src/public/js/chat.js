@@ -4,7 +4,6 @@ let user = JSON.parse(sessionStorage.getItem("user")) || prompt("Ingrese correo 
 sessionStorage.setItem("user", JSON.stringify(user));
 
 let sendMessageForm = document.getElementById("sendMessage");
-
 sendMessageForm.addEventListener("submit", (e) => {
   e.preventDefault();
   let message = e.target[0].value.trim();

@@ -1,9 +1,7 @@
 import { Router } from "express";
-import passport from "passport";
-import { createToken, passportCall } from "../helpers/utils.js";
+import { createToken, passportCall } from "../utils/utils.js";
 
 const router = Router();
-export default router;
 
 router.get("/current", passportCall("jwt"), (req, res) => {
   res.send(req.user);
@@ -28,3 +26,5 @@ router.post("/login", passportCall("login"), (req, res) => {
 router.get("/logout", (req, res) => {
   res.clearCookie("idToken").redirect("/login");
 });
+
+export default router;

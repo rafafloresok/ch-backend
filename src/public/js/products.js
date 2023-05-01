@@ -50,7 +50,7 @@ for (let i = 0; i < addToCartForms.length; i++) {
     let cartId = document.getElementById("cart").name;
     let productId = e.target.id;
     let quantity = e.target[0].value;
-    let url = `/api/cartsDB/${cartId}/product/${productId}`;
+    let url = `/api/carts/${cartId}/product/${productId}`;
     let data = { qty: quantity };
 
     try {
