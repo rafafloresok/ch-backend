@@ -10,6 +10,7 @@ dotenv.config({
 
 export const config = {
   port: process.env.PORT,
+  persistence: process.env.PERSISTENCE,
   mongoUrl: process.env.MONGO_URL,
   secretKey: process.env.SECRET_KEY,
   githubClientId: process.env.GITHUB_CLIENT_ID,

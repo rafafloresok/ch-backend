@@ -1,7 +1,7 @@
 import { Router } from "express";
-import productController from "../dao/controllers/productController.js";
-import cartController from "../dao/controllers/cartController.js";
-import messageController from "../dao/controllers/messageController.js";
+import productsViewController from "../dao/controllers/productsViewController.js";
+import cartsViewController from "../dao/controllers/cartsViewController.js";
+import messagesController from "../dao/controllers/messagesController.js";
 import { authUser } from "../middlewares/auth.middlewares.js";
 import { passportCall } from "../utils/utils.js";
 
@@ -20,26 +20,26 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/products", passportCall("jwt"), authUser(["user", "admin"]), async (req, res) => {
-  let products = await productController.getProducts(req);
+  let products = await productsViewController.getProducts(req.query);
   let user = req.user;
   res.setHeader("Content-Type", "text/html");
   res.render("products", { products, user, styles: "products.css" });
 });
 
 router.get("/carts/:cid", passportCall("jwt"), authUser(["user", "admin"]), async (req, res) => {
-  let cart = await cartController.getCart(req, res);
+  let cart = await cartsViewController.getCart(req.params.cid);
   res.setHeader("Content-Type", "text/html");
   res.render("cart", { cart, styles: "cart.css" });
 });
 
 router.get("/realtimeproducts", passportCall("jwt"), authUser(["admin"]), async (req, res) => {
-  let products = await productController.getProducts(req);
+  let products = await productsViewController.getProducts(req.query);
   res.setHeader("Content-Type", "text/html");
   res.render("realTimeProducts", { products, styles: "realTimeProducts.css" });
 });
 
 router.get("/chat", passportCall("jwt"), authUser(["user", "admin"]), async (req, res) => {
-  let messages = await messageController.getMessages();
+  let messages = await messagesController.getMessages();
   res.setHeader("Content-Type", "text/html");
   res.render("chat", { messages, styles: "chat.css" });
 });

@@ -316,13 +316,17 @@
 
 slide 15-01. clase 15-1-00:00
 
-- custom router
+- refactorizar messageController
 
-- capas:
+- aplicar capas:
   - view (renderizado)
   - controller (negocio)
   - model (persistencia)
   - routing
   - service (intermedia entre controlador y persistencia)
+
+- refactorizar socket
+
+- aplicar custom router
 
 -->

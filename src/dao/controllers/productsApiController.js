@@ -1,81 +1,28 @@
 import { productsModel } from "../models/products.model.js";
 
-class ProductController {
-  async getProducts(req) {
+class ProductsApiController {
+  async getProducts(req, res) {
+    res.setHeader("Content-Type", "application/json");
     try {
-      let { category, status, limit, page, sort } = req.query;
-      let query = {};
-      let options = { limit: 10, page: 1 };
-      let params = [];
-      let response = {};
-      if (category) {
-        query.category = category;
-        params.push(`category=${category}`);
-      }
-      if (status) {
-        query.status = status;
-        params.push(`status=${status}`);
-      }
-      if (limit) {
-        options.limit = limit;
-        params.push(`limit=${limit}`);
-      }
-      if (page) {
-        options.page = page;
-      }
-      if (sort) {
-        options.sort = { price: sort };
-        params.push(`sort=${sort}`);
-      }
-      let products = await productsModel.paginate(query, options);
-      let { docs, totalPages, prevPage, nextPage, hasPrevPage, hasNextPage } = products;
-      page = products.page;
-      response.status = "success";
-      response.payload = docs;
-      response.totalPages = totalPages;
-      response.prevPage = prevPage;
-      response.nextPage = nextPage;
-      response.page = page;
-      response.hasPrevPage = hasPrevPage;
-      response.hasNextPage = hasNextPage;
-      if (hasPrevPage) {
-        response.prevLink = `/products/?page=${prevPage}`;
-        if (params.length) {
-          for (let i = 0; i < params.length; i++) {
-            response.prevLink += `&${params[i]}`;
-          }
-        }
-      } else {
-        response.prevLink = null;
-      }
-      if (hasNextPage) {
-        response.nextLink = `/products/?page=${nextPage}`;
-        if (params.length) {
-          for (let i = 0; i < params.length; i++) {
-            response.nextLink += `&${params[i]}`;
-          }
-        }
-      } else {
-        response.nextLink = null;
-      }
-      return response;
+      console.log(req.query);
+      let products = await productsModel.find({},{},req.query);
+      return res.status(200).json({ products });
     } catch (error) {
-      response.status = "error";
-      return response;
+      return res.status(500).json({ error: error });
     }
   }
 
-  async getProductById(req, res) {
+  async getProduct(req, res) {
+    res.setHeader("Content-Type", "application/json");
     try {
-      res.setHeader("Content-Type", "application/json");
-      let product = await productsModel.find({ _id: req.params.pid });
-      if (product.length) {
+      let product = await productsModel.findOne({ _id: req.params.pid });
+      if (product) {
         return res.status(200).json({ product });
       } else {
         return res.status(400).json({ error: "Product not found." });
       }
     } catch (error) {
-      console.log(error);
+      return res.status(500).json({ error: error });
     }
   }
 
@@ -83,8 +30,8 @@ class ProductController {
     try {
       res.setHeader("Content-Type", "application/json");
       let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-      let product = await productsModel.find({ code: code });
-      if (product.length) {
+      let product = await productsModel.findOne({ code: code });
+      if (product) {
         return res.status(400).json({ error: "Product not added. Error: Code already exists." });
       } else {
         await productsModel.create({
@@ -100,7 +47,7 @@ class ProductController {
         return res.status(201).json({ message: `Product added successfully` });
       }
     } catch (error) {
-      console.log(error);
+      return res.status(500).json({ error: error });
     }
   }
 
@@ -108,8 +55,8 @@ class ProductController {
     try {
       res.setHeader("Content-Type", "application/json");
       let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-      let product = await productsModel.find({ _id: req.params.pid });
-      if (product.length) {
+      let product = await productsModel.findOne({ _id: req.params.pid });
+      if (product) {
         status === false && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { status: false } }));
         status === true && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { status: true } }));
         title && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { title: title } }));
@@ -124,29 +71,29 @@ class ProductController {
         return res.status(400).json({ error: "Product not found" });
       }
     } catch (error) {
-      console.log(error);
+      return res.status(500).json({ error: error });
     }
   }
 
   async deleteProduct(req, res) {
     try {
       res.setHeader("Content-Type", "application/json");
-      let product = await productsModel.find({ _id: req.params.pid });
-      if (product.length) {
+      let product = await productsModel.findOne({ _id: req.params.pid });
+      if (product) {
         await productsModel.deleteOne({ _id: req.params.pid });
         return res.status(201).json({ message: `Product deleted successfully` });
       } else {
         return res.status(400).json({ error: "Product not found." });
       }
     } catch (error) {
-      console.log(error);
+      return res.status(500).json({ error: error });
     }
   }
 
   async deleteProductSocket(id) {
     try {
-      let product = await productsModel.find({ _id: id });
-      if (product.length) {
+      let product = await productsModel.findOne({ _id: id });
+      if (product) {
         await productsModel.deleteOne({ _id: id });
         return {
           success: true,
@@ -159,15 +106,18 @@ class ProductController {
         };
       }
     } catch (error) {
-      console.log(error);
+      return {
+        success: false,
+        message: "Server error",
+      };
     }
   }
 
   async addProductSocket(product) {
     try {
       let { title, description, code, price, status, stock, category, thumbnails } = product;
-      let productDB = await productsModel.find({ code: code });
-      if (productDB.length) {
+      let productDB = await productsModel.findOne({ code: code });
+      if (productDB) {
         return {
           success: false,
           message: `Product not added. Errors:${productExists ? " Product already exists." : ""}${
@@ -194,10 +144,13 @@ class ProductController {
         };
       }
     } catch (error) {
-      console.log(error);
+      return {
+        success: false,
+        message: "Server error",
+      };
     }
   }
 }
 
-const productController = new ProductController();
-export default productController;
+const productsApiController = new ProductsApiController();
+export default productsApiController;

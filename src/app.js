@@ -13,8 +13,8 @@ import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 
-import productController from "./dao/controllers/productController.js";
-import { messagesModel } from "./dao/models/messages.model.js";
+import productsApiController from "./dao/controllers/productsApiController.js";
+import messagesController from "./dao/controllers/messagesController.js";
 
 const app = express();
 
@@ -48,11 +48,11 @@ const httpServer = app.listen(config.port, () => {
   console.log(`App listening on port ${config.port}`);
 });
 const io = new Server(httpServer);
-io.on("connection", async (socket) => {
+io.on("connection", (socket) => {
   console.log("New client connected");
 
   socket.on("deleteProduct", async (id) => {
-    let response = await productController.deleteProductSocket(id);
+    let response = await productsApiController.deleteProductSocket(id);
     socket.emit("deleteProductRes", response);
     if (response.success) {
       socket.broadcast.emit("productListUpdated");
@@ -60,7 +60,7 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("addProduct", async (product) => {
-    let response = await productController.addProductSocket(product);
+    let response = await productsApiController.addProductSocket(product);
     socket.emit("addProductRes", response);
     if (response.success) {
       socket.broadcast.emit("productListUpdated");
@@ -68,7 +68,7 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("newMessage", async ({ user, message }) => {
-    await messagesModel.create({ user: user, message: message });
+    await messagesController.addMessage({ user, message });
     io.emit("messagesListUpdated");
   });
 });
