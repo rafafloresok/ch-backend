@@ -1,9 +1,9 @@
-import { cartsModel } from "../models/carts.model.js";
+import { cartsService } from "../factory.js";
 
 class CartsViewController {
   async getCart(cid) {
     try {
-      let cart = await cartsModel.findOne({ _id: cid }).populate("products.productId");
+      let cart = await cartsService.getCart(cid);
       return cart;
     } catch (error) {
       console.log(error);

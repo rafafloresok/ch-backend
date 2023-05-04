@@ -1,4 +1,4 @@
-import { productsModel } from "../models/products.model.js";
+import { productsService } from "../factory.js";
 
 class ProductsViewController {
   async getProducts(reqQuery) {
@@ -28,7 +28,7 @@ class ProductsViewController {
         params.push(`sort=${sort}`);
       }
 
-      let products = await productsModel.paginate(query, options);
+      let products = await productsService.getProducts(query, options);
       let { docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage } = products;
       let prevLink;
       let nextLink;
@@ -61,7 +61,7 @@ class ProductsViewController {
 
   async getProduct(pid) {
     try {
-      let product = await productsModel.findOne({ _id: pid });
+      let product = await productsService.getProduct(pid);
       if (product) {
         return { status: "success", payload: product };
       } else {

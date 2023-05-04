@@ -316,8 +316,6 @@
 
 slide 15-01. clase 15-1-00:00
 
-- refactorizar messageController
-
 - aplicar capas:
   - view (renderizado)
   - controller (negocio)

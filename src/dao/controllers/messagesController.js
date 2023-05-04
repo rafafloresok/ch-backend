@@ -1,9 +1,9 @@
-import { messagesModel } from "../models/messages.model.js";
+import { messagesService } from "../factory.js";
 
 class MessagesController {
   async getMessages() {
     try {
-      let messages = await messagesModel.find();
+      let messages = await messagesService.getMessages();
       return messages;
     } catch (error) {
       console.log(error);
@@ -12,7 +12,7 @@ class MessagesController {
 
   async addMessage({ user, message }) {
     try {
-      await messagesModel.create({ user, message });
+      await messagesService.addMessage({ user, message });
       return {
         status: "success",
         message: "Message added successfully",

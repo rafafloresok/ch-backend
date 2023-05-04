@@ -1,11 +1,30 @@
-import { productsModel } from "../models/products.model.js";
+import { productsService } from "../factory.js";
 
 class ProductsApiController {
   async getProducts(req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
-      console.log(req.query);
-      let products = await productsModel.find({},{},req.query);
+      let { category, status, limit, page, sort } = req.query;
+      let query = {};
+      let options = { limit: 10, page: 1 };
+
+      if (category) {
+        query.category = category;
+      }
+      if (status) {
+        query.status = status;
+      }
+      if (limit) {
+        options.limit = limit;
+      }
+      if (page) {
+        options.page = page;
+      }
+      if (sort) {
+        options.sort = { price: sort };
+      }
+
+      let products = await productsService.getProducts(query, options)
       return res.status(200).json({ products });
     } catch (error) {
       return res.status(500).json({ error: error });
@@ -15,7 +34,7 @@ class ProductsApiController {
   async getProduct(req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
-      let product = await productsModel.findOne({ _id: req.params.pid });
+      let product = await productsService.getProduct(req.params.pid);
       if (product) {
         return res.status(200).json({ product });
       } else {
@@ -30,11 +49,11 @@ class ProductsApiController {
     try {
       res.setHeader("Content-Type", "application/json");
       let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-      let product = await productsModel.findOne({ code: code });
+      let product = await productsService.getProductByCode(code);
       if (product) {
         return res.status(400).json({ error: "Product not added. Error: Code already exists." });
       } else {
-        await productsModel.create({
+        await productsService.createProduct({
           title: title,
           description: description,
           code: code,
@@ -55,17 +74,18 @@ class ProductsApiController {
     try {
       res.setHeader("Content-Type", "application/json");
       let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-      let product = await productsModel.findOne({ _id: req.params.pid });
+      let pid = req.params.pid;
+      let product = await productsService.getProduct(pid);
       if (product) {
-        status === false && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { status: false } }));
-        status === true && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { status: true } }));
-        title && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { title: title } }));
-        description && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { description: description } }));
-        code && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { code: code } }));
-        price && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { price: price } }));
-        stock && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { stock: stock } }));
-        category && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { category: category } }));
-        thumbnails && (await productsModel.updateOne({ _id: req.params.pid }, { $set: { thumbnails: thumbnails } }));
+        status === false && (await productsService.updateProduct(pid, "status", status));
+        status === true && (await productsService.updateProduct(pid, "status", status));
+        title && (await productsService.updateProduct(pid, "title", title));
+        description && (await productsService.updateProduct(pid, "description", description));
+        code && (await productsService.updateProduct(pid, "code", code));
+        price && (await productsService.updateProduct(pid, "price", price));
+        stock && (await productsService.updateProduct(pid, "stock", stock));
+        category && (await productsService.updateProduct(pid, "category", category));
+        thumbnails && (await productsService.updateProduct(pid, "thumbnails", thumbnails));
         return res.status(201).json({ message: "Product updated successfully" });
       } else {
         return res.status(400).json({ error: "Product not found" });
@@ -78,9 +98,9 @@ class ProductsApiController {
   async deleteProduct(req, res) {
     try {
       res.setHeader("Content-Type", "application/json");
-      let product = await productsModel.findOne({ _id: req.params.pid });
+      let product = await productsService.getProduct(req.params.pid);
       if (product) {
-        await productsModel.deleteOne({ _id: req.params.pid });
+        await productsService.deleteProduct(req.params.pid);
         return res.status(201).json({ message: `Product deleted successfully` });
       } else {
         return res.status(400).json({ error: "Product not found." });
@@ -92,9 +112,9 @@ class ProductsApiController {
 
   async deleteProductSocket(id) {
     try {
-      let product = await productsModel.findOne({ _id: id });
+      let product = await productsService.getProduct(req.params.pid);
       if (product) {
-        await productsModel.deleteOne({ _id: id });
+        await productsService.deleteProduct(id);
         return {
           success: true,
           message: "Product deleted successfully",
@@ -116,7 +136,7 @@ class ProductsApiController {
   async addProductSocket(product) {
     try {
       let { title, description, code, price, status, stock, category, thumbnails } = product;
-      let productDB = await productsModel.findOne({ code: code });
+      let productDB = await productsService.getProductByCode(code);
       if (productDB) {
         return {
           success: false,
@@ -128,7 +148,7 @@ class ProductsApiController {
         price = Number(price);
         stock = Number(stock);
         status === "false" ? (status = false) : (status = true);
-        await productsModel.create({
+        await productsService.createProduct({
           title: title,
           description: description,
           code: code,

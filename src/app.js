@@ -1,7 +1,7 @@
 import express from "express";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
-import { __dirname, DB } from "./utils/utils.js";
+import { __dirname } from "./utils/utils.js";
 import path from "path";
 import cookieParser from "cookie-parser";
 import passport from "passport";
@@ -72,7 +72,5 @@ io.on("connection", (socket) => {
     io.emit("messagesListUpdated");
   });
 });
-
-DB.connectDB();
 
 io.on("error", (error) => console.error(error));
