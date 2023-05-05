@@ -1,9 +1,9 @@
-import { cartsService } from "../factory.js";
+import { cartsDao } from "../dao/factory.js";
 
 class CartsViewController {
   async getCart(cid) {
     try {
-      let cart = await cartsService.getCart(cid);
+      let cart = await cartsDao.getCart(cid);
       return cart;
     } catch (error) {
       console.log(error);

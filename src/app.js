@@ -13,8 +13,8 @@ import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 
-import productsApiController from "./dao/controllers/productsApiController.js";
-import messagesController from "./dao/controllers/messagesController.js";
+import productsApiController from "./controllers/productsApi.controller.js";
+import messagesController from "./controllers/messages.controller.js";
 
 const app = express();
 

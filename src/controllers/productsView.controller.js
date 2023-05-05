@@ -1,4 +1,4 @@
-import { productsService } from "../factory.js";
+import { productsDao } from "../dao/factory.js";
 
 class ProductsViewController {
   async getProducts(reqQuery) {
@@ -28,7 +28,7 @@ class ProductsViewController {
         params.push(`sort=${sort}`);
       }
 
-      let products = await productsService.getProducts(query, options);
+      let products = await productsDao.getProducts(query, options);
       let { docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage } = products;
       let prevLink;
       let nextLink;
@@ -61,7 +61,7 @@ class ProductsViewController {
 
   async getProduct(pid) {
     try {
-      let product = await productsService.getProduct(pid);
+      let product = await productsDao.getProduct(pid);
       if (product) {
         return { status: "success", payload: product };
       } else {

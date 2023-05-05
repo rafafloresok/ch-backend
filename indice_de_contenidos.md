@@ -314,14 +314,14 @@
 
 <!--
 
-slide 15-01. clase 15-1-00:00
+slide 15-31. clase 15-2-00:48 (ver afterclass)
 
-- aplicar capas:
+- capas:
   - view (renderizado)
-  - controller (negocio)
-  - model (persistencia)
   - routing
+  - controller (negocio)
   - service (intermedia entre controlador y persistencia)
+  - model (persistencia)
 
 - refactorizar socket
 

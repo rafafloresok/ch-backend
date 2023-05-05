@@ -1,5 +1,5 @@
 import { Router } from "express";
-import cartsApiController from "../dao/controllers/cartsApiController.js";
+import cartsApiController from "../controllers/cartsApi.controller.js";
 
 const router = Router();
 

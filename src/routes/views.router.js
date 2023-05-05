@@ -1,7 +1,7 @@
 import { Router } from "express";
-import productsViewController from "../dao/controllers/productsViewController.js";
-import cartsViewController from "../dao/controllers/cartsViewController.js";
-import messagesController from "../dao/controllers/messagesController.js";
+import productsViewController from "../controllers/productsView.controller.js";
+import cartsViewController from "../controllers/cartsView.controller.js";
+import messagesController from "../controllers/messages.controller.js";
 import { authUser } from "../middlewares/auth.middlewares.js";
 import { passportCall } from "../utils/utils.js";
 
@@ -39,9 +39,10 @@ router.get("/realtimeproducts", passportCall("jwt"), authUser(["admin"]), async 
 });
 
 router.get("/chat", passportCall("jwt"), authUser(["user", "admin"]), async (req, res) => {
+  let user = req.user;
   let messages = await messagesController.getMessages();
   res.setHeader("Content-Type", "text/html");
-  res.render("chat", { messages, styles: "chat.css" });
+  res.render("chat", { user, messages, styles: "chat.css" });
 });
 
 export default router;

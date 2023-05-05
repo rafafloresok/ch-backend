@@ -2,9 +2,8 @@ import passport from "passport";
 import local from "passport-local";
 import github from "passport-github2";
 import jwt from "passport-jwt";
-import { usersModel } from "../dao/models/users.model.js";
+import { cartsDao, usersDao } from "../dao/factory.js";
 import { createHash, isValidPassword } from "../utils/utils.js";
-import { cartsModel } from "../dao/models/carts.model.js";
 import { config } from "./config.js";
 
 const extractToken = (req) => {
@@ -40,7 +39,7 @@ export const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           let { name, email } = profile._json;
-          let currentUser = await usersModel.findOne({ email: email });
+          let currentUser = await usersDao.getUser("email", email);
 
           if (!currentUser) {
             let newUser = {
@@ -49,13 +48,13 @@ export const initializePassport = () => {
               github: true,
               githubProfile: profile._json,
             };
-            currentUser = await usersModel.create(newUser);
+            currentUser = await usersDao.createUser(newUser);
           } else {
-            let updateUser = {
+            let newData = {
               github: true,
               githubProfile: profile._json,
             };
-            await usersModel.updateOne({ email: email }, updateUser);
+            await usersDao.updateUser("email", email, newData)
           }
 
           let { firstName, lastName, age, role, cart } = currentUser;
@@ -88,13 +87,13 @@ export const initializePassport = () => {
           let { firstName, lastName, age } = req.body;
           if (!username || !password) return done(null, false);
 
-          let currentUser = await usersModel.findOne({ email: username });
+          let currentUser = await usersDao.getUser("email", username);
           if (currentUser) return done(null, false);
 
           let isAdmin = username === config.adminMail && password === config.adminPassword;
           let role = isAdmin ? "admin" : "user";
-          let cart = await cartsModel.create({ alias: "" });
-          let user = await usersModel.create({
+          let cart = await cartsDao.createCart();
+          let user = await usersDao.creatUser({
             firstName,
             lastName,
             email: username,
@@ -122,9 +121,7 @@ export const initializePassport = () => {
         try {
           if (!username || !password) return done(null, false);
 
-          let currentUser = await usersModel.findOne({
-            email: username,
-          });
+          let currentUser = await usersDao.getUser("email", username);
           if (!currentUser || !isValidPassword(password, currentUser)) return done(null, false);
 
           let { firstName, lastName, email, age, role, cart } = currentUser;
@@ -150,7 +147,7 @@ export const initializePassport = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await usersModel.findOne({ _id: id });
+    let user = await usersDao.getUser("_id", id);
     done(null, user);
   });
 };

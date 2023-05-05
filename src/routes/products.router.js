@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { __dirname } from "../utils/utils.js";
-import productsApiController from "../dao/controllers/productsApiController.js";
+import productsApiController from "../controllers/productsApi.controller.js";
 import { addProductMid, updateProductMid } from "../middlewares/products.middlewares.js";
 
 const router = Router();

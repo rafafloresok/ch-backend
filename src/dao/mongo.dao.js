@@ -1,8 +1,12 @@
 import { cartsModel } from "../models/carts.model.js";
 import { productsModel } from "../models/products.model.js";
 import { messagesModel } from "../models/messages.model.js";
+import { usersModel } from "../models/users.model.js";
 
-export class CartsMongoService {
+export class CartsMongoDao {
+  async createCart() {
+    return await cartsModel.create({ alias: "Mi compra" });
+  }
   async getCart(cid) {
     return await cartsModel.findOne({ _id: cid }).populate("products.productId");
   }
@@ -20,7 +24,7 @@ export class CartsMongoService {
   }
 }
 
-export class ProductsMongoService {
+export class ProductsMongoDao {
   async getProducts(query, options) {
     return await productsModel.paginate(query, options);
   }
@@ -41,11 +45,23 @@ export class ProductsMongoService {
   }
 }
 
-export class MessagesMongoService {
+export class MessagesMongoDao {
   async getMessages() {
     return await messagesModel.find();
   }
   async addMessage(data) {
     return await messagesModel.create(data);
+  }
+}
+
+export class UsersMongoDao {
+  async getUser(field, value) {
+    return await usersModel.findOne({ [field]: value });
+  }
+  async createUser(user) {
+    return await usersModel.create(user);
+  }
+  async updateUser(field, value, data) {
+    return await usersModel.updateOne({ [field]: value }, data);
   }
 }

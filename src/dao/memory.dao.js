@@ -1,6 +1,6 @@
-//ALL METHODS MUST RECEIVE SAME PARAMETERS AND RETURNS SAME OBJECTS AS MONGO.SERVICE
+//ALL METHODS MUST RECEIVE SAME PARAMETERS AND RETURNS SAME OBJECTS AS MONGO.Dao
 
-export class CartsMemoryService {
+export class CartsMemoryDao {
   async getCart(cid) {}
   async addProduct(cid, pid, qty) {}
   async deleteProduct(cid, pid) {}
@@ -8,7 +8,7 @@ export class CartsMemoryService {
   async deleteProducts(cid) {}
 }
 
-export class ProductsMemoryService {
+export class ProductsMemoryDao {
   async getProducts(query, options) {}
   async getProduct(pid) {}
   async getProductByCode(code) {}
@@ -17,7 +17,11 @@ export class ProductsMemoryService {
   async updateProduct(pid, field, value) {}
 }
 
-export class MessagesMemoryService {
+export class MessagesMemoryDao {
   async getMessages() {}
   async addMessage(data) {}
+}
+
+export class UsersMemoryDao {
+  async getUser(field, value) {}
 }

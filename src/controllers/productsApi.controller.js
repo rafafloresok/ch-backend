@@ -1,4 +1,4 @@
-import { productsService } from "../factory.js";
+import { productsDao } from "../dao/factory.js";
 
 class ProductsApiController {
   async getProducts(req, res) {
@@ -24,7 +24,7 @@ class ProductsApiController {
         options.sort = { price: sort };
       }
 
-      let products = await productsService.getProducts(query, options)
+      let products = await productsDao.getProducts(query, options)
       return res.status(200).json({ products });
     } catch (error) {
       return res.status(500).json({ error: error });
@@ -34,7 +34,7 @@ class ProductsApiController {
   async getProduct(req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
-      let product = await productsService.getProduct(req.params.pid);
+      let product = await productsDao.getProduct(req.params.pid);
       if (product) {
         return res.status(200).json({ product });
       } else {
@@ -49,11 +49,11 @@ class ProductsApiController {
     try {
       res.setHeader("Content-Type", "application/json");
       let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-      let product = await productsService.getProductByCode(code);
+      let product = await productsDao.getProductByCode(code);
       if (product) {
         return res.status(400).json({ error: "Product not added. Error: Code already exists." });
       } else {
-        await productsService.createProduct({
+        await productsDao.createProduct({
           title: title,
           description: description,
           code: code,
@@ -75,17 +75,17 @@ class ProductsApiController {
       res.setHeader("Content-Type", "application/json");
       let { title, description, code, price, status, stock, category, thumbnails } = req.body;
       let pid = req.params.pid;
-      let product = await productsService.getProduct(pid);
+      let product = await productsDao.getProduct(pid);
       if (product) {
-        status === false && (await productsService.updateProduct(pid, "status", status));
-        status === true && (await productsService.updateProduct(pid, "status", status));
-        title && (await productsService.updateProduct(pid, "title", title));
-        description && (await productsService.updateProduct(pid, "description", description));
-        code && (await productsService.updateProduct(pid, "code", code));
-        price && (await productsService.updateProduct(pid, "price", price));
-        stock && (await productsService.updateProduct(pid, "stock", stock));
-        category && (await productsService.updateProduct(pid, "category", category));
-        thumbnails && (await productsService.updateProduct(pid, "thumbnails", thumbnails));
+        status === false && (await productsDao.updateProduct(pid, "status", status));
+        status === true && (await productsDao.updateProduct(pid, "status", status));
+        title && (await productsDao.updateProduct(pid, "title", title));
+        description && (await productsDao.updateProduct(pid, "description", description));
+        code && (await productsDao.updateProduct(pid, "code", code));
+        price && (await productsDao.updateProduct(pid, "price", price));
+        stock && (await productsDao.updateProduct(pid, "stock", stock));
+        category && (await productsDao.updateProduct(pid, "category", category));
+        thumbnails && (await productsDao.updateProduct(pid, "thumbnails", thumbnails));
         return res.status(201).json({ message: "Product updated successfully" });
       } else {
         return res.status(400).json({ error: "Product not found" });
@@ -98,9 +98,9 @@ class ProductsApiController {
   async deleteProduct(req, res) {
     try {
       res.setHeader("Content-Type", "application/json");
-      let product = await productsService.getProduct(req.params.pid);
+      let product = await productsDao.getProduct(req.params.pid);
       if (product) {
-        await productsService.deleteProduct(req.params.pid);
+        await productsDao.deleteProduct(req.params.pid);
         return res.status(201).json({ message: `Product deleted successfully` });
       } else {
         return res.status(400).json({ error: "Product not found." });
@@ -112,9 +112,9 @@ class ProductsApiController {
 
   async deleteProductSocket(id) {
     try {
-      let product = await productsService.getProduct(req.params.pid);
+      let product = await productsDao.getProduct(req.params.pid);
       if (product) {
-        await productsService.deleteProduct(id);
+        await productsDao.deleteProduct(id);
         return {
           success: true,
           message: "Product deleted successfully",
@@ -136,7 +136,7 @@ class ProductsApiController {
   async addProductSocket(product) {
     try {
       let { title, description, code, price, status, stock, category, thumbnails } = product;
-      let productDB = await productsService.getProductByCode(code);
+      let productDB = await productsDao.getProductByCode(code);
       if (productDB) {
         return {
           success: false,
@@ -148,7 +148,7 @@ class ProductsApiController {
         price = Number(price);
         stock = Number(stock);
         status === "false" ? (status = false) : (status = true);
-        await productsService.createProduct({
+        await productsDao.createProduct({
           title: title,
           description: description,
           code: code,
