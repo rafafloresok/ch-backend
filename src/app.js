@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("newMessage", async ({ user, message }) => {
-    await messagesController.addMessage({ user, message });
+    await messagesController.sendMessage({ user, message });
     io.emit("messagesListUpdated");
   });
 });

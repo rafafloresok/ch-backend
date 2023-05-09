@@ -4,64 +4,52 @@ import { messagesModel } from "../models/messages.model.js";
 import { usersModel } from "../models/users.model.js";
 
 export class CartsMongoDao {
-  async createCart() {
-    return await cartsModel.create({ alias: "Mi compra" });
+  async create(docs) {
+    return await cartsModel.create(docs);
   }
-  async getCart(cid) {
-    return await cartsModel.findOne({ _id: cid }).populate("products.productId");
+  async getOne(conditions, projection) {
+    return await cartsModel.findOne(conditions, projection).populate("products.productId");
   }
-  async addProduct(cid, pid, qty) {
-    return await cartsModel.updateOne({ _id: cid }, { $push: { products: { productId: pid, quantity: qty } } });
-  }
-  async deleteProduct(cid, pid) {
-    return await cartsModel.updateOne({ _id: cid }, { $pull: { products: { productId: pid } } });
-  }
-  async updateProductQty(cid, pid, qty) {
-    return await cartsModel.updateOne({ _id: cid, "products.productId": pid }, { $inc: { "products.$.quantity": qty } });
-  }
-  async deleteProducts(cid) {
-    return await cartsModel.updateOne({ _id: cid }, { $set: { products: [] } });
+  async updateOne(filter, update) {
+    return await cartsModel.updateOne(filter, update);
   }
 }
 
 export class ProductsMongoDao {
-  async getProducts(query, options) {
-    return await productsModel.paginate(query, options);
+  async getPaginated(filter, options) {
+    return await productsModel.paginate(filter, options);
   }
-  async getProduct(pid) {
-    return await productsModel.findOne({ _id: pid });
+  async getOne(conditions, projection, options) {
+    return await productsModel.findOne(conditions, projection);
   }
-  async getProductByCode(code) {
-    return await productsModel.findOne({ code: code });
+  async deleteOne(conditions, options) {
+    return await productsModel.deleteOne(conditions);
   }
-  async deleteProduct(pid) {
-    return await productsModel.deleteOne({ _id: pid });
+  async create(docs) {
+    return await productsModel.create(docs);
   }
-  async createProduct(product) {
-    return await productsModel.create(product);
-  }
-  async updateProduct(pid, field, value) {
-    return await productsModel.updateOne({ _id: pid }, { $set: { [field]: value } });
+  async updateOne(filter, update) {
+    return await productsModel.updateOne(filter, update);
   }
 }
 
 export class MessagesMongoDao {
-  async getMessages() {
-    return await messagesModel.find();
+  async get(filter, projection) {
+    return await messagesModel.find(filter, projection);
   }
-  async addMessage(data) {
-    return await messagesModel.create(data);
+  async create(docs) {
+    return await messagesModel.create(docs);
   }
 }
 
 export class UsersMongoDao {
-  async getUser(field, value) {
-    return await usersModel.findOne({ [field]: value });
+  async getOne(conditions, projection) {
+    return await usersModel.findOne(conditions, projection);
   }
-  async createUser(user) {
-    return await usersModel.create(user);
+  async create(docs) {
+    return await usersModel.create(docs);
   }
-  async updateUser(field, value, data) {
-    return await usersModel.updateOne({ [field]: value }, data);
+  async updateOne(filter, update) {
+    return await usersModel.updateOne(filter, update);
   }
 }

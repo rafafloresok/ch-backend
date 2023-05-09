@@ -1,21 +1,21 @@
-import { messagesDao } from "../dao/factory.js";
+import { messagesService } from "../dao/factory.js";
 
 class MessagesController {
   async getMessages() {
     try {
-      let messages = await messagesDao.getMessages();
+      let messages = await messagesService.get();
       return messages;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async addMessage({ user, message }) {
+  async sendMessage({ user, message }) {
     try {
-      await messagesDao.addMessage({ user, message });
+      await messagesService.send({ user, message });
       return {
         status: "success",
-        message: "Message added successfully",
+        message: "Message sent successfully",
       };
     } catch (error) {
       console.log(error);

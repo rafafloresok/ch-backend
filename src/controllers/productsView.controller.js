@@ -1,34 +1,16 @@
-import { productsDao } from "../dao/factory.js";
+import { productsService } from "../dao/factory.js";
 
 class ProductsViewController {
-  async getProducts(reqQuery) {
+  async getProducts(query) {
     try {
-      let { category, status, limit, page: queryPage, sort } = reqQuery;
-      let query = {};
-      let options = { limit: 10, page: 1 };
+      let { category, status, limit, sort } = query;
       let params = [];
+      if (category) params.push(`category=${category}`);
+      if (status) params.push(`status=${status}`);
+      if (limit) params.push(`limit=${limit}`);
+      if (sort) params.push(`sort=${sort}`);
 
-      if (category) {
-        query.category = category;
-        params.push(`category=${category}`);
-      }
-      if (status) {
-        query.status = status;
-        params.push(`status=${status}`);
-      }
-      if (limit) {
-        options.limit = limit;
-        params.push(`limit=${limit}`);
-      }
-      if (queryPage) {
-        options.page = queryPage;
-      }
-      if (sort) {
-        options.sort = { price: sort };
-        params.push(`sort=${sort}`);
-      }
-
-      let products = await productsDao.getProducts(query, options);
+      let products = await productsService.getPaginated(query);
       let { docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage } = products;
       let prevLink;
       let nextLink;
@@ -59,9 +41,9 @@ class ProductsViewController {
     }
   }
 
-  async getProduct(pid) {
+  async getProduct(productId) {
     try {
-      let product = await productsDao.getProduct(pid);
+      let product = await productsService.getById(productId);
       if (product) {
         return { status: "success", payload: product };
       } else {

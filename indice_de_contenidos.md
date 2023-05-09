@@ -316,15 +316,10 @@
 
 slide 15-31. clase 15-2-00:48 (ver afterclass)
 
-- capas:
-  - view (renderizado)
-  - routing
-  - controller (negocio)
-  - service (intermedia entre controlador y persistencia)
-  - model (persistencia)
-
 - refactorizar socket
 
 - aplicar custom router
+
+- ver cierre sesión github
 
 -->
