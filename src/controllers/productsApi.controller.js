@@ -2,92 +2,78 @@ import { productsService } from "../dao/factory.js";
 
 class ProductsApiController {
   async getProducts(req, res) {
-    res.setHeader("Content-Type", "application/json");
-    try {
-      let products = await productsService.getPaginated(req.query);
-      return res.status(200).json({ products });
-    } catch (error) {
-      return res.status(500).json({ error: error });
+    let result = await productsService.getPaginated(req.query);
+    if (result) {
+      return res.status(200).send({ status: "success", result });
+    } else {
+      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
     }
   }
 
   async getProduct(req, res) {
-    res.setHeader("Content-Type", "application/json");
-    try {
-      let product = await productsService.getById(req.params.pid);
-      if (product) {
-        return res.status(200).json({ product });
-      } else {
-        return res.status(400).json({ error: "Product not found." });
-      }
-    } catch (error) {
-      return res.status(500).json({ error: error });
+    let result = await productsService.getById(req.params.pid);
+    if (result) {
+      return res.status(200).send({ status: "success", result });
+    } else {
+      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
     }
   }
 
   async addProduct(req, res) {
-    try {
-      res.setHeader("Content-Type", "application/json");
-      let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-      let product = await productsService.getByCode(code);
-      if (product) {
-        return res.status(400).json({ error: "Product not added. Error: Code already exists." });
-      } else {
-        await productsService.create({
-          title: title,
-          description: description,
-          code: code,
-          price: price,
-          status: status,
-          stock: stock,
-          category: category,
-          thumbnails: thumbnails,
-        });
-        return res.status(201).json({ message: `Product added successfully` });
-      }
-    } catch (error) {
-      return res.status(500).json({ error: error });
+    let { title, description, code, price, status, stock, category, thumbnails } = req.body;
+    let product = await productsService.getByCode(code);
+    if (product) {
+      return res.status(400).send({ status: "error", error: "Product not added. Code already exists" });
+    }
+    let result = await productsService.create({
+      title: title,
+      description: description,
+      code: code,
+      price: price,
+      status: status,
+      stock: stock,
+      category: category,
+      thumbnails: thumbnails,
+    });
+    if (result) {
+      return res.status(201).send({ status: "success", result: "Product added successfully" });
+    } else {
+      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
     }
   }
 
   async updateProduct(req, res) {
-    try {
-      res.setHeader("Content-Type", "application/json");
-      let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-      let pid = req.params.pid;
-      let product = await productsService.getById(pid);
-      if (product) {
-        let update = {};
-        status === false && (update.status = status);
-        status === true && (update.status = status);
-        title && (update.title = title);
-        description && (update.description = description);
-        code && (update.code = code);
-        price && (update.price = price);
-        stock && (update.stock = stock);
-        category && (update.category = category);
-        thumbnails && (update.thumbnails = thumbnails);
-        await productsService.updateById(pid, update);
-        return res.status(201).json({ message: "Product updated successfully" });
+    let { title, description, code, price, status, stock, category, thumbnails } = req.body;
+    let pid = req.params.pid;
+    let product = await productsService.getById(pid);
+    if (product) {
+      let update = {};
+      status === false && (update.status = status);
+      status === true && (update.status = status);
+      title && (update.title = title);
+      description && (update.description = description);
+      code && (update.code = code);
+      price && (update.price = price);
+      stock && (update.stock = stock);
+      category && (update.category = category);
+      thumbnails && (update.thumbnails = thumbnails);
+      let result = await productsService.updateById(pid, update);
+      if (result) {
+        return res.status(200).send({ status: "success", result: "Product updated successfully" });
       } else {
-        return res.status(400).json({ error: "Product not found" });
+        return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
       }
-    } catch (error) {
-      return res.status(500).json({ error: error });
+    } else {
+      return res.status(400).send({ status: "error", error: "Product not found" });
     }
   }
 
   async deleteProduct(req, res) {
-    try {
-      res.setHeader("Content-Type", "application/json");
-      let product = await productsService.deleteById(req.params.pid);
-      if (product) {
-        return res.status(201).json({ message: `Product deleted successfully` });
-      } else {
-        return res.status(400).json({ error: "Product not found." });
-      }
-    } catch (error) {
-      return res.status(500).json({ error: error });
+    let result = await productsService.deleteById(req.params.pid);
+    if (result) {
+      return res.status(200).send({ status: "success", result: `Product deleted successfully` });
+    } else {
+      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
     }
   }
 

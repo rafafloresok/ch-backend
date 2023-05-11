@@ -2,43 +2,44 @@ import { productsService } from "../dao/factory.js";
 
 class ProductsViewController {
   async getProducts(query) {
-    try {
-      let { category, status, limit, sort } = query;
-      let params = [];
-      if (category) params.push(`category=${category}`);
-      if (status) params.push(`status=${status}`);
-      if (limit) params.push(`limit=${limit}`);
-      if (sort) params.push(`sort=${sort}`);
+    let { category, status, limit, sort } = query;
+    let params = [];
+    if (category) params.push(`category=${category}`);
+    if (status) params.push(`status=${status}`);
+    if (limit) params.push(`limit=${limit}`);
+    if (sort) params.push(`sort=${sort}`);
 
-      let products = await productsService.getPaginated(query);
-      let { docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage } = products;
-      let prevLink;
-      let nextLink;
-      if (hasPrevPage) {
-        prevLink = `/products/?page=${prevPage}`;
-        if (params.length) {
-          for (let i = 0; i < params.length; i++) {
-            prevLink += `&${params[i]}`;
-          }
-        }
-      } else {
-        prevLink = null;
-      }
-      if (hasNextPage) {
-        nextLink = `/products/?page=${nextPage}`;
-        if (params.length) {
-          for (let i = 0; i < params.length; i++) {
-            nextLink += `&${params[i]}`;
-          }
-        }
-      } else {
-        nextLink = null;
-      }
-      return { status: "success", payload: docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink };
-    } catch (error) {
-      console.log(error);
-      return { status: "error" };
+    let products = await productsService.getPaginated(query);
+    if (!products) {
+      return {
+        status: "error",
+        error: "Something went wrong, try again later",
+      };
     }
+    let { docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage } = products;
+    let prevLink;
+    let nextLink;
+    if (hasPrevPage) {
+      prevLink = `/products/?page=${prevPage}`;
+      if (params.length) {
+        for (let i = 0; i < params.length; i++) {
+          prevLink += `&${params[i]}`;
+        }
+      }
+    } else {
+      prevLink = null;
+    }
+    if (hasNextPage) {
+      nextLink = `/products/?page=${nextPage}`;
+      if (params.length) {
+        for (let i = 0; i < params.length; i++) {
+          nextLink += `&${params[i]}`;
+        }
+      }
+    } else {
+      nextLink = null;
+    }
+    return { status: "success", payload: docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink };
   }
 
   async getProduct(productId) {

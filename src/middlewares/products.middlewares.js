@@ -9,7 +9,6 @@ export const addProductMid = (req, res, next) => {
   req.body.price = Number(price);
   req.body.stock = Number(stock);
   let invalidStatus = !["false", "true", "", undefined].includes(status);
-  console.log(invalidStatus);
   if (isNaN(req.body.price) || isNaN(req.body.stock) || invalidStatus) {
     return res.status(400).json({ error: "Product not added. Invalid value(s)" });
   }

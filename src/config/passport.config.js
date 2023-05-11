@@ -5,6 +5,7 @@ import jwt from "passport-jwt";
 import { cartsService, usersService } from "../dao/factory.js";
 import { createHash, isValidPassword } from "../utils/utils.js";
 import { config } from "./config.js";
+import { currentUserDto } from "../dto/users.dto.js";
 
 const extractToken = (req) => {
   return req.cookies.idToken || null;
@@ -57,15 +58,7 @@ export const initializePassport = () => {
             await usersService.updateByEmail(email, newData);
           }
 
-          let { firstName, lastName, age, role, cart } = currentUser;
-          let user = {
-            firstName,
-            lastName,
-            email,
-            age,
-            role,
-            cart,
-          };
+          let user = new currentUserDto(currentUser);
 
           return done(null, user);
         } catch (error) {
@@ -92,7 +85,7 @@ export const initializePassport = () => {
 
           let isAdmin = username === config.adminMail && password === config.adminPassword;
           let role = isAdmin ? "admin" : "user";
-          let cart = await cartsService.create({alias: "Mi compra"});
+          let cart = await cartsService.create({ alias: "Mi compra" });
           let user = await usersService.create({
             firstName,
             lastName,
@@ -124,15 +117,7 @@ export const initializePassport = () => {
           let currentUser = await usersService.getByEmail(username);
           if (!currentUser || !isValidPassword(password, currentUser)) return done(null, false);
 
-          let { firstName, lastName, email, age, role, cart } = currentUser;
-          let user = {
-            firstName,
-            lastName,
-            email,
-            age,
-            role,
-            cart,
-          };
+          let user = new currentUserDto(currentUser);
 
           return done(null, user);
         } catch (error) {

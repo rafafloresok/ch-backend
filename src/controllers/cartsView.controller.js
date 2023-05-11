@@ -2,11 +2,14 @@ import { cartsService } from "../dao/factory.js";
 
 class CartsViewController {
   async getCart(cartId) {
-    try {
-      let cart = await cartsService.getById(cartId);
-      return cart;
-    } catch (error) {
-      console.log(error);
+    let result = await cartsService.getById(cartId);
+    if (result) {
+      return result;
+    } else {
+      return {
+        status: "error",
+        error: "Something went wrong, try again later",
+      };
     }
   }
 }
