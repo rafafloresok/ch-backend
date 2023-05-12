@@ -9,3 +9,6 @@ export class MessagesMemoryDao {
 
 export class UsersMemoryDao {
 }
+
+export class TicketsMemoryDao {
+}

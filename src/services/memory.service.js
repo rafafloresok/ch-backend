@@ -1,4 +1,4 @@
-//ALL METHODS MUST RECEIVE SAME PARAMETERS AND RETURNS SAME OBJECTS AS memory.service.js
+//ALL METHODS MUST RECEIVE SAME PARAMETERS AND RETURNS SAME OBJECTS AS mongo.service.js
 
 export class CartsMemoryService {
   constructor(dao) {
@@ -22,6 +22,7 @@ export class ProductsMemoryService {
   async deleteById(productId) {}
   async create(productData) {}
   async updateById(productId, update) {}
+  async updateStockById(productId, quantity) {}
 }
 
 export class MessagesMemoryService {
@@ -38,6 +39,14 @@ export class UsersMemoryService {
   }
   async getById(userId) {}
   async getByEmail(userEmail) {}
+  async getCurrentByEmail(userEmail) {}
   async create(userData) {}
   async updateByEmail(email, update) {}
+}
+
+export class TicketsMemoryService {
+  constructor(dao) {
+    this.dao = dao;
+  }
+  async send(ticketData) {}
 }

@@ -2,6 +2,7 @@ import { cartsModel } from "../models/carts.model.js";
 import { productsModel } from "../models/products.model.js";
 import { messagesModel } from "../models/messages.model.js";
 import { usersModel } from "../models/users.model.js";
+import { ticketsModel } from "../models/tickets.model.js";
 
 export class CartsMongoDao {
   async create(docs) {
@@ -141,6 +142,18 @@ export class UsersMongoDao {
       } else {
         return null;
       }
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+}
+
+export class TicketsMongoDao {
+  async create(docs) {
+    try {
+      let result = await ticketsModel.create(docs);
+      return result;
     } catch (error) {
       console.log(error);
       return null;

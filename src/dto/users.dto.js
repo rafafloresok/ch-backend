@@ -1,4 +1,4 @@
-export class currentUserDto {
+export class CurrentUserDto {
   constructor(userData) {
     this.firstName = userData.firstName;
     this.lastName = userData.lastName;
@@ -7,5 +7,6 @@ export class currentUserDto {
     this.age = userData.age;
     this.role = userData.role;
     this.cart = userData.cart;
+    this.lastOrder = userData.lastOrder;
   }
 }

@@ -1,3 +1,6 @@
+import { CartDto } from "../dto/carts.dto.js";
+import { CurrentUserDto } from "../dto/users.dto.js";
+
 export class CartsMongoService {
   constructor(dao) {
     this.dao = dao;
@@ -8,7 +11,8 @@ export class CartsMongoService {
   }
   async getById(cartId) {
     let conditions = { _id: cartId };
-    return await this.dao.getOne(conditions);
+    let result = await this.dao.getOne(conditions);
+    return new CartDto(result);
   }
   async addProduct(cartId, productId, productQty) {
     let filter = { _id: cartId };
@@ -30,6 +34,7 @@ export class CartsMongoService {
     let update = { $set: { products: [] } };
     return await this.dao.updateOne(filter, update);
   }
+  async sendOrder(cartID, purchaser) {}
 }
 
 export class ProductsMongoService {
@@ -67,6 +72,11 @@ export class ProductsMongoService {
     let filter = { _id: productId };
     return await this.dao.updateOne(filter, update);
   }
+  async updateStockById(productId, quantity) {
+    let filter = { _id: productId };
+    let update = { $inc: { stock: quantity } };
+    return await this.dao.updateOne(filter, update);
+  }
 }
 
 export class MessagesMongoService {
@@ -94,12 +104,27 @@ export class UsersMongoService {
     let conditions = { email: userEmail };
     return await this.dao.getOne(conditions);
   }
+  async getCurrentByEmail(userEmail) {
+    let conditions = { email: userEmail };
+    let result = await this.dao.getOne(conditions);
+    return new CurrentUserDto(result);
+  }
   async create(userData) {
-    let docs = userData
+    let docs = { ...userData, lastOrder: 100 };
     return await this.dao.create(docs);
   }
   async updateByEmail(email, update) {
     let filter = { email: email };
     return await this.dao.updateOne(filter, update);
+  }
+}
+
+export class TicketsMongoService {
+  constructor(dao) {
+    this.dao = dao;
+  }
+  async send(ticketData) {
+    let docs = ticketData;
+    return await this.dao.create(docs);
   }
 }

@@ -316,10 +316,12 @@
 
 slide 15-31. clase 15-2-00:48 (ver afterclass)
 
+- ver cierre sesión github
+
+- ver verifyToken en sessions.middlewares
+
 - refactorizar socket
 
 - aplicar custom router
-
-- ver cierre sesión github
 
 -->

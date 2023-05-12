@@ -2,10 +2,14 @@ import passport from "passport";
 import local from "passport-local";
 import github from "passport-github2";
 import jwt from "passport-jwt";
-import { cartsService, usersService } from "../dao/factory.js";
-import { createHash, isValidPassword } from "../utils/utils.js";
+import bcrypt from "bcrypt";
 import { config } from "./config.js";
-import { currentUserDto } from "../dto/users.dto.js";
+import { cartsService, usersService } from "../dao/factory.js";
+import { CurrentUserDto } from "../dto/users.dto.js";
+
+const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+
+const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
 
 const extractToken = (req) => {
   return req.cookies.idToken || null;
@@ -58,7 +62,7 @@ export const initializePassport = () => {
             await usersService.updateByEmail(email, newData);
           }
 
-          let user = new currentUserDto(currentUser);
+          let user = new CurrentUserDto(currentUser);
 
           return done(null, user);
         } catch (error) {
@@ -117,7 +121,7 @@ export const initializePassport = () => {
           let currentUser = await usersService.getByEmail(username);
           if (!currentUser || !isValidPassword(password, currentUser)) return done(null, false);
 
-          let user = new currentUserDto(currentUser);
+          let user = new CurrentUserDto(currentUser);
 
           return done(null, user);
         } catch (error) {
