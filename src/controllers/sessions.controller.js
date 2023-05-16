@@ -4,7 +4,7 @@ import { usersService } from "../dao/factory.js";
 
 class SessionsController {
   async getCurrent(req, res) {
-    let result = await usersService.getCurrentByEmail(req.user.email);
+    let result = await usersService.getCurrentById(req.user.id);
     if (result) {
       return res.status(200).send({ status: "success", result });
     } else {

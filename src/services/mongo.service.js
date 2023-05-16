@@ -34,7 +34,6 @@ export class CartsMongoService {
     let update = { $set: { products: [] } };
     return await this.dao.updateOne(filter, update);
   }
-  async sendOrder(cartID, purchaser) {}
 }
 
 export class ProductsMongoService {
@@ -104,8 +103,8 @@ export class UsersMongoService {
     let conditions = { email: userEmail };
     return await this.dao.getOne(conditions);
   }
-  async getCurrentByEmail(userEmail) {
-    let conditions = { email: userEmail };
+  async getCurrentById(userId) {
+    let conditions = { _id: userId };
     let result = await this.dao.getOne(conditions);
     return new CurrentUserDto(result);
   }

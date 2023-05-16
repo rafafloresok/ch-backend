@@ -5,14 +5,16 @@ import { addProductMid, updateProductMid } from "../middlewares/products.middlew
 
 const router = Router();
 
-router.get("/", (req, res) => productsApiController.getProducts(req, res));
+router.get("/mockingproducts", productsApiController.getMockingProducts);
 
-router.get("/:pid", (req, res) => productsApiController.getProduct(req, res));
+router.get("/:pid", productsApiController.getProduct);
 
-router.post("/", addProductMid, (req, res) => productsApiController.addProduct(req, res));
+router.get("/", productsApiController.getProducts);
 
-router.put("/:pid", updateProductMid, (req, res) => productsApiController.updateProduct(req, res));
+router.post("/", addProductMid, productsApiController.addProduct);
 
-router.delete("/:pid", (req, res) => productsApiController.deleteProduct(req, res));
+router.put("/:pid", updateProductMid, productsApiController.updateProduct);
+
+router.delete("/:pid", productsApiController.deleteProduct);
 
 export default router;

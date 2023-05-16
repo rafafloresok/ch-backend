@@ -1,5 +1,6 @@
 export class CurrentUserDto {
   constructor(userData) {
+    this.id = userData._id;
     this.firstName = userData.firstName;
     this.lastName = userData.lastName;
     this.fullName = `${userData.firstName} ${userData.lastName}`;

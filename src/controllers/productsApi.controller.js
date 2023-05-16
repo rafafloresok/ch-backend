@@ -1,4 +1,5 @@
 import { productsService } from "../dao/factory.js";
+import { faker } from "@faker-js/faker";
 
 class ProductsApiController {
   async getProducts(req, res) {
@@ -140,6 +141,35 @@ class ProductsApiController {
         message: "Server error",
       };
     }
+  }
+
+  async getMockingProducts(req, res) {
+    let products = [];
+    let limit = req.query.qty || 100;
+
+    const createProduct = () => {
+      return {
+        id:faker.database.mongodbObjectId(),
+        title: faker.commerce.product(),
+        description: faker.commerce.productDescription(),
+        code: faker.string.alphanumeric(5),
+        price: faker.commerce.price(),
+        status: faker.datatype.boolean(0.9),
+        stock: faker.number.int({ min: 0, max: 100 }),
+        category: faker.commerce.department(),
+        thumbnails: [
+          faker.image.urlPlaceholder({ format: "jpeg" }),
+          faker.image.urlPlaceholder({ format: "jpeg" }),
+          faker.image.urlPlaceholder({ format: "jpeg" }),
+        ],
+      };
+    }
+
+    for (let i = 0; i < limit; i++) {
+      products.push(createProduct());
+    }
+
+    return res.status(200).send({ status: "success", products });
   }
 }
 
