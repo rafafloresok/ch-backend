@@ -1,12 +1,15 @@
 import express from "express";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
-import { __dirname } from "./utils/utils.js";
 import path from "path";
 import cookieParser from "cookie-parser";
 import passport from "passport";
-import { initializePassport } from "./config/passport.config.js";
+import compression from "express-compression";
+
 import { config } from "./config/config.js";
+import { __dirname } from "./utils/utils.js";
+import { initializePassport } from "./config/passport.config.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -34,22 +37,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
-
 initializePassport();
 app.use(passport.initialize());
+
+app.use(compression());
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
-app.use("*", (req, res) => {
-  if (!req.user) {
-    return res.redirect("/login");
-  } else {
-    return res.redirect("/products");
-  }
-})
+app.use("*", (req, res) => { return req.user ? res.redirect("/products") : res.redirect("/login") });
+
+app.use(errorMiddleware);
 
 const httpServer = app.listen(config.port, () => {
   console.log(`App listening on port ${config.port}`);

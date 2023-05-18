@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { passportCall } from "../middlewares/sessions.middlewares.js";
+import { passportCall } from "../middlewares/sessions.middleware.js";
 import sessionsController from "../controllers/sessions.controller.js";
 
 const router = Router();

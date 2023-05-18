@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { __dirname } from "../utils/utils.js";
 import productsApiController from "../controllers/productsApi.controller.js";
-import { addProductMid, updateProductMid } from "../middlewares/products.middlewares.js";
+import { verifyProductProperties } from "../middlewares/products.middleware.js";
 
 const router = Router();
 
@@ -11,9 +11,9 @@ router.get("/:pid", productsApiController.getProduct);
 
 router.get("/", productsApiController.getProducts);
 
-router.post("/", addProductMid, productsApiController.addProduct);
+router.post("/", verifyProductProperties, productsApiController.addProduct);
 
-router.put("/:pid", updateProductMid, productsApiController.updateProduct);
+router.put("/:pid", verifyProductProperties, productsApiController.updateProduct);
 
 router.delete("/:pid", productsApiController.deleteProduct);
 
