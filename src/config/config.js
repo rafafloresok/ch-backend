@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 
 const environments = ["development", "staging", "production"];
-const currentEnvironment = environments[0];
+export const currentEnvironment = environments[0];
 
 dotenv.config({
   override: true,

@@ -8,6 +8,8 @@ export const verifyProductProperties = (req, res, next) => {
   if (req.method === "POST") {
     let emptyField = !(title && description && code && price && stock && category);
     if (emptyField) {
+      //req.logger.debug("debug log in verifyProductProperties");
+      //req.logger.error("error log in verifyProductProperties");
       return CustomError.customError(codeError.CLIENT_DATA_ERROR, productPropertiesErrorInfo(req.body), "Incomplete required properties");
     }
   }

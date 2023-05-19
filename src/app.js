@@ -10,6 +10,7 @@ import { config } from "./config/config.js";
 import { __dirname } from "./utils/utils.js";
 import { initializePassport } from "./config/passport.config.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
+import { addLogger } from "./middlewares/logger.middleware.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -42,14 +43,14 @@ app.use(passport.initialize());
 
 app.use(compression());
 
+app.use(addLogger);
+
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 app.use("*", (req, res) => { return req.user ? res.redirect("/products") : res.redirect("/login") });
-
-app.use(errorMiddleware);
 
 const httpServer = app.listen(config.port, () => {
   console.log(`App listening on port ${config.port}`);
@@ -80,4 +81,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.on("error", (error) => console.error(error));
+app.use(errorMiddleware);
