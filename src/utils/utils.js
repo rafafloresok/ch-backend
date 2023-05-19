@@ -10,13 +10,11 @@ export const __dirname = dirname(__filename);
 export class DB {
   constructor() {
     mongoose
-    .connect(config.mongoUrl)
-    .then(() => console.log("DB connection success"))
-    .catch((error) => console.log(`DB connection fail. Error: ${error}`));
+      .connect(config.mongoUrl)
+      .then(() => console.log("DB connection success"))
+      .catch((error) => console.log(`DB connection fail. Error: ${error}`));
   }
-
   static #instance;
-  
   static connectDB() {
     if (DB.#instance) {
       console.log("DB already conected");

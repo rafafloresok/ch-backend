@@ -50,7 +50,9 @@ app.use("/", viewsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
-app.use("*", (req, res) => { return req.user ? res.redirect("/products") : res.redirect("/login") });
+app.use("*", (req, res) => {
+  return req.user ? res.redirect("/products") : res.redirect("/login");
+});
 
 const httpServer = app.listen(config.port, () => {
   console.log(`App listening on port ${config.port}`);

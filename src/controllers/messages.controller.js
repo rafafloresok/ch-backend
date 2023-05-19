@@ -1,4 +1,5 @@
 import { messagesService } from "../dao/factory.js";
+import { logger } from "../utils/logger.js";
 
 class MessagesController {
   async getMessages() {
@@ -6,9 +7,10 @@ class MessagesController {
     if (result) {
       return result;
     } else {
+      logger.debug("error trying to get messages");
       return {
         status: "error",
-        message: "Something went wrong, try again later",
+        message: "error trying to get messages",
       };
     }
   }
@@ -21,9 +23,10 @@ class MessagesController {
         message: "Message sent successfully",
       };
     } else {
+      logger.debug("error trying to send message");
       return {
         status: "error",
-        message: "Something went wrong, try again later",
+        message: "error trying to send message",
       };
     }
   }

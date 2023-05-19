@@ -7,7 +7,8 @@ class ProductsApiController {
     if (result) {
       return res.status(200).send({ status: "success", result });
     } else {
-      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
+      req.logger.debug("error trying to get products");
+      return res.status(500).send({ status: "error", error: "error trying to get products" });
     }
   }
 
@@ -16,20 +17,23 @@ class ProductsApiController {
     if (result) {
       return res.status(200).send({ status: "success", result });
     } else {
-      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
+      req.logger.debug("error trying to get product");
+      return res.status(500).send({ status: "error", error: "error trying to get product" });
     }
   }
 
   async addProduct(req, res) {
     let codeExists = await productsService.getByCode(req.body.code);
     if (codeExists) {
+      req.logger.debug("Product not added. Code already exists");
       return res.status(400).send({ status: "error", error: "Product not added. Code already exists" });
     }
     let result = await productsService.create(req.body);
     if (result) {
       return res.status(201).send({ status: "success", result: "Product added successfully" });
     } else {
-      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
+      req.logger.debug("error trying to add product");
+      return res.status(500).send({ status: "error", error: "error trying to add product" });
     }
   }
 
@@ -51,9 +55,11 @@ class ProductsApiController {
       if (result) {
         return res.status(200).send({ status: "success", result: "Product updated successfully" });
       } else {
-        return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
+        req.logger.debug("error trying to update product");
+        return res.status(500).send({ status: "error", error: "error trying to update product" });
       }
     } else {
+      req.logger.debug("Product not found");
       return res.status(400).send({ status: "error", error: "Product not found" });
     }
   }
@@ -63,7 +69,8 @@ class ProductsApiController {
     if (result) {
       return res.status(200).send({ status: "success", result: `Product deleted successfully` });
     } else {
-      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
+      req.logger.debug("error trying to delete product");
+      return res.status(500).send({ status: "error", error: "error trying to delete product" });
     }
   }
 
@@ -82,6 +89,7 @@ class ProductsApiController {
         };
       }
     } catch (error) {
+      req.logger.debug("error trying to delete product");
       return {
         success: false,
         message: "Server error",
@@ -124,6 +132,7 @@ class ProductsApiController {
         message: "Product added successfully",
       };
     } catch (error) {
+      req.logger.debug("error trying to add product");
       return {
         success: false,
         message: "Server error",

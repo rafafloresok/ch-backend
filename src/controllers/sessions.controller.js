@@ -8,7 +8,8 @@ class SessionsController {
     if (result) {
       return res.status(200).send({ status: "success", result });
     } else {
-      return res.status(500).send({ status: "error", error: "Something went wrong, try again later" });
+      req.logger.debug("error trying to get current user data");
+      return res.status(500).send({ status: "error", error: "error trying to get current user data" });
     }
   }
 

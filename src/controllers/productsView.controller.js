@@ -1,4 +1,5 @@
 import { productsService } from "../dao/factory.js";
+import { logger } from "../utils/logger.js";
 
 class ProductsViewController {
   async getProducts(query) {
@@ -11,9 +12,10 @@ class ProductsViewController {
 
     let products = await productsService.getPaginated(query);
     if (!products) {
+      logger.debug("error trying to get products");
       return {
         status: "error",
-        error: "Something went wrong, try again later",
+        error: "error trying to get products",
       };
     }
     let { docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage } = products;
@@ -48,10 +50,11 @@ class ProductsViewController {
       if (product) {
         return { status: "success", payload: product };
       } else {
+        logger.debug("product not found");
         return { status: "not found" };
       }
     } catch (error) {
-      console.log(error);
+      logger.debug(`${error.message}`);
       return { status: "error" };
     }
   }

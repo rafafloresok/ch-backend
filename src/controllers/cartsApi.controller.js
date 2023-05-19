@@ -7,6 +7,7 @@ class CartsApiController {
     if (result) {
       return res.status(200).json({ status: "success", result });
     } else {
+      req.logger.debug("error trying to get cart");
       return res.status(500).json({ status: "error", error: "error trying to get cart" });
     }
   }
@@ -19,6 +20,7 @@ class CartsApiController {
     if (result) {
       return res.status(201).json({ status: "success", result: "Product added successfully" });
     } else {
+      req.logger.debug("error trying to add product");
       return res.status(500).json({ status: "error", error: "error trying to add product" });
     }
   }
@@ -30,6 +32,7 @@ class CartsApiController {
     if (result) {
       return res.status(200).json({ status: "success", result: "Product deleted successfully" });
     } else {
+      req.logger.debug("error trying to delete product");
       return res.status(500).json({ status: "error", error: "error trying to delete product" });
     }
   }
@@ -41,6 +44,7 @@ class CartsApiController {
     if (result) {
       return res.status(200).json({ status: "success", result: "Products deleted successfully" });
     } else {
+      req.logger.debug("error trying to delete products");
       return res.status(500).json({ status: "error", error: "error trying to delete products" });
     }
   }
@@ -74,6 +78,7 @@ class CartsApiController {
       await cartsService.deleteProducts(cart._id);
       return res.status(201).json({ status: "success", result: "Products deleted successfully" });
     } else {
+      req.logger.debug("error trying to send order");
       return res.status(500).json({ status: "error", error: "error trying to send order" });
     }
   }
