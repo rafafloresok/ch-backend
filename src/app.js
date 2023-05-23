@@ -11,6 +11,7 @@ import { __dirname } from "./utils/utils.js";
 import { initializePassport } from "./config/passport.config.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { addLogger } from "./middlewares/logger.middleware.js";
+import mailer from "./utils/mailer.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -50,15 +51,7 @@ app.use("/", viewsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
-app.use("/loggerTest", (req, res) => {
-  req.logger.fatal("logger fatal test ok!");
-  req.logger.error("logger error test ok!");
-  req.logger.warning("logger warning test ok!");
-  req.logger.info("logger info test ok!");
-  req.logger.http("logger http test ok!");
-  req.logger.debug("logger debug test ok!");
-  res.status(200).send("logger test done!")
-});
+
 app.use("*", (req, res) => {
   return req.user ? res.redirect("/products") : res.redirect("/login");
 });

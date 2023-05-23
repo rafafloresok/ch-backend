@@ -112,8 +112,8 @@ export class UsersMongoService {
     let docs = { ...userData, lastOrder: 100 };
     return await this.dao.create(docs);
   }
-  async updateByEmail(email, update) {
-    let filter = { email: email };
+  async updateByEmail(userEmail, update) {
+    let filter = { email: userEmail };
     return await this.dao.updateOne(filter, update);
   }
 }
@@ -125,5 +125,28 @@ export class TicketsMongoService {
   async send(ticketData) {
     let docs = ticketData;
     return await this.dao.create(docs);
+  }
+}
+
+export class TokensMongoService {
+  constructor(dao) {
+    this.dao = dao;
+  }
+  async addResetToken(userEmail, token) {
+    let docs = {
+      email: userEmail,
+      token,
+      type: "reset",
+    };
+    return await this.dao.create(docs);
+  }
+  async updateResetToken(userEmail, newToken) {
+    let filter = { email: userEmail, type: "reset" };
+    let update = { token: newToken };
+    return await this.dao.updateOne(filter, update);
+  }
+  async getResetToken(userEmail) {
+    let conditions = { email: userEmail, type: "reset" }
+    return await this.dao.getOne(conditions);
   }
 }

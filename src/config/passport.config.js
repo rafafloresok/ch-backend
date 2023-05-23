@@ -2,14 +2,10 @@ import passport from "passport";
 import local from "passport-local";
 import github from "passport-github2";
 import jwt from "passport-jwt";
-import bcrypt from "bcrypt";
 import { config } from "./config.js";
 import { cartsService, usersService } from "../dao/factory.js";
 import { CurrentUserDto } from "../dto/users.dto.js";
-
-const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-
-const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
+import { createHash, isValidPassword } from "../utils/utils.js";
 
 const extractToken = (req) => {
   return req.cookies.idToken || null;

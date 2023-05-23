@@ -16,4 +16,8 @@ router.post("/login", passportCall("login"), sessionsController.login);
 
 router.get("/logout", sessionsController.logout);
 
+router.post("/passwordresetinit", sessionsController.passwordResetInit);
+
+router.post("/passwordresetend", sessionsController.passwordResetEnd);
+
 export default router;
