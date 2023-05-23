@@ -76,10 +76,8 @@ class SessionsController {
     let update = { password: createHash(newPassword) };
     let result = await usersService.updateByEmail(email, update);
     if (result) {
-      req.logger.debug("password reset success");
       return res.status(200).send({ status: "success", result: "password reset success" });
     } else {
-      req.logger.debug("error trying to reset password");
       return res.status(500).send({ status: "error", error: "error trying to reset password" });
     }
   }

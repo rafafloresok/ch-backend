@@ -175,7 +175,7 @@ export class TokensMongoDao {
   }
   async updateOne(filter, update) {
     try {
-      let result = await usersModel.updateOne(filter, update);
+      let result = await tokensModel.updateOne(filter, update);
       if (result.matchedCount) {
         return result;
       } else {
