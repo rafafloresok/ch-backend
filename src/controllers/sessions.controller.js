@@ -10,7 +10,6 @@ class SessionsController {
     if (result) {
       return res.status(200).send({ status: "success", result });
     } else {
-      req.logger.debug("error trying to get current user data");
       return res.status(500).send({ status: "error", error: "error trying to get current user data" });
     }
   }
@@ -35,26 +34,15 @@ class SessionsController {
   }
 
   async passwordResetInit(req, res) {
-    //verifiy email in db
-    req.logger.debug(req.body.email);
     let { email } = req.body;
     let user = await usersService.getByEmail(email);
     if (!user) return res.status(400).send({ status: "error", error: "user not found" });
-    //add email and token to database (expires in 1h)
     let token = createFakePass();
     req.logger.debug(token);
-    //if token exists rewrite it, else add it
     let result =
       (await tokensService.updateResetToken(email, createHash(token))) || (await tokensService.addResetToken(email, createHash(token)));
     if (result) {
-      //send email with link
-      await mailer.send(
-        email,
-        "Restablecer contraseña",
-        `<p>
-          Toca <a href="http://localhost:8080/passwordreset/${email}/${token}">aquí</a> para reestablecer tu contraseña.
-        </p>`
-      );
+      mailer.sendPassResetLink(email, token);
       return res.status(201).send({ status: "success", result: "email sent" });
     } else {
       return res.status(500).send({ status: "error", error: "error trying to add reset token" });
@@ -62,17 +50,17 @@ class SessionsController {
   }
 
   async passwordResetEnd(req, res) {
-    //verify email exists in tokens db
     let { email, token, newPassword } = req.body;
+    req.logger.debug(email);
+    req.logger.debug(token);
+    req.logger.debug(newPassword);
     let dbToken = await tokensService.getResetToken(email);
     if (!dbToken) return res.status(400).send({ status: "error", error: "user does not exist or link expired" });
-    //verify token
     dbToken.password = dbToken.token;
     if (!isValidPassword(token, dbToken)) return res.status(400).send({ status: "error", error: "invalid reset token" });
-    //verify new password is diferent from old password
     let user = await usersService.getByEmail(email);
-    if (isValidPassword(newPassword, user)) return res.status(400).send({ status: "error", error: "new password must be different from old password" });
-    //reset password in users db
+    if (isValidPassword(newPassword, user))
+      return res.status(400).send({ status: "error", error: "new password must be different from old password" });
     let update = { password: createHash(newPassword) };
     let result = await usersService.updateByEmail(email, update);
     if (result) {

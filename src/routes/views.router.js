@@ -18,6 +18,19 @@ router.get("/login", (req, res) => {
   res.status(200).render("login", { styles: "login.css" });
 });
 
+router.get("/forgotPassword", (req, res) => {
+  if (req.cookies.idToken) return res.redirect("/products");
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("forgotPassword", { styles: "forgotPassword.css" });
+})
+
+router.get("/passwordreset/:email/:token", (req, res) => {
+  if (req.cookies.idToken) return res.redirect("/products");
+  let { email, token } = req.params;
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("passwordReset", { email, token, styles: "passwordReset.css" });
+})
+
 router.get("/products", passportCall("jwt"), authorizeUser(["user", "admin"]), async (req, res) => {
   let products = await productsViewController.getProducts(req.query);
   let user = req.user;
