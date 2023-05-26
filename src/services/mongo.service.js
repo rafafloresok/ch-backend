@@ -112,6 +112,10 @@ export class UsersMongoService {
     let docs = { ...userData, lastOrder: 100 };
     return await this.dao.create(docs);
   }
+  async updateById(userId, update) {
+    let filter = { _id: userId };
+    return await this.dao.updateOne(filter, update);
+  }
   async updateByEmail(userEmail, update) {
     let filter = { email: userEmail };
     return await this.dao.updateOne(filter, update);

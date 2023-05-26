@@ -51,7 +51,6 @@ app.use("/", viewsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
-
 app.use("*", (req, res) => {
   return req.user ? res.redirect("/products") : res.redirect("/login");
 });
@@ -63,8 +62,8 @@ const io = new Server(httpServer);
 io.on("connection", (socket) => {
   console.log("New client connected");
 
-  socket.on("deleteProduct", async (id) => {
-    let response = await productsApiController.deleteProductSocket(id);
+  socket.on("deleteProduct", async (productId, user) => {
+    let response = await productsApiController.deleteProductSocket(productId, user);
     socket.emit("deleteProductRes", response);
     if (response.success) {
       socket.broadcast.emit("productListUpdated");
