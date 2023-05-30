@@ -16,7 +16,7 @@ export const verifyProductProperties = (req, res, next) => {
     if (!regex.test(title)) {
       return CustomError.customError(codeError.CLIENT_DATA_ERROR, productPropertiesErrorInfo(req.body), "Invalid title value");
     }
-  }
+  } 
   if (description || description === "") {
     let regex = /(.|\s)+/;
     if (!regex.test(description)) {

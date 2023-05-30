@@ -1,5 +1,4 @@
 import { productsService, usersService } from "../dao/factory.js";
-import { createFakeProduct } from "../utils/utils.js";
 
 class ProductsApiController {
   async getProducts(req, res) {
@@ -25,8 +24,8 @@ class ProductsApiController {
   async addProduct(req, res) {
     let codeExists = await productsService.getByCode(req.body.code);
     if (codeExists) {
-      req.logger.debug("Product not added. Code already exists");
-      return res.status(400).send({ status: "error", error: "Product not added. Code already exists" });
+      req.logger.debug("Code already exists");
+      return res.status(400).send({ status: "error", error: "Code already exists" });
     }
     let result = await productsService.create(req.body);
     if (result) {
@@ -143,17 +142,6 @@ class ProductsApiController {
         message: "Server error",
       };
     }
-  }
-
-  async getMockingProducts(req, res) {
-    let products = [];
-    let limit = req.query.qty || 100;
-
-    for (let i = 0; i < limit; i++) {
-      products.push(createFakeProduct());
-    }
-
-    return res.status(200).send({ status: "success", products });
   }
 }
 

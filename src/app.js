@@ -5,13 +5,14 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import compression from "express-compression";
+import swaggerUiExpress from "swagger-ui-express";
+import swaggerSpecs from "./config/swagger.config.js";
 
 import { config } from "./config/config.js";
 import { __dirname } from "./utils/utils.js";
 import { initializePassport } from "./config/passport.config.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { addLogger } from "./middlewares/logger.middleware.js";
-import mailer from "./utils/mailer.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -45,6 +46,8 @@ app.use(passport.initialize());
 app.use(compression());
 
 app.use(addLogger);
+
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpecs));
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);
