@@ -18,7 +18,7 @@ class CartsApiController {
     let { qty } = req.body;
     let result = (await cartsService.updateProductQty(cid, pid, qty)) || (await cartsService.addProduct(cid, pid, qty));
     if (result) {
-      return res.status(201).json({ status: "success", result: "Product added successfully" });
+      return res.status(201).json({ status: "success", result: "Product add success" });
     } else {
       req.logger.debug("error trying to add product");
       return res.status(500).json({ status: "error", error: "error trying to add product" });
@@ -30,7 +30,7 @@ class CartsApiController {
     let { cid, pid } = req.params;
     let result = await cartsService.deleteProduct(cid, pid);
     if (result) {
-      return res.status(200).json({ status: "success", result: "Product deleted successfully" });
+      return res.status(200).json({ status: "success", result: "Product delete success" });
     } else {
       req.logger.debug("error trying to delete product");
       return res.status(500).json({ status: "error", error: "error trying to delete product" });
@@ -42,7 +42,7 @@ class CartsApiController {
     let { cid } = req.params;
     let result = await cartsService.deleteProducts(cid);
     if (result) {
-      return res.status(200).json({ status: "success", result: "Products deleted successfully" });
+      return res.status(200).json({ status: "success", result: "Products delete success" });
     } else {
       req.logger.debug("error trying to delete products");
       return res.status(500).json({ status: "error", error: "error trying to delete products" });
@@ -76,7 +76,7 @@ class CartsApiController {
     if (result) {
       await usersService.updateByEmail(req.body.email, { lastOrder: nextOrder });
       await cartsService.deleteProducts(cart._id);
-      return res.status(201).json({ status: "success", result: "Products deleted successfully" });
+      return res.status(201).json({ status: "success", result: "Order send success" });
     } else {
       req.logger.debug("error trying to send order");
       return res.status(500).json({ status: "error", error: "error trying to send order" });

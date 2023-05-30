@@ -29,7 +29,7 @@ class ProductsApiController {
     }
     let result = await productsService.create(req.body);
     if (result) {
-      return res.status(201).send({ status: "success", result: "Product added successfully" });
+      return res.status(201).send({ status: "success", result: "Product add success" });
     } else {
       req.logger.debug("error trying to add product");
       return res.status(500).send({ status: "error", error: "error trying to add product" });
@@ -52,7 +52,7 @@ class ProductsApiController {
       thumbnails && (update.thumbnails = thumbnails);
       let result = await productsService.updateById(req.params.pid, update);
       if (result) {
-        return res.status(200).send({ status: "success", result: "Product updated successfully" });
+        return res.status(200).send({ status: "success", result: "Product update success" });
       } else {
         req.logger.debug("error trying to update product");
         return res.status(500).send({ status: "error", error: "error trying to update product" });
@@ -66,12 +66,12 @@ class ProductsApiController {
   async deleteProduct(req, res) {
     let result = await productsService.deleteById(req.params.pid);
     if (result) {
-      return res.status(200).send({ status: "success", result: `Product deleted successfully` });
+      return res.status(200).send({ status: "success", result: `Product delete success` });
     } else {
       req.logger.debug("error trying to delete product");
       return res.status(500).send({ status: "error", error: "error trying to delete product" });
     }
-  }
+  } 
 
   async deleteProductSocket(productId, user) {
     try {
@@ -83,7 +83,7 @@ class ProductsApiController {
       if (result) {
         return {
           success: true,
-          message: "Product deleted successfully",
+          message: "Product delete success",
         };
       } else {
         return {
@@ -133,7 +133,7 @@ class ProductsApiController {
       });
       return {
         success: true,
-        message: "Product added successfully",
+        message: "Product add success",
       };
     } catch (error) {
       req.logger.debug("error trying to add product");
