@@ -1,5 +1,4 @@
 import passport from "passport";
-import jwt from "jsonwebtoken";
 
 export const authorizeUser = (authorizedRoles) => {
   return async (req, res, next) => {
@@ -7,16 +6,6 @@ export const authorizeUser = (authorizedRoles) => {
     if (!authorizedRoles.includes(req.user.role)) return res.sendStatus(403);
     next();
   };
-};
-
-export const verifyToken = (req, res, next) => {
-  let token = req.cookies.idToken;
-  if (!token) return res.sendStatus(401);
-  jwt.verify(token, config.secretKey, (error, credentials) => {
-    if (error) return res.sendStatus(401);
-    req.user = credentials.user;
-    next();
-  });
 };
 
 export const passportCall = (strategy) => {

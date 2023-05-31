@@ -1,33 +1,29 @@
 import { messagesService } from "../dao/factory.js";
-import { logger } from "../utils/logger.js";
 
 class MessagesController {
   async getMessages() {
-    let result = await messagesService.get();
-    if (result) {
-      return result;
-    } else {
-      logger.debug("error trying to get messages");
-      return {
-        status: "error",
-        message: "error trying to get messages",
-      };
+    try {
+      let result = await messagesService.get();
+      if (result) {
+        return result;
+      } else {
+        return { status: "error", message: "error trying to get messages" };
+      }
+    } catch (error) {
+      return { status: "error", message: "error trying to get messages" };
     }
   }
 
   async sendMessage({ user, message }) {
-    let result = await messagesService.send({ user, message });
-    if (result) {
-      return {
-        status: "success",
-        message: "Message sent successfully",
-      };
-    } else {
-      logger.debug("error trying to send message");
-      return {
-        status: "error",
-        message: "error trying to send message",
-      };
+    try {
+      let result = await messagesService.send({ user, message });
+      if (result) {
+        return { status: "success", message: "Message sent successfully" };
+      } else {
+        return { status: "error", message: "error trying to send message" };
+      }
+    } catch (error) {
+      return { status: "error", message: "error trying to send message" };
     }
   }
 }

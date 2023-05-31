@@ -2,15 +2,22 @@ import jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
 import { usersService, tokensService } from "../dao/factory.js";
 import { createFakePass, createHash, isValidPassword } from "../utils/utils.js";
-import mailer from "../utils/mailer.js";
+import mailer from "../utils/mailer.utils.js";
+import { BadRequestError, ForbiddenError, NotFoundError, ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
 
 class SessionsController {
   async getCurrent(req, res) {
-    let result = await usersService.getCurrentById(req.user.id);
-    if (result) {
-      return res.status(200).send({ status: "success", result });
-    } else {
-      return res.status(500).send({ status: "error", error: "error trying to get current user data" });
+    try {
+      let result = await usersService.getCurrentById(req.user.id);
+      if (result) {
+        return res.status(200).send({ status: "success", result });
+      } else {
+        throw new ServerError("error trying to get current user data");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
@@ -21,10 +28,7 @@ class SessionsController {
   }
 
   async login(req, res) {
-    const createToken = (user) => {
-      return jwt.sign({ user }, config.secretKey, { expiresIn: "24h" });
-    };
-    let token = createToken(req.user);
+    let token = jwt.sign({ user: req.user }, config.secretKey, { expiresIn: "24h" });
     let cookieOptions = { maxAge: 1000 * 60 * 60, httpOnly: true };
     res.cookie("idToken", token, cookieOptions).redirect("/products");
   }
@@ -34,49 +38,68 @@ class SessionsController {
   }
 
   async passwordResetInit(req, res) {
-    let { email } = req.body;
-    let user = await usersService.getByEmail(email);
-    if (!user) return res.status(400).send({ status: "error", error: "user not found" });
-    let token = createFakePass();
-    let result =
-      (await tokensService.updateResetToken(email, createHash(token))) || (await tokensService.addResetToken(email, createHash(token)));
-    if (result) {
-      mailer.sendPassResetLink(email, token);
-      return res.status(201).send({ status: "success", result: "email sent" });
-    } else {
-      return res.status(500).send({ status: "error", error: "error trying to add reset token" });
+    try {
+      let { email } = req.body;
+      let user = await usersService.getByEmail(email);
+      if (!user) throw new NotFoundError("user not found");
+      let token = createFakePass();
+      let result =
+        (await tokensService.updateResetToken(email, createHash(token))) || (await tokensService.addResetToken(email, createHash(token)));
+      if (result) {
+        mailer.sendPassResetLink(email, token);
+        return res.status(201).send({ status: "success", result: "email sent" });
+      } else {
+        throw new ServerError("error trying to add reset token");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
   async passwordResetEnd(req, res) {
-    let { email, token, newPassword } = req.body;
-    let dbToken = await tokensService.getResetToken(email);
-    if (!dbToken) return res.status(400).send({ status: "error", error: "link expired" });
-    dbToken.password = dbToken.token;
-    if (!isValidPassword(token, dbToken)) return res.status(400).send({ status: "error", error: "invalid token" });
-    let user = await usersService.getByEmail(email);
-    if (isValidPassword(newPassword, user))
-      return res.status(400).send({ status: "error", error: "same password" });
-    let update = { password: createHash(newPassword) };
-    let result = await usersService.updateByEmail(email, update);
-    if (result) {
-      return res.status(200).send({ status: "success", result: "password reset success" });
-    } else {
-      return res.status(500).send({ status: "error", error: "error trying to reset password" });
+    try {
+      let { email, token, newPassword } = req.body;
+      let dbToken = await tokensService.getResetToken(email);
+      if (!dbToken) throw new NotFoundError("link expired");
+      dbToken.password = dbToken.token;
+      if (!isValidPassword(token, dbToken)) throw new BadRequestError("invalid token");
+      let user = await usersService.getByEmail(email);
+      if (isValidPassword(newPassword, user)) throw new BadRequestError("same password");
+      let update = { password: createHash(newPassword) };
+      let result = await usersService.updateByEmail(email, update);
+      if (result) {
+        return res.status(200).send({ status: "success", result: "password reset success" });
+      } else {
+        throw new ServerError("error trying to reset password");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
   async toggleRole(req, res) {
-    let user = await usersService.getById(req.params.uid);
-    if (!user) return res.status(400).send({ status: "error", error: "user not found" });
-    if (user.role === "admin") return res.status(400).send({ status: "error", error: "user is admin" });
-    let result;
-    if (user.role === "user") result = await usersService.updateById(req.params.uid, { role: "premium" });
-    if (user.role === "premium") result = await usersService.updateById(req.params.uid, { role: "user" });
-    if (result) {
-      return res.status(200).send({ status: "success", result: "user role updated" });
-    } else {
-      return res.status(500).send({ status: "error", error: "error trying to update user role" });
+    try {
+      let user = await usersService.getById(req.params.uid);
+      if (req.user.role !== "admin") throw new ForbiddenError("must be admin user to change users roles");
+      if (!user) throw new NotFoundError("user not found");
+      if (user.role === "admin") throw new ForbiddenError("cannot change role of admin user");
+      let newRole;
+      if (user.role === "user") newRole = "premium";
+      if (user.role === "premium") newRole = "user";
+      let result = await usersService.updateById(req.params.uid, {role: newRole});
+      if (result) {
+        return res.status(200).send({ status: "success", result: "user role updated" });
+      } else {
+        throw new ServerError("error trying to update user role");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   }
 }

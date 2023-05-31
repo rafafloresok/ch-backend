@@ -1,75 +1,100 @@
-import { productsService, usersService } from "../dao/factory.js";
+import { productsService } from "../dao/factory.js";
+import { BadRequestError, NotFoundError, ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
 
 class ProductsApiController {
   async getProducts(req, res) {
-    let result = await productsService.getPaginated(req.query);
-    if (result) {
-      return res.status(200).send({ status: "success", result });
-    } else {
-      req.logger.debug("error trying to get products");
-      return res.status(500).send({ status: "error", error: "error trying to get products" });
+    try {
+      let result = await productsService.getPaginated(req.query);
+      if (result) {
+        return res.status(200).send({ status: "success", result });
+      } else {
+        throw new ServerError("error trying to get products");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
   async getProduct(req, res) {
-    let result = await productsService.getById(req.params.pid);
-    if (result) {
-      return res.status(200).send({ status: "success", result });
-    } else {
-      req.logger.debug("error trying to get product");
-      return res.status(500).send({ status: "error", error: "error trying to get product" });
+    try {
+      let result = await productsService.getById(req.params.pid);
+      if (result) {
+        return res.status(200).send({ status: "success", result });
+      } else {
+        throw new ServerError("error trying to get product");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
+    
   }
 
   async addProduct(req, res) {
-    let codeExists = await productsService.getByCode(req.body.code);
-    if (codeExists) {
-      req.logger.debug("Code already exists");
-      return res.status(400).send({ status: "error", error: "Code already exists" });
-    }
-    let result = await productsService.create(req.body);
-    if (result) {
-      return res.status(201).send({ status: "success", result: "Product add success" });
-    } else {
-      req.logger.debug("error trying to add product");
-      return res.status(500).send({ status: "error", error: "error trying to add product" });
+    try {
+      let codeExists = await productsService.getByCode(req.body.code);
+      if (codeExists) {
+        throw new BadRequestError("Code already exists");
+      }
+      let result = await productsService.create(req.body);
+      if (result) {
+        return res.status(201).send({ status: "success", result: "Product add success" });
+      } else {
+        throw new ServerError("error trying to add product");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
   async updateProduct(req, res) {
-    let { title, description, code, price, status, stock, category, thumbnails } = req.body;
-    let product = await productsService.getById(req.params.pid);
-    if (product) {
-      let update = {};
-      status === false && (update.status = status);
-      status === true && (update.status = status);
-      title && (update.title = title);
-      description && (update.description = description);
-      code && (update.code = code);
-      price && (update.price = price);
-      stock && (update.stock = stock);
-      category && (update.category = category);
-      thumbnails && (update.thumbnails = thumbnails);
-      let result = await productsService.updateById(req.params.pid, update);
-      if (result) {
-        return res.status(200).send({ status: "success", result: "Product update success" });
+    try {
+      let { title, description, code, price, status, stock, category, thumbnails } = req.body;
+      let product = await productsService.getById(req.params.pid);
+      if (product) {
+        let update = {};
+        status === false && (update.status = status);
+        status === true && (update.status = status);
+        title && (update.title = title);
+        description && (update.description = description);
+        code && (update.code = code);
+        price && (update.price = price);
+        stock && (update.stock = stock);
+        category && (update.category = category);
+        thumbnails && (update.thumbnails = thumbnails);
+        let result = await productsService.updateById(req.params.pid, update);
+        if (result) {
+          return res.status(200).send({ status: "success", result: "Product update success" });
+        } else {
+          throw new ServerError("error trying to update product");
+        }
       } else {
-        req.logger.debug("error trying to update product");
-        return res.status(500).send({ status: "error", error: "error trying to update product" });
+        throw new NotFoundError("Product not found");
       }
-    } else {
-      req.logger.debug("Product not found");
-      return res.status(400).send({ status: "error", error: "Product not found" });
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
   async deleteProduct(req, res) {
-    let result = await productsService.deleteById(req.params.pid);
-    if (result) {
-      return res.status(200).send({ status: "success", result: `Product delete success` });
-    } else {
-      req.logger.debug("error trying to delete product");
-      return res.status(500).send({ status: "error", error: "error trying to delete product" });
+    try {
+      let result = await productsService.deleteById(req.params.pid);
+      if (result) {
+        return res.status(200).send({ status: "success", result: `Product delete success` });
+      } else {
+        throw new ServerError("error trying to delete product");
+      }
+    } catch (error) {
+      return instanceOfCustomError(error)
+        ? res.status(error.code).send({ status: "error", error: error.message })
+        : res.status(500).send({ status: "error", error: "server error" });
     }
   } 
 
@@ -92,7 +117,6 @@ class ProductsApiController {
         };
       }
     } catch (error) {
-      req.logger.debug("error trying to delete product");
       return {
         success: false,
         message: "Server error",
