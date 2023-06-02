@@ -1,23 +1,22 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
 import { usersService, tokensService } from "../dao/factory.js";
-import { createFakePass, createHash, isValidPassword } from "../utils/utils.js";
+import { createPassword, createHash, isValidPassword } from "../utils/utils.js";
 import mailer from "../utils/mailer.utils.js";
 import { BadRequestError, ForbiddenError, NotFoundError, ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
 
 class SessionsController {
   async getCurrent(req, res) {
     try {
-      let result = await usersService.getCurrentById(req.user.id);
+      let result = await usersService.getCurrentById(req.user._id);
       if (result) {
         return res.status(200).send({ status: "success", result });
       } else {
         throw new ServerError("error trying to get current user data");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
@@ -42,7 +41,7 @@ class SessionsController {
       let { email } = req.body;
       let user = await usersService.getByEmail(email);
       if (!user) throw new NotFoundError("user not found");
-      let token = createFakePass();
+      let token = createPassword();
       let result =
         (await tokensService.updateResetToken(email, createHash(token))) || (await tokensService.addResetToken(email, createHash(token)));
       if (result) {
@@ -52,9 +51,8 @@ class SessionsController {
         throw new ServerError("error trying to add reset token");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
@@ -75,9 +73,8 @@ class SessionsController {
         throw new ServerError("error trying to reset password");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
@@ -90,16 +87,15 @@ class SessionsController {
       let newRole;
       if (user.role === "user") newRole = "premium";
       if (user.role === "premium") newRole = "user";
-      let result = await usersService.updateById(req.params.uid, {role: newRole});
+      let result = await usersService.updateById(req.params.uid, { role: newRole });
       if (result) {
         return res.status(200).send({ status: "success", result: "user role updated" });
       } else {
         throw new ServerError("error trying to update user role");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 }

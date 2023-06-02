@@ -19,8 +19,8 @@ import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 
-import productsApiController from "./controllers/productsApi.controller.js";
 import messagesController from "./controllers/messages.controller.js";
+import { logger } from "./utils/logger.utils.js";
 
 const app = express();
 
@@ -63,23 +63,11 @@ const httpServer = app.listen(config.port, () => {
 });
 const io = new Server(httpServer);
 io.on("connection", (socket) => {
-  console.log("New client connected");
+  logger.info("New client connected");
 
-  socket.on("deleteProduct", async (productId, user) => {
-    let response = await productsApiController.deleteProductSocket(productId, user);
-    socket.emit("deleteProductRes", response);
-    if (response.success) {
-      socket.broadcast.emit("productListUpdated");
-    }
-  });
-
-  socket.on("addProduct", async (product) => {
-    let response = await productsApiController.addProductSocket(product);
-    socket.emit("addProductRes", response);
-    if (response.success) {
-      socket.broadcast.emit("productListUpdated");
-    }
-  });
+  socket.on("productsCollectionUpdated", () => {
+    io.emit("productsCollectionUpdated");
+  }), 
 
   socket.on("newMessage", async ({ user, message }) => {
     await messagesController.sendMessage({ user, message });

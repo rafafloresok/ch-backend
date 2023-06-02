@@ -1,5 +1,5 @@
 import { productsService } from "../dao/factory.js";
-import { BadRequestError, NotFoundError, ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
+import { BadRequestError, ForbiddenError, NotFoundError, ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
 
 class ProductsApiController {
   async getProducts(req, res) {
@@ -11,9 +11,8 @@ class ProductsApiController {
         throw new ServerError("error trying to get products");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
@@ -26,19 +25,16 @@ class ProductsApiController {
         throw new ServerError("error trying to get product");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
-    
   }
 
   async addProduct(req, res) {
     try {
       let codeExists = await productsService.getByCode(req.body.code);
-      if (codeExists) {
-        throw new BadRequestError("Code already exists");
-      }
+      if (codeExists) throw new BadRequestError("Code already exists");
+      if (req.user.role !== "admin") req.body.owner = req.user._id;
       let result = await productsService.create(req.body);
       if (result) {
         return res.status(201).send({ status: "success", result: "Product add success" });
@@ -46,9 +42,8 @@ class ProductsApiController {
         throw new ServerError("error trying to add product");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
@@ -57,6 +52,7 @@ class ProductsApiController {
       let { title, description, code, price, status, stock, category, thumbnails } = req.body;
       let product = await productsService.getById(req.params.pid);
       if (product) {
+        if (req.user.role !== "admin" && req.user._id !== product.owner) throw new ForbiddenError("cannot update not own product");
         let update = {};
         status === false && (update.status = status);
         status === true && (update.status = status);
@@ -77,94 +73,22 @@ class ProductsApiController {
         throw new NotFoundError("Product not found");
       }
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 
   async deleteProduct(req, res) {
     try {
+      let product = await productsService.getById(req.params.pid);
+      if (!product) throw new NotFoundError("product not found");
+      if (req.user.role !== "admin" && req.user._id !== product.owner) throw new ForbiddenError("cannot delete not own product");
       let result = await productsService.deleteById(req.params.pid);
-      if (result) {
-        return res.status(200).send({ status: "success", result: `Product delete success` });
-      } else {
-        throw new ServerError("error trying to delete product");
-      }
+      if (!result) throw new ServerError("error trying to delete product");
+      return res.status(200).send({ status: "success", result: `Product delete success` });
     } catch (error) {
-      return instanceOfCustomError(error)
-        ? res.status(error.code).send({ status: "error", error: error.message })
-        : res.status(500).send({ status: "error", error: "server error" });
-    }
-  } 
-
-  async deleteProductSocket(productId, user) {
-    try {
-      let product = await productsService.getById(productId);
-      if (!product) return { success: false, message: "Product not found" };
-      if (user.role === "premium" && user.id !== product.owner)
-        return { success: false, message: "premium user cannot delete not own products" };
-      let result = await productsService.deleteById(productId);
-      if (result) {
-        return {
-          success: true,
-          message: "Product delete success",
-        };
-      } else {
-        return {
-          success: false,
-          message: "error trying to delete product",
-        };
-      }
-    } catch (error) {
-      return {
-        success: false,
-        message: "Server error",
-      };
-    }
-  }
-
-  async addProductSocket(productData) {
-    try {
-      let { title, description, code, price, status, stock, category, thumbnails, owner } = productData;
-      let emptyField = !(title && description && code && price && stock && category);
-      if (emptyField) {
-        return {
-          success: false,
-          message: "Product not added. Error: must complete all required fields",
-        };
-      }
-      let productExists = await productsService.getByCode(code);
-      if (productExists) {
-        return {
-          success: false,
-          message: "Product not added. Error: Product already exists",
-        };
-      }
-      price = Number(price);
-      stock = Number(stock);
-      status === "false" ? (status = false) : (status = true);
-      await productsService.create({
-        title,
-        description,
-        code,
-        price,
-        status,
-        stock,
-        category,
-        thumbnails,
-        owner,
-      });
-      return {
-        success: true,
-        message: "Product add success",
-      };
-    } catch (error) {
-      req.logger.debug("error trying to add product");
-      return {
-        success: false,
-        message: "Server error",
-      };
+      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
+      return res.status(500).send({ status: "error", error: "server error" });
     }
   }
 }

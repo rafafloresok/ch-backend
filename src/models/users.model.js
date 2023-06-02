@@ -24,10 +24,10 @@ const usersSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "carts",
     },
-    lastOrder: {
+    /* lastOrder: {
       type: Number,
       required: true,
-    }
+    } */
   },
   {
     timestamps: true,

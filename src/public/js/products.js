@@ -82,7 +82,7 @@ const setAddToCartForms = () => {
       e.preventDefault();
       let user = JSON.parse(sessionStorage.getItem("user"));
       let productOwner = e.target.dataset.owner;
-      if (productOwner !== "admin" && productOwner === user.id) {
+      if (productOwner !== "admin" && productOwner === user._id) {
         alert("Producto no agregado. No puedes comprar tus propios productos");
       } else {
         let productId = e.target.id;
