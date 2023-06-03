@@ -61,7 +61,7 @@ export class ProductsMongoService {
   }
   async deleteById(productId) {
     let conditions = { _id: productId };
-    return await this.dao.deleteOne(conditions);
+    return await this.dao.deleteOne(conditions);                               
   }
   async create(productData) {
     let docs = productData;

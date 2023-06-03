@@ -1,8 +1,7 @@
 const getUserData = async () => {
   try {
     let res = await fetch("/api/sessions/current");
-    let json = await res.json();
-    user = json.result;
+    let user = await res.json();
     sessionStorage.setItem("user", JSON.stringify(user));
   } catch (error) {
     console.log(error);

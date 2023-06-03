@@ -1,19 +1,39 @@
 import { Router } from "express";
 import { __dirname } from "../utils/utils.js";
-import productsApiController from "../controllers/productsApi.controller.js";
+import productsController from "../controllers/products.controller.js";
 import { verifyProductProperties } from "../middlewares/products.middleware.js";
-import { passportCall } from "../middlewares/sessions.middleware.js";
+import {
+  authorizeUser,
+  passportCall,
+} from "../middlewares/sessions.middleware.js";
 
 const router = Router();
 
-router.get("/:pid", passportCall("jwt"), productsApiController.getProduct);
+router.get("/:pid", passportCall("jwt"), productsController.getProduct);
 
-router.get("/", passportCall("jwt"), productsApiController.getProducts);
+router.get("/", passportCall("jwt"), productsController.getProducts);
 
-router.post("/", passportCall("jwt"), verifyProductProperties, productsApiController.addProduct);
+router.post(
+  "/",
+  passportCall("jwt"),
+  authorizeUser(["premium", "admin"]),
+  verifyProductProperties,
+  productsController.addProduct
+);
 
-router.put("/:pid", passportCall("jwt"), verifyProductProperties, productsApiController.updateProduct);
+router.put(
+  "/:pid",
+  passportCall("jwt"),
+  authorizeUser(["premium", "admin"]),
+  verifyProductProperties,
+  productsController.updateProduct
+);
 
-router.delete("/:pid", passportCall("jwt"), productsApiController.deleteProduct);
+router.delete(
+  "/:pid",
+  passportCall("jwt"),
+  authorizeUser(["premium", "admin"]),
+  productsController.deleteProduct
+);
 
 export default router;

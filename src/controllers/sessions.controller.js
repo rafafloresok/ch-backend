@@ -7,17 +7,7 @@ import { BadRequestError, ForbiddenError, NotFoundError, ServerError, instanceOf
 
 class SessionsController {
   async getCurrent(req, res) {
-    try {
-      let result = await usersService.getCurrentById(req.user._id);
-      if (result) {
-        return res.status(200).send({ status: "success", result });
-      } else {
-        throw new ServerError("error trying to get current user data");
-      }
-    } catch (error) {
-      if (instanceOfCustomError(error)) return res.status(error.code).send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
-    }
+    res.status(200).send(req.user);
   }
 
   async github(req, res) {}
@@ -81,7 +71,6 @@ class SessionsController {
   async toggleRole(req, res) {
     try {
       let user = await usersService.getById(req.params.uid);
-      if (req.user.role !== "admin") throw new ForbiddenError("must be admin user to change users roles");
       if (!user) throw new NotFoundError("user not found");
       if (user.role === "admin") throw new ForbiddenError("cannot change role of admin user");
       let newRole;

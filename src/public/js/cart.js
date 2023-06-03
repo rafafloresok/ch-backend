@@ -4,9 +4,10 @@ sendOrderBtn.addEventListener("click", async () => {
   let url = sendOrderBtn.dataset.href;
 
   try {
-    let response = await fetch(url, { method: "POST" } );
-    if (response.status === 201) {
-      alert("Orden enviada!");
+    let res = await fetch(url, { method: "POST" });
+    let jsonRes = await res.json();
+    if (res.status === 201) {
+      alert(`Orden enviada! \n Código: ${jsonRes.result}`);
       location.reload();
     } else {
       alert("Error. Orden no enviada. Vuelva a intentarlo.");

@@ -47,7 +47,11 @@ app.use(compression());
 
 app.use(addLogger);
 
-app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpecs));
+app.use(
+  "/apidocs",
+  swaggerUiExpress.serve,
+  swaggerUiExpress.setup(swaggerSpecs)
+);
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", viewsRouter);
@@ -67,12 +71,11 @@ io.on("connection", (socket) => {
 
   socket.on("productsCollectionUpdated", () => {
     io.emit("productsCollectionUpdated");
-  }), 
-
-  socket.on("newMessage", async ({ user, message }) => {
-    await messagesController.sendMessage({ user, message });
-    io.emit("messagesListUpdated");
-  });
+  }),
+    socket.on("newMessage", async ({ user, message }) => {
+      await messagesController.sendMessage({ user, message });
+      io.emit("messagesListUpdated");
+    });
 });
 
 app.use(errorMiddleware);
