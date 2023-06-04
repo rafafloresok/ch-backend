@@ -7,7 +7,12 @@ import {
 
 const router = Router();
 
-router.get("/:cid", passportCall("jwt"), cartsController.getCart);
+router.get(
+  "/:cid",
+  passportCall("jwt"),
+  authorizeUser(["user", "premium", "admin"]),
+  cartsController.getCart
+);
 
 router.post(
   "/:cid/product/:pid",

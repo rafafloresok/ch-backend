@@ -9,9 +9,19 @@ import {
 
 const router = Router();
 
-router.get("/:pid", passportCall("jwt"), productsController.getProduct);
+router.get(
+  "/:pid",
+  passportCall("jwt"),
+  authorizeUser(["user", "premium", "admin"]),
+  productsController.getProduct
+);
 
-router.get("/", passportCall("jwt"), productsController.getProducts);
+router.get(
+  "/",
+  passportCall("jwt"),
+  authorizeUser(["user", "premium", "admin"]),
+  productsController.getProducts
+);
 
 router.post(
   "/",

@@ -1,10 +1,18 @@
 import { Router } from "express";
-import { authorizeUser, passportCall } from "../middlewares/sessions.middleware.js";
+import {
+  authorizeUser,
+  passportCall,
+} from "../middlewares/sessions.middleware.js";
 import sessionsController from "../controllers/sessions.controller.js";
 
 const router = Router();
 
-router.get("/current", passportCall("jwt"), authorizeUser(["user", "premium", "admin"]), sessionsController.getCurrent);
+router.get(
+  "/current",
+  passportCall("jwt"),
+  authorizeUser(["user", "premium", "admin"]),
+  sessionsController.getCurrent
+);
 
 router.get("/github", passportCall("github"), sessionsController.github);
 
@@ -20,6 +28,11 @@ router.post("/passwordresetinit", sessionsController.passwordResetInit);
 
 router.post("/passwordresetend", sessionsController.passwordResetEnd);
 
-router.post("/premium/:uid", passportCall("jwt"), authorizeUser(["admin"]), sessionsController.toggleRole);
+router.post(
+  "/premium/:uid",
+  passportCall("jwt"),
+  authorizeUser(["admin"]),
+  sessionsController.toggleRole
+);
 
 export default router;

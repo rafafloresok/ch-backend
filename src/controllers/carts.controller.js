@@ -12,13 +12,13 @@ class CartsController {
     try {
       let result = await cartsService.getById(req.params.cid);
       if (!result) throw new ServerError("error trying to get cart");
-      return res.status(200).send({ status: "success", result });
+      return res.status(200).json({ status: "success", result });
     } catch (error) {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
           .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -32,13 +32,13 @@ class CartsController {
       if (!result) throw new ServerError("error trying to add product");
       return res
         .status(201)
-        .send({ status: "success", result: "Product add success" });
+        .json({ status: "success", result: "Product add success" });
     } catch (error) {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -49,13 +49,13 @@ class CartsController {
       if (!result) throw new ServerError("error trying to delete product");
       return res
         .status(200)
-        .send({ status: "success", result: "Product delete success" });
+        .json({ status: "success", result: "Product delete success" });
     } catch (error) {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -66,13 +66,13 @@ class CartsController {
       if (!result) throw new ServerError("error trying to delete products");
       return res
         .status(200)
-        .send({ status: "success", result: "Products delete success" });
+        .json({ status: "success", result: "Products delete success" });
     } catch (error) {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -91,7 +91,7 @@ class CartsController {
       if (outOfStock.length)
         return res
           .status(200)
-          .send({ status: "out of stock", result: outOfStock });
+          .json({ status: "out of stock", result: outOfStock });
       let orderCode = createCode();
       let order = {
         code: `${req.user.email}-${orderCode}`,
@@ -108,13 +108,13 @@ class CartsController {
       let result = await ticketsService.send(order);
       if (!result) throw new ServerError("error trying to send order");
       await cartsService.deleteProducts(cart._id);
-      return res.status(201).send({ status: "success", result: orderCode });
+      return res.status(201).json({ status: "success", result: orderCode });
     } catch (error) {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 }

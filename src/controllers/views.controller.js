@@ -1,4 +1,8 @@
-import { cartsService, messagesService, productsService } from "../dao/factory.js";
+import {
+  cartsService,
+  messagesService,
+  productsService,
+} from "../dao/factory.js";
 import { NotFoundError } from "../utils/errors.utils.js";
 
 const getPaginatedProducts = async (query) => {
@@ -40,7 +44,6 @@ class ViewsController {
   async logup(req, res) {
     try {
       if (req.cookies.idToken) return res.redirect("/products");
-      res.setHeader("Content-Type", "text/html");
       res.status(200).render("logup", { styles: "logup.css" });
     } catch (error) {
       res.status(500).render("error");
@@ -50,7 +53,6 @@ class ViewsController {
   async login(req, res) {
     try {
       if (req.cookies.idToken) return res.redirect("/products");
-      res.setHeader("Content-Type", "text/html");
       res.status(200).render("login", { styles: "login.css" });
     } catch (error) {
       res.status(500).render("error");
@@ -60,7 +62,6 @@ class ViewsController {
   async forgotPassword(req, res) {
     try {
       if (req.cookies.idToken) return res.redirect("/products");
-      res.setHeader("Content-Type", "text/html");
       res
         .status(200)
         .render("forgotPassword", { styles: "forgotPassword.css" });
@@ -72,7 +73,6 @@ class ViewsController {
   async passwordReset(req, res) {
     if (req.cookies.idToken) return res.redirect("/products");
     let { email, token } = req.params;
-    res.setHeader("Content-Type", "text/html");
     res
       .status(200)
       .render("passwordReset", { email, token, styles: "passwordReset.css" });
@@ -87,7 +87,6 @@ class ViewsController {
       let paginatedData = await getPaginatedProducts(req.query);
       let products = { ...paginatedData, status: "success" };
       let user = req.user;
-      res.setHeader("Content-Type", "text/html");
       res.render("products", { products, user, styles: "products.css" });
     } catch (error) {
       res.status(500).render("error");
@@ -98,7 +97,6 @@ class ViewsController {
     try {
       let cart = await cartsService.getById(req.params.cid);
       if (!cart) throw new NotFoundError("cart not found");
-      res.setHeader("Content-Type", "text/html");
       res.render("cart", { cart, styles: "cart.css" });
     } catch (error) {
       res.status(500).render("error");
@@ -109,7 +107,6 @@ class ViewsController {
     try {
       let paginatedData = await getPaginatedProducts(req.query);
       let products = { ...paginatedData, status: "success" };
-      res.setHeader("Content-Type", "text/html");
       res.render("realTimeProducts", {
         products,
         styles: "realTimeProducts.css",
@@ -124,7 +121,6 @@ class ViewsController {
       let user = req.user;
       let messages = await messagesService.get();
       if (!messages) throw new NotFoundError("messages not found");
-      res.setHeader("Content-Type", "text/html");
       res.render("chat", { user, messages, styles: "chat.css" });
     } catch (error) {
       res.status(500).render("error");

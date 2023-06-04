@@ -12,7 +12,7 @@ class ProductsController {
     try {
       let result = await productsService.getPaginated(req.query);
       if (result) {
-        return res.status(200).send({ status: "success", result });
+        return res.status(200).json({ status: "success", result });
       } else {
         throw new ServerError("error trying to get products");
       }
@@ -20,8 +20,8 @@ class ProductsController {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -29,7 +29,7 @@ class ProductsController {
     try {
       let result = await productsService.getById(req.params.pid);
       if (result) {
-        return res.status(200).send({ status: "success", result });
+        return res.status(200).json({ status: "success", result });
       } else {
         throw new ServerError("error trying to get product");
       }
@@ -37,8 +37,8 @@ class ProductsController {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -51,7 +51,7 @@ class ProductsController {
       if (result) {
         return res
           .status(201)
-          .send({ status: "success", result: "Product add success" });
+          .json({ status: "success", result: "Product add success" });
       } else {
         throw new ServerError("error trying to add product");
       }
@@ -59,8 +59,8 @@ class ProductsController {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -94,7 +94,7 @@ class ProductsController {
         if (result) {
           return res
             .status(200)
-            .send({ status: "success", result: "Product update success" });
+            .json({ status: "success", result: "Product update success" });
         } else {
           throw new ServerError("error trying to update product");
         }
@@ -105,8 +105,8 @@ class ProductsController {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 
@@ -120,13 +120,13 @@ class ProductsController {
       if (!result) throw new ServerError("error trying to delete product");
       return res
         .status(200)
-        .send({ status: "success", result: `Product delete success` });
+        .json({ status: "success", result: `Product delete success` });
     } catch (error) {
       if (instanceOfCustomError(error))
         return res
           .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).send({ status: "error", error: "server error" });
+          .json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "error", error: "server error" });
     }
   }
 }
