@@ -12,7 +12,7 @@ deleteProductForm.addEventListener("submit", async (e) => {
   e.target.reset();
 });
 
-addProductForm.addEventListener("submit", async (e) => {
+/* addProductForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   let product = {
     title: e.target[0].value.trim(),
@@ -22,12 +22,17 @@ addProductForm.addEventListener("submit", async (e) => {
     status: e.target[4].value.trim(),
     stock: e.target[5].value.trim(),
     category: e.target[6].value.trim(),
-    thumbnails: [e.target[7].value.trim(), e.target[8].value.trim()],
+    //thumbnails: [e.target[7].value.trim(), e.target[8].value.trim()],
   };
-  await fetch("/api/products/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(product) });
-  socket.emit("productsCollectionUpdated");
+  console.log(product);
+  //await fetch("/api/products/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(product) });
+  await fetch("/api/products/", {
+    method: "POST",
+    body: JSON.stringify(product),
+  });//new
+  //socket.emit("productsCollectionUpdated");
   e.target.reset();
-});
+}); */
 
 const showToast = (message) => {
   toast.innerHTML = message;

@@ -1,11 +1,19 @@
-import { BadRequestError, instanceOfCustomError } from "../utils/errors.utils.js";
+import { BadRequestError, handleCaughtError } from "../utils/errors.utils.js";
 
 // Verify and parse data before add or update product
 export const verifyProductProperties = (req, res, next) => {
   try {
-    let { title, description, code, price, status, stock, category, thumbnails } = req.body;
+    let { title, description, code, price, status, stock, category } = req.body;
     if (req.method === "POST") {
-      let emptyField = !(title && description && code && price && stock && category);
+      let emptyField = !(
+        title &&
+        description &&
+        code &&
+        price &&
+        stock &&
+        category &&
+        req.file
+      );
       if (emptyField) {
         throw new BadRequestError("incomplete required properties");
       }
@@ -63,18 +71,8 @@ export const verifyProductProperties = (req, res, next) => {
         throw new BadRequestError("invalid price value");
       }
     }
-    if (thumbnails) {
-      thumbnails.forEach((el) => {
-        let regex = /^[\w\.\_\-\/\\]+$/;
-        if (!regex.test(el)) {
-          throw new BadRequestError("invalid thumbnail value");
-        }
-      });
-    }
     next();
   } catch (error) {
-    return instanceOfCustomError(error)
-      ? res.status(error.code).send({ status: "error", error: error.message })
-      : res.status(500).send({ status: "error", error: "server error" });
+    handleCaughtError(res, error);
   }
 };

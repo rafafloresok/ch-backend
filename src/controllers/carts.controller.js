@@ -2,9 +2,8 @@ import {
   cartsService,
   productsService,
   ticketsService,
-  usersService,
 } from "../dao/factory.js";
-import { ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
+import { ServerError, handleCaughtError } from "../utils/errors.utils.js";
 import { createCode } from "../utils/utils.js";
 
 class CartsController {
@@ -14,11 +13,7 @@ class CartsController {
       if (!result) throw new ServerError("error trying to get cart");
       return res.status(200).json({ status: "success", result });
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .send({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
@@ -34,11 +29,7 @@ class CartsController {
         .status(201)
         .json({ status: "success", result: "Product add success" });
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
@@ -51,11 +42,7 @@ class CartsController {
         .status(200)
         .json({ status: "success", result: "Product delete success" });
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
@@ -68,11 +55,7 @@ class CartsController {
         .status(200)
         .json({ status: "success", result: "Products delete success" });
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
@@ -110,11 +93,7 @@ class CartsController {
       await cartsService.deleteProducts(cart._id);
       return res.status(201).json({ status: "success", result: orderCode });
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 }

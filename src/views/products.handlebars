@@ -47,6 +47,7 @@
     <p>Category: {{this.category}}</p>
     <p>Description: {{this.description}}</p>
     <p>Price: ${{this.price}}</p>
+    <img src="/images/{{this.thumbnails.[0]}}" alt="imagen de {{this.title}}">
     {{#if this.status}}
       <p>Disponible</p>
       <form class="addToCartForm" id="{{this._id}}" data-owner="{{this.owner}}">

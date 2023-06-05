@@ -46,3 +46,12 @@ export const instanceOfCustomError = (error) => {
     error instanceof ForbiddenError
   );
 };
+
+export const handleCaughtError = (res, error) => {
+  if (instanceOfCustomError(error)) {
+    return res
+      .status(error.code)
+      .send({ status: "error", error: error.message });
+  }
+  return res.status(500).json({ status: "error", error: "server error" });
+};

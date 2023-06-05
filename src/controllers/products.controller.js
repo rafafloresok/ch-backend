@@ -4,7 +4,7 @@ import {
   ForbiddenError,
   NotFoundError,
   ServerError,
-  instanceOfCustomError,
+  handleCaughtError,
 } from "../utils/errors.utils.js";
 
 class ProductsController {
@@ -17,11 +17,7 @@ class ProductsController {
         throw new ServerError("error trying to get products");
       }
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
@@ -34,11 +30,7 @@ class ProductsController {
         throw new ServerError("error trying to get product");
       }
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
@@ -47,6 +39,7 @@ class ProductsController {
       let codeExists = await productsService.getByCode(req.body.code);
       if (codeExists) throw new BadRequestError("Code already exists");
       if (req.user.role !== "admin") req.body.owner = req.user._id;
+      req.body.thumbnails = [req.file.originalname];
       let result = await productsService.create(req.body);
       if (result) {
         return res
@@ -56,41 +49,18 @@ class ProductsController {
         throw new ServerError("error trying to add product");
       }
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
   async updateProduct(req, res) {
     try {
-      let {
-        title,
-        description,
-        code,
-        price,
-        status,
-        stock,
-        category,
-        thumbnails,
-      } = req.body;
       let product = await productsService.getById(req.params.pid);
       if (product) {
         if (req.user.role !== "admin" && req.user._id !== product.owner)
           throw new ForbiddenError("cannot update not own product");
-        let update = {};
-        status === false && (update.status = status);
-        status === true && (update.status = status);
-        title && (update.title = title);
-        description && (update.description = description);
-        code && (update.code = code);
-        price && (update.price = price);
-        stock && (update.stock = stock);
-        category && (update.category = category);
-        thumbnails && (update.thumbnails = thumbnails);
-        let result = await productsService.updateById(req.params.pid, update);
+        if (req.file?.originalname) req.body.thumbnails = req.file.originalname;
+        let result = await productsService.updateById(req.params.pid, req.body);
         if (result) {
           return res
             .status(200)
@@ -102,11 +72,7 @@ class ProductsController {
         throw new NotFoundError("Product not found");
       }
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 
@@ -122,11 +88,7 @@ class ProductsController {
         .status(200)
         .json({ status: "success", result: `Product delete success` });
     } catch (error) {
-      if (instanceOfCustomError(error))
-        return res
-          .status(error.code)
-          .json({ status: "error", error: error.message });
-      return res.status(500).json({ status: "error", error: "server error" });
+      handleCaughtError(res, error);
     }
   }
 }

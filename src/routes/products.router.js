@@ -6,6 +6,7 @@ import {
   authorizeUser,
   passportCall,
 } from "../middlewares/sessions.middleware.js";
+import { imgUploader } from "../utils/multer.utils.js";
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.post(
   "/",
   passportCall("jwt"),
   authorizeUser(["premium", "admin"]),
+  imgUploader.single("image"),
   verifyProductProperties,
   productsController.addProduct
 );
@@ -35,6 +37,7 @@ router.put(
   "/:pid",
   passportCall("jwt"),
   authorizeUser(["premium", "admin"]),
+  imgUploader.single("image"),
   verifyProductProperties,
   productsController.updateProduct
 );
