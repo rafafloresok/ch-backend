@@ -2,12 +2,12 @@
 <hr />
 <p>Cart id: {{cart._id}}</p>
 <p>Cart alias: {{cart.alias}}</p>
-<button data-href="/api/carts/{{cart._id}}/purchase" id="sendOrderBtn">Finalizar compra</button>
+<button data-href="/api/orders/{{cart._id}}/purchase" id="sendOrderBtn">Finalizar compra</button>
 <hr />
 {{#each cart.products}}
   <div>
-    <h2>Title: {{this.productId.title}}</h2>
-    <p>Price: ${{this.productId.price}}</p>
+    <h2>Title: {{this.product.title}}</h2>
+    <p>Price: ${{this.product.price}}</p>
     <p>Cantidad: {{this.quantity}}</p>
   </div>
   <hr />

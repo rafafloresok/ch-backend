@@ -5,34 +5,42 @@ import {
 } from "../middlewares/sessions.middleware.js";
 import sessionsController from "../controllers/sessions.controller.js";
 
-const router = Router();
+const sessionsRouter = Router();
 
-router.get(
+sessionsRouter.get(
   "/current",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   sessionsController.getCurrent
 );
 
-router.get("/github", passportCall("github"), sessionsController.github);
+sessionsRouter.get(
+  "/github",
+  passportCall("github"),
+  sessionsController.github
+);
 
-router.get("/githubcallback", passportCall("github"), sessionsController.login);
+sessionsRouter.get(
+  "/githubcallback",
+  passportCall("github"),
+  sessionsController.login
+);
 
-router.post("/logup", passportCall("logup"), sessionsController.logup);
+sessionsRouter.post("/logup", passportCall("logup"), sessionsController.logup);
 
-router.post("/login", passportCall("login"), sessionsController.login);
+sessionsRouter.post("/login", passportCall("login"), sessionsController.login);
 
-router.get("/logout", sessionsController.logout);
+sessionsRouter.get("/logout", sessionsController.logout);
 
-router.post("/passwordresetinit", sessionsController.passwordResetInit);
+sessionsRouter.post("/passwordresetinit", sessionsController.passwordResetInit);
 
-router.post("/passwordresetend", sessionsController.passwordResetEnd);
+sessionsRouter.post("/passwordresetend", sessionsController.passwordResetEnd);
 
-router.post(
+sessionsRouter.post(
   "/premium/:uid",
   passportCall("jwt"),
   authorizeUser(["admin"]),
   sessionsController.toggleRole
 );
 
-export default router;
+export default sessionsRouter;

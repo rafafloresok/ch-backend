@@ -5,41 +5,34 @@ import {
   passportCall,
 } from "../middlewares/sessions.middleware.js";
 
-const router = Router();
+const cartsRouter = Router();
 
-router.get(
+cartsRouter.get(
   "/:cid",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   cartsController.getCart
 );
 
-router.post(
+cartsRouter.post(
   "/:cid/product/:pid",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   cartsController.addProduct
 );
 
-router.delete(
+cartsRouter.delete(
   "/:cid/product/:pid",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   cartsController.deleteProduct
 );
 
-router.delete(
+cartsRouter.delete(
   "/:cid",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   cartsController.deleteProducts
 );
 
-router.post(
-  "/:cid/purchase",
-  passportCall("jwt"),
-  authorizeUser(["user", "premium", "admin"]),
-  cartsController.sendOrder
-);
-
-export default router;
+export default cartsRouter;

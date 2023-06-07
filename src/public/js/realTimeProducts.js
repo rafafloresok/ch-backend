@@ -7,32 +7,36 @@ let toast = document.getElementById("toast");
 deleteProductForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   let productId = e.target[0].value.trim();
-  await fetch(`/api/products/${productId}`, {method: "DELETE"});
+  await fetch(`/api/products/${productId}`, { method: "DELETE" });
   socket.emit("productsCollectionUpdated");
   e.target.reset();
 });
 
-/* addProductForm.addEventListener("submit", async (e) => {
+addProductForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  let product = {
-    title: e.target[0].value.trim(),
-    description: e.target[1].value.trim(),
-    code: e.target[2].value.trim(),
-    price: e.target[3].value.trim(),
-    status: e.target[4].value.trim(),
-    stock: e.target[5].value.trim(),
-    category: e.target[6].value.trim(),
-    //thumbnails: [e.target[7].value.trim(), e.target[8].value.trim()],
-  };
-  console.log(product);
-  //await fetch("/api/products/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(product) });
+  //show loader
+  //verify form data
+  let formData = new FormData(e.target);
   await fetch("/api/products/", {
     method: "POST",
-    body: JSON.stringify(product),
-  });//new
-  //socket.emit("productsCollectionUpdated");
-  e.target.reset();
-}); */
+    body: formData,
+  })
+    .then((res) => {
+      console.dir(res);
+      if (res.status !== 201) throw new Error;
+      return res.json();
+    })
+    .then((res) => {
+      console.dir(res);
+    })
+    .catch((error => {
+      window.location.replace("/error");
+    }))
+    .finally(() => {
+      //remove loader?
+      socket.emit("productsCollectionUpdated");
+    });
+});
 
 const showToast = (message) => {
   toast.innerHTML = message;

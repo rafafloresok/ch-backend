@@ -1,3 +1,4 @@
+import moment from "moment/moment.js";
 import { CartDto } from "../dto/carts.dto.js";
 import { CurrentUserDto } from "../dto/users.dto.js";
 
@@ -16,16 +17,18 @@ export class CartsMongoService {
   }
   async addProduct(cartId, productId, productQty) {
     let filter = { _id: cartId };
-    let update = { $push: { products: { productId: productId, quantity: productQty } } };
+    let update = {
+      $push: { products: { product: productId, quantity: productQty } },
+    };
     return await this.dao.updateOne(filter, update);
   }
   async deleteProduct(cartId, productId) {
     let filter = { _id: cartId };
-    let update = { $pull: { products: { productId: productId } } };
+    let update = { $pull: { products: { product: productId } } };
     return await this.dao.updateOne(filter, update);
   }
   async updateProductQty(cartId, productId, productQty) {
-    let filter = { _id: cartId, "products.productId": productId };
+    let filter = { _id: cartId, "products.product": productId };
     let update = { $inc: { "products.$.quantity": productQty } };
     return await this.dao.updateOne(filter, update);
   }
@@ -61,7 +64,7 @@ export class ProductsMongoService {
   }
   async deleteById(productId) {
     let conditions = { _id: productId };
-    return await this.dao.deleteOne(conditions);                               
+    return await this.dao.deleteOne(conditions);
   }
   async create(productData) {
     let docs = productData;
@@ -122,13 +125,33 @@ export class UsersMongoService {
   }
 }
 
-export class TicketsMongoService {
+export class OrdersMongoService {
   constructor(dao) {
     this.dao = dao;
   }
-  async send(ticketData) {
-    let docs = ticketData;
+  async create(orderData) {
+    let docs = orderData;
     return await this.dao.create(docs);
+  }
+  async get(query) {
+    let { status, purchasers, fromDateTime, toDateTime, limit } = query;
+    let filter = { createdAt: { $gte: moment().subtract(1, "days") } };
+    let projection = {};
+    let options = {};
+    if (status) filter.status = status;
+    if (purchasers) filter.purchaser = { $in: purchasers};
+    if (fromDateTime) filter.createdAt.$gte = fromDateTime;
+    if (toDateTime) filter.createdAt.$lte = toDateTime;
+    if (limit) options.limit = limit;
+    return await this.dao.get(filter, projection, options);
+  }
+  async getByCode(orderCode) {
+    let conditions = { code: orderCode };
+    return await this.dao.getOne(conditions);
+  }
+  async updateByCode(orderCode, update) {
+    let filter = { code: orderCode };
+    return await this.dao.updateOne(filter, update);
   }
 }
 
@@ -150,7 +173,7 @@ export class TokensMongoService {
     return await this.dao.updateOne(filter, update);
   }
   async getResetToken(userEmail) {
-    let conditions = { email: userEmail, type: "reset" }
+    let conditions = { email: userEmail, type: "reset" };
     return await this.dao.getOne(conditions);
   }
 }

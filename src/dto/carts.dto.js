@@ -4,7 +4,7 @@ export class CartDto {
     this.alias = cartData.alias;
     this.products = cartData.products;
     this.amount = cartData.products.reduce((acc, curr) => {
-      return acc + curr.quantity * curr.productId.price;
+      return acc + curr.quantity * curr.product.price;
     }, 0);
     this.totalItems = cartData.products.reduce((acc, curr) => {
       return acc + curr.quantity;

@@ -8,23 +8,23 @@ import {
 } from "../middlewares/sessions.middleware.js";
 import { imgUploader } from "../utils/multer.utils.js";
 
-const router = Router();
+const productsRouter = Router();
 
-router.get(
+productsRouter.get(
   "/:pid",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   productsController.getProduct
 );
 
-router.get(
+productsRouter.get(
   "/",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   productsController.getProducts
 );
 
-router.post(
+productsRouter.post(
   "/",
   passportCall("jwt"),
   authorizeUser(["premium", "admin"]),
@@ -33,7 +33,7 @@ router.post(
   productsController.addProduct
 );
 
-router.put(
+productsRouter.put(
   "/:pid",
   passportCall("jwt"),
   authorizeUser(["premium", "admin"]),
@@ -42,11 +42,11 @@ router.put(
   productsController.updateProduct
 );
 
-router.delete(
+productsRouter.delete(
   "/:pid",
   passportCall("jwt"),
   authorizeUser(["premium", "admin"]),
   productsController.deleteProduct
 );
 
-export default router;
+export default productsRouter;

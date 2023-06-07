@@ -11,7 +11,7 @@ import swaggerSpecs from "./config/swagger.config.js";
 import { config } from "./config/config.js";
 import { __dirname } from "./utils/utils.js";
 import { initializePassport } from "./config/passport.config.js";
-import { errorMiddleware } from "./middlewares/error.middleware.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 import { addLogger } from "./middlewares/logger.middleware.js";
 import { logger } from "./utils/logger.utils.js";
 import {
@@ -23,6 +23,7 @@ import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
+import ordersRouter from "./routes/orders.router.js";
 
 import messagesController from "./controllers/messages.controller.js";
 
@@ -60,8 +61,9 @@ app.use(
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", setResContentTypeToTextHtml, viewsRouter);
 app.use("/api/sessions", setResContentTypeToApplicationJson, sessionsRouter);
-app.use("/api/carts", setResContentTypeToApplicationJson, cartsRouter);
 app.use("/api/products", setResContentTypeToApplicationJson, productsRouter);
+app.use("/api/carts", setResContentTypeToApplicationJson, cartsRouter);
+app.use("/api/orders", setResContentTypeToApplicationJson, ordersRouter);
 app.use("*", (req, res) => {
   return req.user ? res.redirect("/products") : res.redirect("/login");
 });
@@ -82,4 +84,4 @@ io.on("connection", (socket) => {
     });
 });
 
-app.use(errorMiddleware);
+app.use(errorHandler);
