@@ -14,9 +14,13 @@ const cartItemSchema = new Schema({
   },
 });
 
-const cartsSchema = new Schema({
-  alias: String,
-  products: [cartItemSchema],
-});
+const cartsSchema = new Schema(
+  {
+    products: [cartItemSchema],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 export const cartsModel = model(cartsCollection, cartsSchema);

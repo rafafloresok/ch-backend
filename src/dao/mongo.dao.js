@@ -1,15 +1,14 @@
 import { cartsModel } from "../models/carts.model.js";
 import { productsModel } from "../models/products.model.js";
-import { messagesModel } from "../models/messages.model.js";
 import { usersModel } from "../models/users.model.js";
 import { ordersModel } from "../models/orders.model.js";
 import { logger } from "../utils/logger.utils.js";
 import { tokensModel } from "../models/tokens.model.js";
 
 export class CartsMongoDao {
-  async create(docs) {
+  async create() {
     try {
-      let result = await cartsModel.create(docs);
+      let result = await cartsModel.create();
       return result;
     } catch (error) {
       logger.error(`${new Date().toLocaleString()} - ${error.message}`);
@@ -91,27 +90,6 @@ export class ProductsMongoDao {
       } else {
         return null;
       }
-    } catch (error) {
-      logger.error(`${new Date().toLocaleString()} - ${error.message}`);
-      return null;
-    }
-  }
-}
-
-export class MessagesMongoDao {
-  async get(filter, projection) {
-    try {
-      let result = await messagesModel.find(filter, projection);
-      return result;
-    } catch (error) {
-      logger.error(`${new Date().toLocaleString()} - ${error.message}`);
-      return null;
-    }
-  }
-  async create(docs) {
-    try {
-      let result = await messagesModel.create(docs);
-      return result;
     } catch (error) {
       logger.error(`${new Date().toLocaleString()} - ${error.message}`);
       return null;

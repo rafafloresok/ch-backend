@@ -8,10 +8,31 @@ import {
 const ordersRouter = Router();
 
 ordersRouter.post(
-  "/:cid/purchase",
+  "/:cid",
   passportCall("jwt"),
   authorizeUser(["user", "premium", "admin"]),
   ordersController.sendOrder
+);
+
+ordersRouter.get(
+  "/:oc",
+  passportCall("jwt"),
+  authorizeUser(["user", "premium", "admin"],
+  ordersController.getOrder)
+);
+
+ordersRouter.get(
+  "/",
+  passportCall("jwt"),
+  authorizeUser(["admin"],
+  ordersController.getOrders)
+);
+
+ordersRouter.put(
+  "/:oc",
+  passportCall("jwt"),
+  authorizeUser(["admin"],
+  ordersController.updateOrder)
 );
 
 //PUT OTHER PATHS

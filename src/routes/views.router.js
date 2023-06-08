@@ -36,11 +36,4 @@ viewsRouter.get(
   viewsController.realTimeProducts
 );
 
-viewsRouter.get(
-  "/chat",
-  passportCall("jwt"),
-  authorizeUser(["user", "premium", "admin"]),
-  viewsController.chat
-);
-
 export default viewsRouter;

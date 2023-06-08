@@ -85,7 +85,7 @@ export const initializePassport = () => {
 
           let isAdmin = username === config.adminMail && password === config.adminPassword;
           let role = isAdmin ? "admin" : "user";
-          let cart = await cartsService.create({ alias: "Mi compra" });
+          let cart = await cartsService.create();
           let user = await usersService.create({
             firstName,
             lastName,

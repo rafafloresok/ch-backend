@@ -1,4 +1,4 @@
-import moment from "moment/moment.js";
+import moment from "moment-timezone";
 import { CartDto } from "../dto/carts.dto.js";
 import { CurrentUserDto } from "../dto/users.dto.js";
 
@@ -6,9 +6,8 @@ export class CartsMongoService {
   constructor(dao) {
     this.dao = dao;
   }
-  async create(cartData) {
-    let docs = cartData;
-    return await this.dao.create(docs);
+  async create() {
+    return await this.dao.create();
   }
   async getById(cartId) {
     let conditions = { _id: cartId };
@@ -81,19 +80,6 @@ export class ProductsMongoService {
   }
 }
 
-export class MessagesMongoService {
-  constructor(dao) {
-    this.dao = dao;
-  }
-  async get() {
-    return await this.dao.get();
-  }
-  async send(messageData) {
-    let docs = messageData;
-    return await this.dao.create(docs);
-  }
-}
-
 export class UsersMongoService {
   constructor(dao) {
     this.dao = dao;
@@ -133,9 +119,13 @@ export class OrdersMongoService {
     let docs = orderData;
     return await this.dao.create(docs);
   }
-  async get(query) {
-    let { status, purchasers, fromDateTime, toDateTime, limit } = query;
-    let filter = { createdAt: { $gte: moment().subtract(1, "days") } };
+  async get(reqBody) {
+    let { status, purchasers, fromDateTime, toDateTime, limit } = reqBody;
+    let nowUtc = moment().utc().format();
+    let oneDayAgoUtc = moment().utc().subtract(1, "days").format();
+    let filter = {
+      createdAt: { $gte: oneDayAgoUtc, $lte: nowUtc },
+    };
     let projection = {};
     let options = {};
     if (status) filter.status = status;

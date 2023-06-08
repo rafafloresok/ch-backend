@@ -1,8 +1,4 @@
-import {
-  cartsService,
-  messagesService,
-  productsService,
-} from "../dao/factory.js";
+import { cartsService, productsService } from "../dao/factory.js";
 import { NotFoundError } from "../utils/errors.utils.js";
 
 const getPaginatedProducts = async (query) => {

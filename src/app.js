@@ -25,8 +25,6 @@ import viewsRouter from "./routes/views.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import ordersRouter from "./routes/orders.router.js";
 
-import messagesController from "./controllers/messages.controller.js";
-
 const app = express();
 
 app.engine(
@@ -77,11 +75,10 @@ io.on("connection", (socket) => {
 
   socket.on("productsCollectionUpdated", () => {
     io.emit("productsCollectionUpdated");
-  }),
-    socket.on("newMessage", async ({ user, message }) => {
-      await messagesController.sendMessage({ user, message });
-      io.emit("messagesListUpdated");
-    });
+  });
+  socket.on("newOrder", () => {
+    socket.broadcast("newOrder");
+  });
 });
 
 app.use(errorHandler);
