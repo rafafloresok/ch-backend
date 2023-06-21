@@ -11,6 +11,8 @@ viewsRouter.get("/logup", viewsController.logup);
 
 viewsRouter.get("/login", viewsController.login);
 
+viewsRouter.get("/error", viewsController.error);
+
 viewsRouter.get("/forgotPassword", viewsController.forgotPassword);
 
 viewsRouter.get("/passwordreset/:email/:token", viewsController.passwordReset);
@@ -30,7 +32,7 @@ viewsRouter.get(
 );
 
 viewsRouter.get(
-  "/realtimeproducts",
+  "/products_manager",
   passportCall("jwt"),
   authorizeUser(["premium", "admin"]),
   viewsController.realTimeProducts

@@ -16,18 +16,44 @@ class SessionsController {
     res.status(200).json(req.user);
   }
 
-  async github(req, res) {}
+  async altLogin(req, res) {
+    try {
+      if (!req.user) throw new ServerError("Error trying to login");
+      let token = jwt.sign({ user: req.user }, config.secretKey, {
+        expiresIn: "24h",
+      });
+      let cookieOptions = { maxAge: 1000 * 60 * 60, httpOnly: true };
+      res.cookie("idToken", token, cookieOptions).redirect("/products");
+    } catch (error) {
+      res.status(500).redirect("/error");
+    }
+  }
 
   async logup(req, res) {
-    res.redirect("/login");
+    try {
+      if (!req.user) throw new ServerError("Error trying to create account");
+      return res
+        .status(201)
+        .json({ status: "success", result: "Account created" });
+    } catch (error) {
+      handleCaughtError(res, error);
+    }
   }
 
   async login(req, res) {
-    let token = jwt.sign({ user: req.user }, config.secretKey, {
-      expiresIn: "24h",
-    });
-    let cookieOptions = { maxAge: 1000 * 60 * 60, httpOnly: true };
-    res.cookie("idToken", token, cookieOptions).redirect("/products");
+    try {
+      if (!req.user) throw new ServerError("Error trying to login");
+      let token = jwt.sign({ user: req.user }, config.secretKey, {
+        expiresIn: "24h",
+      });
+      let cookieOptions = { maxAge: 1000 * 60 * 60, httpOnly: true };
+      res
+        .cookie("idToken", token, cookieOptions)
+        .status(200)
+        .json({ status: "success", result: "Login success" });
+    } catch (error) {
+      handleCaughtError(res, error);
+    }
   }
 
   async logout(req, res) {

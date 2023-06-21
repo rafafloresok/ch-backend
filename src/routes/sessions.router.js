@@ -14,16 +14,12 @@ sessionsRouter.get(
   sessionsController.getCurrent
 );
 
-sessionsRouter.get(
-  "/github",
-  passportCall("github"),
-  sessionsController.github
-);
+sessionsRouter.get("/github", passportCall("github"));
 
 sessionsRouter.get(
   "/githubcallback",
   passportCall("github"),
-  sessionsController.login
+  sessionsController.altLogin
 );
 
 sessionsRouter.post("/logup", passportCall("logup"), sessionsController.logup);

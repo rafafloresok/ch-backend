@@ -5,7 +5,7 @@ export class CurrentUserDto {
     this.lastName = userData.lastName;
     this.fullName = `${userData.firstName} ${userData.lastName}`;
     this.email = userData.email;
-    this.age = userData.age;
+    this.birthday = userData.birthday;
     this.role = userData.role;
     this.cart = userData.cart;
     this.lastOrder = userData.lastOrder;

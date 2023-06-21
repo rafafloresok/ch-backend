@@ -18,6 +18,7 @@ import {
   setResContentTypeToApplicationJson,
   setResContentTypeToTextHtml,
 } from "./middlewares/setRes.middleware.js";
+import { setReqIsView } from "./middlewares/setReq.middleware.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -57,7 +58,7 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, "../public")));
-app.use("/", setResContentTypeToTextHtml, viewsRouter);
+app.use("/", setReqIsView, setResContentTypeToTextHtml, viewsRouter);
 app.use("/api/sessions", setResContentTypeToApplicationJson, sessionsRouter);
 app.use("/api/products", setResContentTypeToApplicationJson, productsRouter);
 app.use("/api/carts", setResContentTypeToApplicationJson, cartsRouter);

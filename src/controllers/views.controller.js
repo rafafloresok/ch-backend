@@ -40,7 +40,7 @@ class ViewsController {
   async logup(req, res) {
     try {
       if (req.cookies.idToken) return res.redirect("/products");
-      res.status(200).render("logup", { styles: "logup.css" });
+      res.status(200).render("logup");
     } catch (error) {
       res.status(500).render("error");
     }
@@ -49,10 +49,14 @@ class ViewsController {
   async login(req, res) {
     try {
       if (req.cookies.idToken) return res.redirect("/products");
-      res.status(200).render("login", { styles: "login.css" });
+      res.status(200).render("login");
     } catch (error) {
       res.status(500).render("error");
     }
+  }
+
+  async error(req, res) {
+    res.status(500).render("error");
   }
 
   async forgotPassword(req, res) {
@@ -60,7 +64,7 @@ class ViewsController {
       if (req.cookies.idToken) return res.redirect("/products");
       res
         .status(200)
-        .render("forgotPassword", { styles: "forgotPassword.css" });
+        .render("forgotPassword");
     } catch (error) {
       res.status(500).render("error");
     }
@@ -71,7 +75,7 @@ class ViewsController {
     let { email, token } = req.params;
     res
       .status(200)
-      .render("passwordReset", { email, token, styles: "passwordReset.css" });
+      .render("passwordReset", { email, token });
     try {
     } catch (error) {
       res.status(500).render("error");
@@ -83,7 +87,14 @@ class ViewsController {
       let paginatedData = await getPaginatedProducts(req.query);
       let products = { ...paginatedData, status: "success" };
       let user = req.user;
-      res.render("products", { products, user, styles: "products.css" });
+      let isAdmin = user.role === "admin";
+      let isPremium = user.role === "premium";
+      let isManager = isAdmin || isPremium;
+      let possiblePages = [];
+      for (let i = 1; i <= products.totalPages; i++) {
+        possiblePages.push(i);
+      }
+      res.render("products", { products, user, isAdmin, isPremium, isManager, possiblePages });
     } catch (error) {
       res.status(500).render("error");
     }
@@ -93,7 +104,7 @@ class ViewsController {
     try {
       let cart = await cartsService.getById(req.params.cid);
       if (!cart) throw new NotFoundError("cart not found");
-      res.render("cart", { cart, styles: "cart.css" });
+      res.render("cart", { cart });
     } catch (error) {
       res.status(500).render("error");
     }

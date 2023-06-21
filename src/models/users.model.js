@@ -12,7 +12,7 @@ const usersSchema = new Schema(
       unique: true,
     },
     password: String,
-    age: Number,
+    birthday: Date,
     role: String,
     github: Boolean,
     githubProfile: Object,

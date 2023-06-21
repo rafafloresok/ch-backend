@@ -8,7 +8,7 @@ import { tokensModel } from "../models/tokens.model.js";
 export class CartsMongoDao {
   async create() {
     try {
-      let result = await cartsModel.create();
+      let result = await cartsModel.create({});
       return result;
     } catch (error) {
       logger.error(`${new Date().toLocaleString()} - ${error.message}`);
