@@ -8,7 +8,12 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" href="/products">Menú</a>
-        <a class="nav-link" href="/carts/{{user.cart}}">Mi pedido</a>
+        <a id="cartLink" class="nav-link position-relative me-2 {{#unless cart.totalItems}}disabled{{/unless}}" href="/carts/{{user.cart}}">
+          Mi pedido
+          <span id="cartLinkBadge" class="{{#unless cart.totalItems}}visually-hidden{{/unless}} position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger">
+            {{cart.totalItems}}
+          </span>
+        </a>
         <span class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Mi cuenta: {{user.firstName}}

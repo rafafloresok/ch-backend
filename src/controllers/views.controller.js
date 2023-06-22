@@ -86,6 +86,7 @@ class ViewsController {
     try {
       let paginatedData = await getPaginatedProducts(req.query);
       let products = { ...paginatedData, status: "success" };
+      let cart = await cartsService.getById(req.user.cart);
       let user = req.user;
       let isAdmin = user.role === "admin";
       let isPremium = user.role === "premium";
@@ -94,7 +95,7 @@ class ViewsController {
       for (let i = 1; i <= products.totalPages; i++) {
         possiblePages.push(i);
       }
-      res.render("products", { products, user, isAdmin, isPremium, isManager, possiblePages });
+      res.render("products", { products, user, isAdmin, isPremium, isManager, possiblePages, cart });
     } catch (error) {
       res.status(500).render("error");
     }
@@ -104,7 +105,11 @@ class ViewsController {
     try {
       let cart = await cartsService.getById(req.params.cid);
       if (!cart) throw new NotFoundError("cart not found");
-      res.render("cart", { cart });
+      let user = req.user;
+      let isAdmin = user.role === "admin";
+      let isPremium = user.role === "premium";
+      let isManager = isAdmin || isPremium;
+      res.render("cart", { cart, user, isAdmin, isPremium, isManager });
     } catch (error) {
       res.status(500).render("error");
     }

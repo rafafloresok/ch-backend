@@ -122,6 +122,14 @@ const showModal = (title, body) => {
   modal.show();
 };
 
+const enableCartLink = (addedQuantity) => {
+  let cartLink = document.getElementById("cartLink");
+  let cartLinkBadge = document.getElementById("cartLinkBadge");
+  cartLink.classList.remove("disabled");
+  cartLinkBadge.innerText = Number(cartLinkBadge.innerText)+Number(addedQuantity);
+  cartLinkBadge.classList.remove("visually-hidden");
+}
+
 const setAddToCartForms = () => {
   let addToCartForms = document.getElementsByClassName("addToCartForm");
   for (let i = 0; i < addToCartForms.length; i++) {
@@ -159,6 +167,7 @@ const setAddToCartForms = () => {
           });
           if (res.status === 201) {
             showToast("Producto agregado al carrito");
+            enableCartLink(quantity);
           } else {
             showModal(
               "Error",
