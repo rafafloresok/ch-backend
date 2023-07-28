@@ -43,7 +43,8 @@ export const instanceOfCustomError = (error) => {
     error instanceof BadRequestError ||
     error instanceof ServerError ||
     error instanceof UnauthorizedError ||
-    error instanceof ForbiddenError
+    error instanceof ForbiddenError ||
+    error instanceof NotFoundError
   );
 };
 

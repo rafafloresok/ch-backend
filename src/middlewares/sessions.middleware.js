@@ -19,7 +19,7 @@ export const authorizeUser = (authorizedRoles) => {
 export const passportCall = (strategy) => {
   return async (req, res, next) => {
     passport.authenticate(strategy, { session: false }, (error, user, info) => {
-      if (req.isView && (error || !user)) {
+      if (req.isView && req.path !== "/login" && (error || !user)) {
         return res.status(401).redirect("/login");
       }
       if (error) {

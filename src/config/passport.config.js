@@ -114,10 +114,11 @@ export const initializePassport = () => {
           if (!username || !password) return done(null, false);
 
           let currentUser = await usersService.getByEmail(username);
-          if (!currentUser || !isValidPassword(password, currentUser)) return done(null, false);
-
+          if (!currentUser || !isValidPassword(password, currentUser)) {
+            return done(null, false)
+          };
+          
           let user = new CurrentUserDto(currentUser);
-
           return done(null, user);
         } catch (error) {
           return done(error);
